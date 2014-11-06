@@ -18,7 +18,8 @@ type Context struct {
 func (this *Context) getIndex(rw web.ResponseWriter, req *web.Request) {
 	// return index.html as index page
 	rootDir, _ := os.Getwd()
-	indexFileName := rootDir + string(filepath.Separator) + "index.html"
+	pathSeparator := string(filepath.Separator)
+	indexFileName := rootDir + pathSeparator + "www" + pathSeparator + "index.html"
 	indexContent, _ := ioutil.ReadFile(indexFileName)
 	rw.Write(indexContent)
 }
@@ -34,6 +35,7 @@ func startHttpServer() {
 					Middleware(web.ShowErrorsMiddleware)
 
 	rootDir, _ := os.Getwd()
+	rootDir = rootDir + string(filepath.Separator) + "www"
 	router.Middleware(web.StaticMiddleware(rootDir))
 
 	router.Get("/", (*Context).getIndex)

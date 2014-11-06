@@ -24,8 +24,35 @@ body {
 }
 
 .main {
-    margin: 0 230px;
-    background: white;
+    margin-left: 220px;
+    margin-right: 220px;
     height: 100%;
-    margin: 0;
+    width: auto;
+}
+
+.main .message_area,
+.main .send_area {
+    position: absolute;
+    background: white;
+    left: 220px;
+    right: 220px;
+}
+
+.main .message_area{
+    top: 0;
+    bottom: 3.3125rem;
+/*    overflow: auto;*/
+}
+
+.main .send_area{
+    bottom: 0;
+    padding: 0.5em 0 0.5em 0;
+}
+
+.message_area .body {
+    overflow: auto; 
+    position:absolute; 
+    top:61px; 
+    bottom:0; 
+    width:100%;
 }
