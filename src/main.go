@@ -3,13 +3,16 @@
 package main
 
 import (
+	"code.google.com/p/go.net/websocket"
+	"controller"
+	"event"
 	"fmt"
 	"github.com/gocraft/web"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
+	"server"
 )
 
 type Context struct {
@@ -24,9 +27,18 @@ func (this *Context) getIndex(rw web.ResponseWriter, req *web.Request) {
 	rw.Write(indexContent)
 }
 
+func (this *Context) onWsConnection(ws *websocket.Conn) {
+	// return index.html as index page
+
+	fmt.Println("receive ws connect")
+}
+
 func main() {
+
+	event.RunEventDispather()
+	server.Init()
+	controller.Init()
 	startHttpServer()
-	startCommunicateServer()
 }
 
 func startHttpServer() {
@@ -37,43 +49,9 @@ func startHttpServer() {
 	rootDir, _ := os.Getwd()
 	rootDir = rootDir + string(filepath.Separator) + "www"
 	router.Middleware(web.StaticMiddleware(rootDir))
+	router.Middleware(controller.WebSocketMiddleware)
 
 	router.Get("/", (*Context).getIndex)
 
 	http.ListenAndServe("localhost:53240", router) // Start the server!
-}
-
-// communicate with other quanquan clients throgh udp protocol
-func startCommunicateServer() {
-
-	socket, err := net.ListenUDP("udp4", &net.UDPAddr{
-		IP:   net.IPv4(0, 0, 0, 0),
-		Port: 53241,
-	})
-
-	if err != nil {
-		fmt.Println("failed to listen on port 53421!", err)
-		return
-	}
-	defer socket.Close()
-
-	for {
-		// read data
-		data := make([]byte, 4096)
-		read, remoteAddr, err := socket.ReadFromUDP(data)
-		if err != nil {
-			fmt.Println("Failed to read data from others!", err)
-			continue
-		}
-		fmt.Println(read, remoteAddr)
-		fmt.Printf("%s\n\n", data)
-
-		// send data
-		senddata := []byte("hello client!")
-		_, err = socket.WriteToUDP(senddata, remoteAddr)
-		if err != nil {
-			return
-			fmt.Println("Failed to send data to others!", err)
-		}
-	}
 }
