@@ -15,12 +15,10 @@ body {
     float: left;
     width: 220px;
     height: 100%;
-    background: blue;
-    border-right: 1px solid red;
+    background: #6699cc;
 }
 .right {
     float: right;
-    border-left: 1px solid red;
 }
 
 .main {
@@ -55,4 +53,12 @@ body {
     top:61px; 
     bottom:0; 
     width:100%;
+}
+
+.head_img {
+    margin: 0.5em;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    border: 1px solid #ccc;
 }
