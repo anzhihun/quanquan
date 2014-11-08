@@ -1,3 +1,4 @@
+/*global define, console, $ */
 define(function (require) {
     'use strict';
 

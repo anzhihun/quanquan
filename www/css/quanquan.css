@@ -62,3 +62,41 @@ body {
     border-radius: 32px;
     border: 1px solid #ccc;
 }
+
+/*-------message_item---------*/
+.message_item {
+    width: 100%;
+    position: relative;
+    margin: 0.5em 0 0 0;
+}
+
+.message_head {
+    position: relative;
+    float: left;
+}
+
+.message_head_img {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    margin: 0.25em 0.5em 0.5em 0.5em;
+}
+
+.message_container {
+    position: relative;
+    float: left;
+    clear: right;
+    line-height: 1em;
+}
+
+.message_tip {
+    font-size: 0.5em;
+    padding: 0;
+    margin: 0;
+    display: inherit;
+    color: #ccc;
+}
+
+.message_content {
+    
+}

@@ -1,5 +1,5 @@
 #!/bin/sh
+export GOPATH=$GOPATH:`pwd`
 killall quanquan
-go build -o webclient/quanquan src/github.com/anzhihun/quanquan/main.go
-cd webclient
+go build -a -v -o quanquan src/main.go
 ./quanquan
