@@ -14,7 +14,8 @@ define(function (require, exports, module) {
     var MainWindowHtml = require('text!/view/mainWindow.html'),
         TalkController = require('js/controller/talkController'),
         WSConnector = require('js/wsConnector'),
-        WSMsgHandler = require('js/WSMsgHandler');
+        WSMsgHandler = require('js/WSMsgHandler'),
+        ActionHandler = require('js/actionHandler');
 
     document.body.innerHTML = MainWindowHtml;
     var wsConnector = createWebsocket();
@@ -26,6 +27,8 @@ define(function (require, exports, module) {
         return new WSConnector(wsUrl, new WSMsgHandler());
     }
     
-    TalkController.receiveTalk();
-    TalkController.receiveTalk();
+    ActionHandler.bindingHandler(wsConnector);
+    
+//    TalkController.handle();
+//    TalkController.handle();
 });

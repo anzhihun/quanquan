@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"server"
+	"service"
 )
 
 type Context struct {
@@ -36,7 +36,7 @@ func (this *Context) onWsConnection(ws *websocket.Conn) {
 func main() {
 
 	event.RunEventDispather()
-	server.Init()
+	service.Init()
 	controller.Init()
 	startHttpServer()
 }

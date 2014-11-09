@@ -40,7 +40,7 @@ define(function () {
         };
     };
 
-    WSConnector.prototype.SendMessage = function (msg) {
+    WSConnector.prototype.sendMessage = function (msg) {
         console.log('send msg to server: ' + msg);
         this._socket.send(msg);
     };

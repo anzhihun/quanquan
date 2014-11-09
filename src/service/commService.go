@@ -1,4 +1,4 @@
-package server
+package service
 
 import (
 	"define"
@@ -10,13 +10,13 @@ import (
 	"utils"
 )
 
-type CommunicationServer struct {
+type CommunicationService struct {
 }
 
-var commServer CommunicationServer
+var commServer CommunicationService
 
 // communicate with other quanquan clients throgh udp protocol
-func (this *CommunicationServer) start() {
+func (this *CommunicationService) start() {
 	fmt.Println("start server")
 	socket, err := net.ListenUDP("udp4", &net.UDPAddr{
 		IP:   net.IPv4(0, 0, 0, 0),
@@ -42,25 +42,45 @@ func (this *CommunicationServer) start() {
 	}
 }
 
-func (this *CommunicationServer) handleMessage(remoteIp net.IP, msg []byte) {
+func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 	fmt.Printf("receive msg: %s\n\n", msg)
 	msgMap, _ := utils.DecodeJsonMsg(string(msg))
-	if msgMap["MsgType"].(string) == define.MSG_TYPE_HI {
+	if msgMap["MsgType"].(string) == define.MSG_TYPE_ONLINE {
 		// add new user
-		newUser := user.User{msgMap["From"].(string), remoteIp.String(), ""}
+		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string)}
 		user.UserManager.AddUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 		// response
+
+	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_OFFLINE {
+		// remove user
+		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string)}
+		user.UserManager.RemoveUser(&newUser)
+		event.Trigger("view:msg", msg, nil)
+
+	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_JOIN {
+		event.Trigger("view:msg", msg, nil)
+
+	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_TALK {
+		event.Trigger("view:msg", msg, nil)
+
 	} else {
 		fmt.Println("unknown msg: ", msgMap)
 	}
 }
 
-func (this *CommunicationServer) broadcastMe() {
-	this.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{define.MSG_TYPE_HI, "anzhihun", "all", "hi"})
+func (this *CommunicationService) broadcastMe() {
+	this.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
+		MsgType:  define.MSG_TYPE_ONLINE,
+		From:     user.Self.Name,
+		HeadImg:  user.Self.HeadImg,
+		To:       "all",
+		IsPublic: true,
+		Content:  "",
+	})
 }
 
-func (this *CommunicationServer) sendMessage(remoteIp net.IP, msg interface{}) error {
+func (this *CommunicationService) sendMessage(remoteIp net.IP, msg interface{}) error {
 	socket, err := net.DialUDP("udp4", nil, &net.UDPAddr{
 		IP:   remoteIp,
 		Port: 53241,

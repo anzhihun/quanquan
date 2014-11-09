@@ -1,6 +1,8 @@
 /*global define, console, $ */
 define(function (require) {
     'use strict';
+    
+    var TalkController = require('js/controller/talkController');
 
     function WSMsgHandler() {
     }
@@ -14,24 +16,13 @@ define(function (require) {
         }
         
         var msgObj = JSON.parse(msg);
-        switch (msgObj.MsgType) {
-        case 'ProtocolData':
-            console.log('receive protocol msg: ' + msg);
-            // this._handlerProtocolMsg(msgObj);
-            break;
-        case 'hi':
-            this._handleHelloMsg(msgObj);
-            break;
-        default:
+        if (TalkController.accept(msgObj)) {
+            TalkController.handle(msgObj);
+        } else {
             console.warn('未知消息' + msg);
         }
+        
     };
-
-    WSMsgHandler.prototype._handleHelloMsg = function (msg) {
-        $('.main .message_area .body').append('<span>' + msg.From + '</span>: <span>' + msg.Content + '</span>');
-    };
-
-    // 处理协议消息
 
     return WSMsgHandler;
 });
