@@ -7,24 +7,31 @@ define(function () {
         this._timeOutSecond = 1000;
         this._messageHandler = messageHandler;
         this._callbackOnOpen = callbackOnOpen || function(){};
+        this._isConnected = false;
 
         this.connect();
     }
 
     WSConnector.prototype.connect = function () {
-
+        
         var self = this;
-
+        
+        if (self._isConnected) {
+            return;
+        }
+        
         this._socket = new WebSocket(this._url);
 
         this._socket.onopen = function () {
             console.log('CONNECTED');
+            self._isConnected = true;
             self.setTimeOutSecond(1000);
             self._callbackOnOpen(self);
         };
 
         this._socket.onclose = function () {
             console.log('DISCONNECTED');
+            self._isConnected = false;
             self.reConnect();
         };
 
@@ -36,6 +43,7 @@ define(function () {
 
         this._socket.onerror = function (evt) {
             console.log('ERROR: ' + evt.data);
+            self._isConnected = false;
             self.reConnect();
         };
     };
