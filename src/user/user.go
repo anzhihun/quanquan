@@ -2,6 +2,7 @@ package user
 
 import (
 	osuser "os/user"
+	"utils"
 )
 
 type User struct {
@@ -11,4 +12,5 @@ type User struct {
 }
 
 var osUser, _ = osuser.Current()
-var Self User = User{osUser.Username, "127.0.0.1", "/images/anzhihun.png"}
+var ip, _ = utils.ExternalIP()
+var Self User = User{osUser.Username, ip, "/images/anzhihun.png"}
