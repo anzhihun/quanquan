@@ -15,20 +15,15 @@ type rtMessageController struct {
 var rtMsgController rtMessageController
 
 func WebSocketMiddleware(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	fmt.Println("websocket mi: ", req.URL.Path)
 	if req.URL.Path == "/rtmsg" {
-		fmt.Println("begin handle web socket request")
 		websocket.Handler(rtMsgController.listenRTConnect).ServeHTTP(rw, req.Request)
-		fmt.Println("end handle web socket request")
 	} else {
 		next(rw, req)
 	}
-	// http.ServeContent(w, req.Request, file, fi.ModTime(), f)
 }
 
 // 处理每一个websocket请求
 func (this *rtMessageController) listenRTConnect(ws *websocket.Conn) {
-	fmt.Println("listen web socket msg")
 	this.conn = ws
 	for {
 		var recvMsg string
@@ -36,7 +31,6 @@ func (this *rtMessageController) listenRTConnect(ws *websocket.Conn) {
 			return
 		}
 
-		fmt.Println("receive view msg: ", recvMsg)
 		if msgData, err := utils.DecodeJsonMsg(recvMsg); err != nil { //解析json字符串
 			// reportRtMsgError(errors.RtMsgError{self.connection.RemoteAddr().String(), self.clientId, "ultils.DecodeJsonMsg", err.Error(), "无法处理消息，消息解析失败！"}, self.connection)
 			continue

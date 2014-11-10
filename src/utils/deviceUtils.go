@@ -39,5 +39,5 @@ func ExternalIP() (string, error) {
 			return ip.String(), nil
 		}
 	}
-	return "", errors.New("are you connected to the network?")
+	return "127.0.0.1", errors.New("are you connected to the network?")
 }
