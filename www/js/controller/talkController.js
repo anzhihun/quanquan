@@ -9,46 +9,55 @@ define(function(require, exports, module){
     var handlers = [{
         msgType: 'join',
         handle: function(msg) {
+            var curDate = new Date();
             messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: '/images/anzhihun.png',
-                name: 'anzhihun',
-                datetime: '2014-08-12 12:00:34',
-                content: 'message content'
+                headImg: msg.HeadImg,
+                name: msg.From,
+                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
+                content: 'join'
             }));
         }
     }, {
         msgType: 'online',
         handle: function(msg) {
+            var curDate = new Date();
             messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: '/images/anzhihun.png',
-                name: 'anzhihun',
-                datetime: '2014-08-12 12:00:34',
-                content: 'message content'
+                headImg: msg.HeadImg,
+                name: msg.From,
+                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
+                content: 'online'
             }));
         }
     }, {
         msgType: 'offline',
         handle: function(msg) {
+            var curDate = new Date();
             messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: '/images/anzhihun.png',
-                name: 'anzhihun',
-                datetime: '2014-08-12 12:00:34',
-                content: 'message content'
+                headImg: msg.HeadImg,
+                name: msg.From,
+                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
+                content: 'offline'
             }));
         }
     }, {
         msgType: 'talk',
         handle: function(msg) {
+            var curDate = new Date();
             messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: '/images/anzhihun.png',
-                name: 'anzhihun',
-                datetime: '2014-08-12 12:00:34',
-                content: 'message content'
+                headImg: msg.HeadImg,
+                name: msg.From,
+                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
+                content: msg.Content
             }));
         }
     }];
     
     function handle(msg) {
+        
+        if (messageContainer.length === 0) {
+            messageContainer = $('.main .message_area .body');
+        }
+        
         for (var index = 0, len = handlers.length; index < len; index++) {
             if (handlers[index].msgType === msg.MsgType) {
                 handlers[index].handle(msg);
