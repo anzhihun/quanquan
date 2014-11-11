@@ -3,7 +3,8 @@ define(function(require, exports, module){
     'use strict';
     
     var MessageItemTemplate = require('text!/view/messageItem.html');
-    var messageContainer = $('.main .message_area .body');
+    var messageContainer = $('.main .message_area .body'),
+        UserView = require('js/view/userView');
     
     // msg handlers 
     var handlers = [{
@@ -27,6 +28,10 @@ define(function(require, exports, module){
                 datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
                 content: 'online'
             }));
+            UserView.addUser({
+                HeadImg: msg.HeadImg,
+                Name: msg.From
+            });
         }
     }, {
         msgType: 'offline',

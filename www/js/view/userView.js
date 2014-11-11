@@ -14,5 +14,14 @@ define(function(require, exports, module){
         });
     }
     
+    function addUser(user) {
+        var userContainer = $('.main_frame .right');
+        userContainer.append(Mustache.render(UserListItemTemplate, {
+            headImg: user.HeadImg,
+            name: user.Name
+        }));
+    }
+    
     exports.updateAllUser = updateAllUser;
+    exports.addUser = addUser;
 });

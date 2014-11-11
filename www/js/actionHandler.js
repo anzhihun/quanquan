@@ -12,6 +12,7 @@ define(function(require, exports, module){
         var msg = new Message();
         msg.Content = $('#msgInput')[0].value;
         wsConnector.sendMessage(JSON.stringify(msg));
+        $('#msgInput')[0].value = '';
     }
     
     exports.bindingHandler = bindingHandler;
