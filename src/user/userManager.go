@@ -4,7 +4,7 @@ type userManager struct {
 	users []*User
 }
 
-var UserManager userManager
+var UserManager = userManager{[]*User{&Self}}
 
 func (this *userManager) AddUser(user *User) {
 	if this.users == nil {

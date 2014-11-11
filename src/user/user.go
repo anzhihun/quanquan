@@ -9,8 +9,9 @@ type User struct {
 	Name    string
 	IP      string
 	HeadImg string
+	Online  bool
 }
 
 var osUser, _ = osuser.Current()
 var ip, _ = utils.ExternalIP()
-var Self User = User{osUser.Username, ip, "/images/anzhihun.png"}
+var Self User = User{osUser.Username, ip, "/images/anzhihun.png", true}
