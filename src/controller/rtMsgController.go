@@ -3,7 +3,7 @@ package controller
 import (
 	"code.google.com/p/go.net/websocket"
 	"event"
-	"fmt"
+	// "fmt"
 	"github.com/gocraft/web"
 	"utils"
 )
