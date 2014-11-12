@@ -30,6 +30,17 @@ func TestAddUser(t *testing.T) {
 	}
 }
 
+func TestAddDuplicateUser(t *testing.T) {
+	UserManager.Clear()
+	defer UserManager.Clear()
+
+	UserManager.AddUser(&User{Name: "test", IP: "127.0.0.1", HeadImg: "/images/test.png", Online: false})
+	UserManager.AddUser(&User{Name: "test", IP: "127.0.0.1", HeadImg: "/images/test1.png", Online: true})
+	if len(UserManager.users) != 1 || UserManager.users[0].Online != true {
+		t.Fatal("failed to update user when adding duplicate user")
+	}
+}
+
 func TestRemoveUser(t *testing.T) {
 	defer UserManager.Clear()
 	UserManager.Clear()

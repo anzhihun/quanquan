@@ -10,7 +10,15 @@ func (this *userManager) AddUser(user *User) {
 	if this.users == nil {
 		this.users = make([]*User, 0)
 	}
-	this.users = append(this.users, user)
+	oldUser := this.FindUser(user.Name)
+	if oldUser == nil {
+		this.users = append(this.users, user)
+	} else {
+		oldUser.HeadImg = user.HeadImg
+		oldUser.IP = user.IP
+		oldUser.Name = user.Name
+		oldUser.Online = user.Online
+	}
 }
 
 func (this *userManager) RemoveUser(user *User) {
