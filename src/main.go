@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"service"
 	"user"
+	"utils"
 )
 
 type Context struct {
@@ -38,6 +39,14 @@ func (this *Context) getUsers(rw web.ResponseWriter, req *web.Request) {
 		rw.Write(contents)
 	}
 	// req.ParseForm()
+}
+
+func (this *Context) addChannel(rw web.ResponseWriter, req *web.Request) {
+	result, _ := ioutil.ReadAll(req.Body)
+	req.Body.Close()
+	params, _ := utils.DecodeJsonMsg(string(result))
+	newChannel := user.Channel{params["name"].(string), []*user.User{}}
+	user.AddChannel(&newChannel)
 }
 
 func (this *Context) onWsConnection(ws *websocket.Conn) {
@@ -66,6 +75,7 @@ func startHttpServer() {
 
 	router.Get("/", (*Context).getIndex)
 	router.Get("/users", (*Context).getUsers)
+	router.Post("/channel", (*Context).addChannel)
 
 	http.ListenAndServe("localhost:53240", router) // Start the server!
 }

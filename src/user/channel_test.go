@@ -5,48 +5,48 @@ import (
 )
 
 func TestAddChannelUser(t *testing.T) {
-	channel := Channel{name: "test", users: nil}
+	channel := Channel{Name: "test", Users: nil}
 	channel.AddUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
 
-	if channel.users == nil || len(channel.users) != 1 || channel.users[0].Name != "name1" {
+	if channel.Users == nil || len(channel.Users) != 1 || channel.Users[0].Name != "name1" {
 		t.Fatal("failed to add channel user")
 	}
 }
 
 func TestRemoveChannelUser(t *testing.T) {
-	channel := Channel{name: "test", users: nil}
+	channel := Channel{Name: "test", Users: nil}
 	channel.AddUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
 	channel.RemoveUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
-	if len(channel.users) != 0 {
+	if len(channel.Users) != 0 {
 		t.Fatal("failed to remove channel user")
 	}
 }
 
 func TestAddChannel(t *testing.T) {
 	channels = channels[:0]
-	AddChannel(&Channel{name: "test", users: nil})
-	if len(channels) != 1 || channels[0].name != "test" {
+	AddChannel(&Channel{Name: "test", Users: nil})
+	if len(channels) != 1 || channels[0].Name != "test" {
 		t.Fatal("failed to add new channel")
 	}
 
-	AddChannel(&Channel{name: "test1", users: nil})
-	if len(channels) != 2 || channels[1].name != "test1" {
+	AddChannel(&Channel{Name: "test1", Users: nil})
+	if len(channels) != 2 || channels[1].Name != "test1" {
 		t.Fatal("failed to add more channel")
 	}
 }
 
 func TestRemoveChannel(t *testing.T) {
 	channels = channels[:0]
-	AddChannel(&Channel{name: "test", users: nil})
+	AddChannel(&Channel{Name: "test", Users: nil})
 	RemoveChannelByName("test")
 	if len(channels) != 0 {
 		t.Fatal("failed to remove channel")
 	}
 
-	AddChannel(&Channel{name: "test", users: nil})
-	AddChannel(&Channel{name: "test1", users: nil})
+	AddChannel(&Channel{Name: "test", Users: nil})
+	AddChannel(&Channel{Name: "test1", Users: nil})
 	RemoveChannelByName("test")
-	if len(channels) != 1 || channels[0].name != "test1" {
+	if len(channels) != 1 || channels[0].Name != "test1" {
 		t.Fatal("failed to remove one channel of multiple")
 	}
 }
@@ -57,11 +57,11 @@ func TestFindChannelByName(t *testing.T) {
 	if channel != nil {
 		t.Fatal("find not exist channel")
 	}
-	AddChannel(&Channel{name: "test", users: nil})
-	AddChannel(&Channel{name: "test1", users: nil})
+	AddChannel(&Channel{Name: "test", Users: nil})
+	AddChannel(&Channel{Name: "test1", Users: nil})
 
 	channel = FindChannelByName("test")
-	if channel == nil || channel.name != "test" {
+	if channel == nil || channel.Name != "test" {
 		t.Fatal("failed to find exist channel")
 	}
 }

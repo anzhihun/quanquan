@@ -6,8 +6,15 @@
         </div>
         <div style="width:100%;">
             
+            <span style="margin-left:1em;">Channels</span><a id="showAddChanDlgBtn" style="position: relative;float: right;margin-right: 1em;color: white;cursor: pointer;">+</a>
+            
+            <div id="addChannelDialog" class="reveal-modal" data-reveal>
+                <h2>Add new channel</h2>
+                <p>Channel Name <input id="newChannelNameInput" type="text"/></p>
+                <a id="addChannelButton" class="button" style="position: relative;float: right;">Add</a>
+            </div>
+            
             <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-                Channels
                 <dd class="active"><a href="#panel1">Global</a></dd>
                 <dd><a href="#panel2" style="background: transparent;">Daca</a></dd>
                 <dd><a href="#panel3" style="background: transparent;">Three</a></dd>
@@ -15,7 +22,7 @@
             </dl>
             
             <hr></hr>
-            <div><h4>channel users</h4></div>
+            <div><span>channel users</span></div>
         </div>
 
     </div>

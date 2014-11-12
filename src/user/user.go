@@ -14,4 +14,4 @@ type User struct {
 
 var osUser, _ = osuser.Current()
 var ip, _ = utils.ExternalIP()
-var Self User = User{osUser.Username, ip, "/images/anzhihun.png", true}
+var Self = User{osUser.Username, ip, "/images/anzhihun.png", true}
