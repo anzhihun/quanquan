@@ -1,5 +1,3 @@
-/* global define, require, document, $ */
-
 require.config({
     baseUrl: '/',
     paths: {
@@ -33,11 +31,10 @@ define(function (require, exports, module) {
     }
     
     LoginController.bindActionHandler();
+    $(document).foundation();
     
 //    ActionHandler.bindingHandler(wsConnector);
 //    UserRequester.getAllUser(UserView.updateAllUser);
-    
-    $.fn.foundation();
     
     
 //    TalkController.handle();
