@@ -1,21 +1,21 @@
 package user
 
 type Channel struct {
-	name  string
-	users []*User
+	Name  string
+	Users []*User
 }
 
 func (this *Channel) AddUser(newUser *User) {
-	if this.users == nil {
-		this.users = make([]*User, 0)
+	if this.Users == nil {
+		this.Users = make([]*User, 0)
 	}
-	this.users = append(this.users, newUser)
+	this.Users = append(this.Users, newUser)
 }
 
 func (this *Channel) RemoveUser(u *User) {
-	for index := 0; index < len(this.users); index++ {
-		if this.users[index].Name == u.Name {
-			this.users = append(this.users[:index], this.users[index+1:]...)
+	for index := 0; index < len(this.Users); index++ {
+		if this.Users[index].Name == u.Name {
+			this.Users = append(this.Users[:index], this.Users[index+1:]...)
 			return
 		}
 	}
@@ -29,7 +29,7 @@ func AddChannel(channel *Channel) {
 
 func RemoveChannelByName(chanName string) {
 	for i := 0; i < len(channels); i++ {
-		if channels[i].name == chanName {
+		if channels[i].Name == chanName {
 			channels = append(channels[:i], channels[i+1:]...)
 			break
 		}
@@ -38,7 +38,7 @@ func RemoveChannelByName(chanName string) {
 
 func FindChannelByName(chanName string) *Channel {
 	for i := 0; i < len(channels); i++ {
-		if channels[i].name == chanName {
+		if channels[i].Name == chanName {
 			return channels[i]
 		}
 	}

@@ -1,4 +1,4 @@
-/* global define, require, document */
+/* global define, require, document, $ */
 
 require.config({
     baseUrl: '/',
@@ -36,6 +36,8 @@ define(function (require, exports, module) {
     
 //    ActionHandler.bindingHandler(wsConnector);
 //    UserRequester.getAllUser(UserView.updateAllUser);
+    
+    $.fn.foundation();
     
     
 //    TalkController.handle();
