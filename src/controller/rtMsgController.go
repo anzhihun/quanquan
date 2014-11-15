@@ -14,7 +14,7 @@ type rtMessageController struct {
 
 var rtMsgController rtMessageController
 
-func WebSocketMiddleware(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+func webSocketMiddleware(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
 	if req.URL.Path == "/rtmsg" {
 		websocket.Handler(rtMsgController.listenRTConnect).ServeHTTP(rw, req.Request)
 	} else {

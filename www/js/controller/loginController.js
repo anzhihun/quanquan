@@ -11,7 +11,7 @@ define(function (require, exports) {
     function signIn() {
         var userName = $('#signInPanel input[type="text"]')[0].value,
             password = $('#signInPanel input[type="password"]')[0].value;
-        $.post('/login', JSON.stringify({
+        $.post('/user/login', JSON.stringify({
             name: userName,
             password: password
         })).done(function(){
@@ -27,7 +27,7 @@ define(function (require, exports) {
     function signUp() {
         var userName = $('#signUpPanel input[type="text"]')[0].value,
             password = $('#signUpPanel input[type="password"]')[0].value;
-        $.post('/signup', JSON.stringify({
+        $.post('/user/signup', JSON.stringify({
             name: userName,
             password: password
         })).done(function(){

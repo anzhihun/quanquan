@@ -48,7 +48,7 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 	if msgMap["MsgType"].(string) == define.MSG_TYPE_ONLINE {
 		// add new user
 		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), true}
-		user.UserManager.AddUser(&newUser)
+		user.AddUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 
 		// response
@@ -62,13 +62,13 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 		})
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_ACK_ONLINE {
 		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), true}
-		user.UserManager.AddUser(&newUser)
+		user.AddUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_OFFLINE {
 		// remove user
 		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), false}
-		user.UserManager.RemoveUser(&newUser)
+		user.RemoveUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_JOIN {
