@@ -43,32 +43,34 @@ func (this *CommunicationService) start() {
 }
 
 func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
-	fmt.Printf("receive msg: %s\n\n", msg)
+	// fmt.Printf("receive msg: %s\n\n", msg)
 	msgMap, _ := utils.DecodeJsonMsg(string(msg))
 	if msgMap["MsgType"].(string) == define.MSG_TYPE_ONLINE {
-		// add new user
-		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), true}
-		user.AddUser(&newUser)
+		// update online status
+		user.Online(msgMap["Content"].(string))
 		event.Trigger("view:msg", msg, nil)
 
 		// response
-		this.sendMessage(remoteIp, define.Message{
-			MsgType:  define.MSG_TYPE_ACK_ONLINE,
-			From:     user.Self.Name,
-			HeadImg:  user.Self.HeadImg,
-			To:       newUser.Name,
-			IsPublic: true,
-			Content:  "",
-		})
+		if user.Self != nil {
+			this.sendMessage(remoteIp, define.Message{
+				MsgType:  define.MSG_TYPE_ACK_ONLINE,
+				From:     user.Self.Name,
+				HeadImg:  user.Self.HeadImg,
+				To:       msgMap["Content"].(string),
+				IsPublic: true,
+				Content:  "",
+			})
+		}
+
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_ACK_ONLINE {
-		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), true}
-		user.AddUser(&newUser)
+		// newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), true}
+		// user.AddUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_OFFLINE {
 		// remove user
-		newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), false}
-		user.RemoveUser(&newUser)
+		// newUser := user.User{msgMap["From"].(string), remoteIp.String(), msgMap["HeadImg"].(string), false}
+		// user.RemoveUser(&newUser)
 		event.Trigger("view:msg", msg, nil)
 
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_JOIN {
@@ -83,14 +85,16 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 }
 
 func (this *CommunicationService) broadcastMe() {
-	this.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
-		MsgType:  define.MSG_TYPE_ONLINE,
-		From:     user.Self.Name,
-		HeadImg:  user.Self.HeadImg,
-		To:       "all",
-		IsPublic: true,
-		Content:  "",
-	})
+	if user.Self != nil {
+		this.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
+			MsgType:  define.MSG_TYPE_ONLINE,
+			From:     user.Self.Name,
+			HeadImg:  user.Self.HeadImg,
+			To:       "all",
+			IsPublic: true,
+			Content:  "",
+		})
+	}
 }
 
 func (this *CommunicationService) sendMessage(remoteIp net.IP, msg interface{}) error {

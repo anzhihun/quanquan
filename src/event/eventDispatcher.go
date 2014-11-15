@@ -19,17 +19,17 @@ var isRunning bool = false
 
 // 启动事件派发器
 func RunEventDispather() {
-	go run()
-	startListenerMonitor()
-}
-
-func run() {
 	// 确保只启动一个派发线程
 	if isRunning {
 		return
 	}
 	isRunning = true
 
+	go run()
+	startListenerMonitor()
+}
+
+func run() {
 	// 如果出现问题，继续执行，不要退出派发线程
 	defer func() {
 		if r := recover(); r != nil {

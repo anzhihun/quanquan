@@ -2,22 +2,24 @@ package user
 
 import (
 	"errors"
+	"event"
 	osuser "os/user"
 	"utils"
 )
 
 type User struct {
-	Name    string
-	IP      string
-	HeadImg string
-	Online  bool
+	Name     string
+	Password string
+	IP       string
+	HeadImg  string
+	Online   bool
 }
 
 var osUser, _ = osuser.Current()
 var ip, _ = utils.ExternalIP()
-var Self = User{osUser.Username, ip, "/images/anzhihun.png", true}
+var Self *User = nil
 
-var allUsers = []*User{&Self}
+var allUsers = []*User{}
 
 func SignUp(userName, password string) error {
 	if len(userName) == 0 {
@@ -40,12 +42,10 @@ func AddUser(user *User) {
 	oldUser := FindUser(user.Name)
 	if oldUser == nil {
 		allUsers = append(allUsers, user)
-	} else {
-		oldUser.HeadImg = user.HeadImg
-		oldUser.IP = user.IP
-		oldUser.Name = user.Name
-		oldUser.Online = user.Online
 	}
+
+	// trigger msg
+	event.Trigger("user:add", user, nil)
 }
 
 func RemoveUser(user *User) {
@@ -65,6 +65,12 @@ func FindUser(userName string) *User {
 		}
 	}
 	return nil
+}
+
+func Online(userName string) {
+	if existUser := FindUser(userName); existUser != nil {
+		existUser.Online = true
+	}
 }
 
 func AllUser() []*User {

@@ -32,9 +32,21 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 		return
 	}
 
-	if err = user.SignUp(params["name"].(string), params["password"].(string)); err != nil {
+	userName := params["name"].(string)
+	password := params["password"].(string)
+	if err = user.SignUp(userName, password); err != nil {
 		http.Error(rw, err.Error(), 500)
 	}
+
+	// add new user
+	ip, _ := utils.ExternalIP()
+	user.AddUser(&user.User{
+		Name:     userName,
+		Password: password,
+		HeadImg:  "/images/defaultHead.png",
+		IP:       ip,
+		Online:   true,
+	})
 }
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {

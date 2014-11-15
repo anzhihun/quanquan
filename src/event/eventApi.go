@@ -10,6 +10,10 @@ var eventChanMutex sync.Mutex
 // 触发消息
 // msgType自定义，发送方和接收方一致就可以了。
 func Trigger(msgType string, newValue, oldValue interface{}) {
+	if !isRunning {
+		return
+	}
+
 	eventChanMutex.Lock()
 	defer eventChanMutex.Unlock()
 

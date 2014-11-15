@@ -6,6 +6,8 @@ const (
 	MSG_TYPE_OFFLINE    = "offline"
 	MSG_TYPE_JOIN       = "join"
 	MSG_TYPE_TALK       = "talk"
+
+	MSG_TYPE_USER_ADD = "addUser"
 )
 
 type Message struct {

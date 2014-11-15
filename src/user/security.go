@@ -1,8 +1,14 @@
 package user
 
 func Validate(userName, password string) bool {
-	if userName == "admin" && password == "admin" {
-		return true
+
+	existUser := FindUser(userName)
+	if existUser == nil {
+		return false
 	}
-	return false
+
+	if password != existUser.Password {
+		return false
+	}
+	return true
 }

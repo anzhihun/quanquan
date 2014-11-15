@@ -4,3 +4,5 @@ quanquan
 *.a
 
 src/src
+
+.conf/.users
