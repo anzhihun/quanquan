@@ -6,12 +6,12 @@ require.config({
 });
 
 
-define(function (require, exports, module) {
+define(function (require) {
     'use strict';
 
     var MainWindowHtml = require('text!/view/mainWindow.html'),
         LoginHtml = require('text!/view/login.html'),
-        TalkController = require('js/controller/talkController'),
+//        TalkController = require('js/controller/talkController'),
         LoginController = require('js/controller/loginController'),
         WSConnector = require('js/wsConnector'),
         WSMsgHandler = require('js/WSMsgHandler'),
@@ -22,6 +22,9 @@ define(function (require, exports, module) {
 
     document.body.innerHTML = LoginHtml;
     var wsConnector = createWebsocket();
+    
+    LoginController.bindActionHandler(switchToMainView);
+    $(document).foundation();
 
     function createWebsocket() {
         var url = document.domain,
@@ -29,14 +32,13 @@ define(function (require, exports, module) {
 
         return new WSConnector(wsUrl, new WSMsgHandler());
     }
-    
-    LoginController.bindActionHandler();
-    $(document).foundation();
-    
-//    ActionHandler.bindingHandler(wsConnector);
-//    UserRequester.getAllUser(UserView.updateAllUser);
-    
-    
-//    TalkController.handle();
-//    TalkController.handle();
+
+    function switchToMainView() {
+        document.body.innerHTML = MainWindowHtml;
+        $(document).foundation();
+        
+        ActionHandler.bindingHandler(wsConnector);
+        UserRequester.getAllUser(UserView.updateAllUser);
+    }
+
 });

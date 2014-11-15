@@ -3,11 +3,10 @@
 package main
 
 import (
-	"code.google.com/p/go.net/websocket"
 	"controller"
 	"encoding/json"
 	"event"
-	"fmt"
+	// "fmt"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
@@ -49,10 +48,32 @@ func (this *Context) addChannel(rw web.ResponseWriter, req *web.Request) {
 	user.AddChannel(&newChannel)
 }
 
-func (this *Context) onWsConnection(ws *websocket.Conn) {
-	// return index.html as index page
+func (this *Context) login(rw web.ResponseWriter, req *web.Request) {
+	result, _ := ioutil.ReadAll(req.Body)
+	req.Body.Close()
+	params, err := utils.DecodeJsonMsg(string(result))
+	if err != nil {
+		http.Error(rw, err.Error(), 404)
+		return
+	}
 
-	fmt.Println("receive ws connect")
+	if !user.Validate(params["name"].(string), params["password"].(string)) {
+		http.Error(rw, "invalid user name or password", 500)
+	}
+}
+
+func (this *Context) signUp(rw web.ResponseWriter, req *web.Request) {
+	result, _ := ioutil.ReadAll(req.Body)
+	req.Body.Close()
+	params, err := utils.DecodeJsonMsg(string(result))
+	if err != nil {
+		http.Error(rw, err.Error(), 404)
+		return
+	}
+
+	if err = user.SignUp(params["name"].(string), params["password"].(string)); err != nil {
+		http.Error(rw, err.Error(), 500)
+	}
 }
 
 func main() {
@@ -76,6 +97,8 @@ func startHttpServer() {
 	router.Get("/", (*Context).getIndex)
 	router.Get("/users", (*Context).getUsers)
 	router.Post("/channel", (*Context).addChannel)
+	router.Post("/login", (*Context).login)
+	router.Post("/signup", (*Context).signUp)
 
 	http.ListenAndServe("localhost:53240", router) // Start the server!
 }

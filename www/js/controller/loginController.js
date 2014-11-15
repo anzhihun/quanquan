@@ -1,8 +1,11 @@
 define(function (require, exports) {
     'use strict';
-
-    function bindActionHandler() {
+    var signInCallback = null;
+    
+    function bindActionHandler(callback) {
+        signInCallback = callback || function(){};
         $('#signInPanel .button').click(signIn);
+        $('#signUpPanel .button').click(signUp);
     }
 
     function signIn() {
@@ -13,8 +16,28 @@ define(function (require, exports) {
             password: password
         })).done(function(){
             //TODO switch to main window
+            $('#signInPanel .error').hide();
+            signInCallback();
         }).fail(function(){
             //TODO  show errors
+            $('#signInPanel .error').show();
+        });
+    }
+    
+    function signUp() {
+        var userName = $('#signUpPanel input[type="text"]')[0].value,
+            password = $('#signUpPanel input[type="password"]')[0].value;
+        $.post('/signup', JSON.stringify({
+            name: userName,
+            password: password
+        })).done(function(){
+            //TODO switch to main window
+            $('#signUpPanel .error').hide();
+            signInCallback();
+        }).fail(function(obj){
+            //TODO  show errors
+            $('#signUpPanel .error')[0].innerHTML = obj.responseText;
+            $('#signUpPanel .error').show();
         });
     }
 

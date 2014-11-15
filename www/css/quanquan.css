@@ -20,6 +20,12 @@ body {
     border-bottom: none;
 }
 
+.tabs.vertical dd.active a{
+    background-color: #fff;
+    color: #222;
+    border: none;
+}
+
 .tabs-content {
     padding-left: 0.5em;
     padding-right: 0.5em;
