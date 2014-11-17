@@ -44,8 +44,11 @@ func AddUser(user *User) {
 		allUsers = append(allUsers, user)
 	}
 
+	// save to disk
+	storeAllUsers(user, nil)
+
 	// trigger msg
-	event.Trigger("user:add", user, nil)
+	event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
 }
 
 func RemoveUser(user *User) {

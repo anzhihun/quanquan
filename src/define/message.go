@@ -18,3 +18,13 @@ type Message struct {
 	IsPublic bool
 	Content  string
 }
+
+type AddUserMessage struct {
+	UserName string
+	Password string
+}
+
+type ToClientMessage struct {
+	MsgType string
+	Content string
+}

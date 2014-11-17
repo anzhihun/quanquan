@@ -79,6 +79,23 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_TALK {
 		event.Trigger("view:msg", msg, nil)
 
+	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_USER_ADD {
+
+		//add to user cache
+		addUserMsg, err := utils.DecodeJsonMsg(msgMap["Content"].(string))
+		if err != nil {
+			//TODO log error
+			return
+		}
+
+		user.AddUser(&user.User{
+			Name:     addUserMsg["UserName"].(string),
+			Password: addUserMsg["Password"].(string),
+			HeadImg:  "/images/defaultHead.png",
+			Online:   true,
+		})
+		// event.Trigger("view:msg", msg, nil)
+
 	} else {
 		fmt.Println("unknown msg: ", msgMap)
 	}

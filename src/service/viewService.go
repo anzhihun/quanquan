@@ -1,6 +1,7 @@
 package service
 
 import (
+	"conn"
 	"define"
 	"encoding/json"
 	"event"
@@ -13,8 +14,12 @@ func listenViewMsg() {
 		handleViewMsg(newValue.(map[string]interface{}))
 	})
 
-	event.On("user:add", func(newValue, oldValue interface{}) {
-		handleAddUserMsg(newValue.(*user.User))
+	event.On(event.EVENT_F2B_ADD_USER, func(newValue, oldValue interface{}) {
+		handleF2BAddUserMsg(newValue.(define.AddUserMessage))
+	})
+
+	event.On(event.EVENT_B2F_ADD_USER, func(newValue, oldValue interface{}) {
+		handleB2FAddUserMsg(newValue.(*user.User))
 	})
 }
 
@@ -32,19 +37,40 @@ func handleViewMsg(msgMap map[string]interface{}) {
 	}
 }
 
-func handleAddUserMsg(newUser *user.User) {
-	content, err := json.Marshal(newUser)
+func handleF2BAddUserMsg(newUser define.AddUserMessage) {
+
+	msgContent, err := json.Marshal(newUser)
 	if err != nil {
-		//TODO log error
+		// TODO log error
 		return
 	}
 
+	// broadcast to all agent, include self
 	commServer.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
 		MsgType:  define.MSG_TYPE_USER_ADD,
-		From:     user.Self.Name,
-		HeadImg:  user.Self.HeadImg,
+		From:     "",
+		HeadImg:  "",
 		To:       "all",
 		IsPublic: true,
-		Content:  string(content),
+		Content:  string(msgContent),
 	})
+}
+
+func handleB2FAddUserMsg(newUser *user.User) {
+
+	userContent, err := json.Marshal(newUser)
+	if err != nil {
+		// TODO log error
+		return
+	}
+
+	var msgContent []byte
+	msgContent, err = json.Marshal(define.ToClientMessage{MsgType: define.MSG_TYPE_USER_ADD, Content: string(userContent)})
+	if err != nil {
+		// TODO log error
+		return
+	}
+
+	// broadcast to all websocket which is connect to me
+	conn.Broadcast2AllClient(msgContent)
 }

@@ -1,5 +1,7 @@
-/*global define, $ */
-define(function(require, exports, module){
+
+define(function(require, exports){
+    'use strict';
+    
     var wsConnector = null;
     var Message = require('js/message'),
         ChannelRequester = require('js/requester/channelRequester');
@@ -11,18 +13,18 @@ define(function(require, exports, module){
         $('#addChannelButton').click(addNewChannel);
     }
     
-    function sendMessage(event){
+    function sendMessage(){
         var msg = new Message();
         msg.Content = $('#msgInput')[0].value;
         wsConnector.sendMessage(JSON.stringify(msg));
         $('#msgInput')[0].value = '';
     }
     
-    function showAddChannelDlg(event) {
+    function showAddChannelDlg() {
         $('#addChannelDialog').foundation('reveal', 'open');
     }
     
-    function addNewChannel(event) {
+    function addNewChannel() {
         var name = $('#newChannelNameInput')[0].value;
         ChannelRequester.addNewChannel(name, function(data, status){
             // add new channel to list

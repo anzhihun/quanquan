@@ -4,6 +4,8 @@ import (
 	"code.google.com/p/go.net/websocket"
 	"event"
 	// "fmt"
+	"conn"
+	"fmt"
 	"github.com/gocraft/web"
 	"utils"
 )
@@ -25,6 +27,11 @@ func webSocketMiddleware(rw web.ResponseWriter, req *web.Request, next web.NextM
 // 处理每一个websocket请求
 func (this *rtMessageController) listenRTConnect(ws *websocket.Conn) {
 	this.conn = ws
+	ws.Request().ParseForm()
+	clientId := ws.Request().FormValue("id")
+	fmt.Println("websocket client id: ", clientId)
+	conn.AddClientConnector(conn.NewWebsocketClientConnector(ws, clientId))
+
 	for {
 		var recvMsg string
 		if err := websocket.Message.Receive(ws, &recvMsg); err != nil {

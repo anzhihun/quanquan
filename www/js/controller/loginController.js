@@ -1,6 +1,7 @@
 define(function (require, exports) {
     'use strict';
-    var signInCallback = null;
+    var signInCallback = null,
+        Context = require('js/context');
     
     function bindActionHandler(callback) {
         signInCallback = callback || function(){};
@@ -17,6 +18,7 @@ define(function (require, exports) {
         })).done(function(){
             //TODO switch to main window
             $('#signInPanel .error').hide();
+            Context.currentUser = userName;
             signInCallback();
         }).fail(function(){
             //TODO  show errors
@@ -33,6 +35,7 @@ define(function (require, exports) {
         })).done(function(){
             //TODO switch to main window
             $('#signUpPanel .error').hide();
+            Context.currentUser = userName;
             signInCallback();
         }).fail(function(obj){
             //TODO  show errors

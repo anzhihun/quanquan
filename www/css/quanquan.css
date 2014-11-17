@@ -129,3 +129,12 @@ body {
 .message_content {
     
 }
+
+/*------user item -------*/
+a.user_item {
+    display: inline-block;
+    width: 100%;
+    background-color: white;
+    border-left: 2px solid #006cba;
+    margin-bottom: 1px;
+}

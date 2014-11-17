@@ -1,8 +1,9 @@
-/*global define, console, $ */
+
 define(function (require) {
     'use strict';
     
-    var TalkController = require('js/controller/talkController');
+    var TalkController = require('js/controller/talkController'),
+        UserController = require('js/controller/userController');
 
     function WSMsgHandler() {
     }
@@ -18,7 +19,9 @@ define(function (require) {
         var msgObj = JSON.parse(msg);
         if (TalkController.accept(msgObj)) {
             TalkController.handle(msgObj);
-        } else {
+        } else if (UserController.accept(msgObj)){
+            UserController.handle(msgObj);
+        }else {
             console.warn('未知消息' + msg);
         }
         

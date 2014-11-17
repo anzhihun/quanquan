@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"define"
 	"encoding/json"
+	"event"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
@@ -36,17 +38,21 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 	password := params["password"].(string)
 	if err = user.SignUp(userName, password); err != nil {
 		http.Error(rw, err.Error(), 500)
+		return
 	}
 
+	// send msg to back end service
+	event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)
+
 	// add new user
-	ip, _ := utils.ExternalIP()
-	user.AddUser(&user.User{
-		Name:     userName,
-		Password: password,
-		HeadImg:  "/images/defaultHead.png",
-		IP:       ip,
-		Online:   true,
-	})
+	// ip, _ := utils.ExternalIP()
+	// user.AddUser(&user.User{
+	// 	Name:     userName,
+	// 	Password: password,
+	// 	HeadImg:  "/images/defaultHead.png",
+	// 	IP:       ip,
+	// 	Online:   true,
+	// })
 }
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {

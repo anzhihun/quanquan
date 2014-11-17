@@ -18,17 +18,18 @@ define(function (require) {
         ActionHandler = require('js/actionHandler'),
         
         UserRequester = require('js/requester/userRequester'),
-        UserView = require('js/view/userView');
+        UserView = require('js/view/userView'),
+        Context = require('js/context');
 
     document.body.innerHTML = LoginHtml;
-    var wsConnector = createWebsocket();
+    
     
     LoginController.bindActionHandler(switchToMainView);
     $(document).foundation();
 
     function createWebsocket() {
         var url = document.domain,
-            wsUrl = 'ws://' + url + ':53240/rtmsg';
+            wsUrl = 'ws://' + url + ':53240/rtmsg?id=' + Context.currentUser ;
 
         return new WSConnector(wsUrl, new WSMsgHandler());
     }
@@ -37,6 +38,7 @@ define(function (require) {
         document.body.innerHTML = MainWindowHtml;
         $(document).foundation();
         
+        var wsConnector = createWebsocket();
         ActionHandler.bindingHandler(wsConnector);
         UserRequester.getAllUser(UserView.updateAllUser);
     }
