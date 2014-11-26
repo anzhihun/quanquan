@@ -96,6 +96,11 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 		})
 		// event.Trigger("view:msg", msg, nil)
 
+	} else if msgMap["MsgType"].(string) == define.MSG_TYPE_USER_LOGIN {
+
+		// trigger msg
+		event.Trigger(event.EVENT_B2F_LOGIN, msgMap["Content"].(string), nil)
+
 	} else {
 		fmt.Println("unknown msg: ", msgMap)
 	}

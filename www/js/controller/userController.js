@@ -10,7 +10,13 @@ define(function(require, exports){
             var user = JSON.parse(msg.Content);
             UserView.addUser(user);
         }
-    }];
+    },{
+		msgType: 'userLogin',
+        handle: function(msg) {
+            var user = JSON.parse(msg.Content);
+            UserView.login(user);
+        }
+	}];
     
     function handle(msg) {
 

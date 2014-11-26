@@ -1,5 +1,5 @@
 /* global define, $, Mustache*/
-define(function(require, exports, module){
+define(function(require, exports){
    'use strict';
     
     var UserListItemTemplate = require('text!/view/userListItem.html');
@@ -21,7 +21,13 @@ define(function(require, exports, module){
             name: user.Name
         }));
     }
+	
+	function login(user) {
+		//TODO modify user status
+		console.log('user login: ' + user.Name);
+	}
     
     exports.updateAllUser = updateAllUser;
     exports.addUser = addUser;
+	exports.login = login;
 });

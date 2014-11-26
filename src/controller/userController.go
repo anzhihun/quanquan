@@ -23,6 +23,10 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 	if !user.Validate(params["name"].(string), params["password"].(string)) {
 		http.Error(rw, "invalid user name or password", 500)
 	}
+
+	// send msg to back end service
+	event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
+
 }
 
 func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {

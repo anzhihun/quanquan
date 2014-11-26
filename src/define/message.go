@@ -7,7 +7,8 @@ const (
 	MSG_TYPE_JOIN       = "join"
 	MSG_TYPE_TALK       = "talk"
 
-	MSG_TYPE_USER_ADD = "addUser"
+	MSG_TYPE_USER_ADD   = "addUser"
+	MSG_TYPE_USER_LOGIN = "userLogin"
 )
 
 type Message struct {

@@ -5,6 +5,7 @@ import (
 	"define"
 	"encoding/json"
 	"event"
+	"fmt"
 	"net"
 	"user"
 )
@@ -21,6 +22,14 @@ func listenViewMsg() {
 	event.On(event.EVENT_B2F_ADD_USER, func(newValue, oldValue interface{}) {
 		handleB2FAddUserMsg(newValue.(*user.User))
 	})
+
+	event.On(event.EVENT_F2B_LOGIN, func(newValue, oldValue interface{}) {
+		handleF2BUserLogin(newValue.(string))
+	})
+	event.On(event.EVENT_B2F_LOGIN, func(newValue, oldValue interface{}) {
+		handleB2FUserLogin(newValue.(string))
+	})
+
 }
 
 func handleViewMsg(msgMap map[string]interface{}) {
@@ -66,6 +75,49 @@ func handleB2FAddUserMsg(newUser *user.User) {
 
 	var msgContent []byte
 	msgContent, err = json.Marshal(define.ToClientMessage{MsgType: define.MSG_TYPE_USER_ADD, Content: string(userContent)})
+	if err != nil {
+		// TODO log error
+		return
+	}
+
+	// broadcast to all websocket which is connect to me
+	conn.Broadcast2AllClient(msgContent)
+}
+
+func handleF2BUserLogin(userName string) {
+	// broadcast to all agent, include self
+	commServer.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
+		MsgType:  define.MSG_TYPE_USER_LOGIN,
+		From:     "",
+		HeadImg:  "",
+		To:       "all",
+		IsPublic: true,
+		Content:  userName,
+	})
+}
+
+func handleB2FUserLogin(userName string) {
+	// broadcast to all agent, include self
+	fmt.Println("user login: ", userName)
+	loginUser := user.FindUser(userName)
+	if loginUser == nil {
+		// user not exist
+		// log
+		return
+	}
+
+	userContent, err := json.Marshal(loginUser)
+	if err != nil {
+		//TODO log error
+		fmt.Errorf("json marshal user error on user login! %s", err.Error())
+		return
+	}
+
+	var msgContent []byte
+	msgContent, err = json.Marshal(define.ToClientMessage{
+		MsgType: define.MSG_TYPE_USER_LOGIN,
+		Content: string(userContent),
+	})
 	if err != nil {
 		// TODO log error
 		return
