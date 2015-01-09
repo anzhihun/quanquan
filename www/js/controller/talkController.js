@@ -4,19 +4,26 @@ define(function(require, exports, module){
     
     var MessageItemTemplate = require('text!/view/messageItem.html');
     var messageContainer = $('.main .message_area .body'),
-        UserView = require('js/view/userView');
+		TextMessage = require('js/msg/TextMessage'),
+		TextMessageView = require('js/msg/TextMessageView');
     
     // msg handlers 
     var handlers = [{
         msgType: 'join',
         handle: function(msg) {
-            var curDate = new Date();
-            messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: msg.HeadImg,
-                name: msg.From,
-                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
-                content: 'join'
-            }));
+			var textMessage = new TextMessage({
+				user: {
+					name: msg.From,
+					iconUrl: msg.HeadImg
+				},
+				content: 'join',
+				dataTime: new Date().getTime()
+			});
+			
+			var textMessageView = new TextMessageView({
+				model: textMessage
+			});
+			textMessageView.render();
         }
     }, {
         msgType: 'online',
@@ -28,10 +35,10 @@ define(function(require, exports, module){
                 datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
                 content: 'online'
             }));
-            UserView.addUser({
-                HeadImg: msg.HeadImg,
-                Name: msg.From
-            });
+//            UserView.addUser({
+//                HeadImg: msg.HeadImg,
+//                Name: msg.From
+//            });
         }
     }, {
         msgType: 'offline',

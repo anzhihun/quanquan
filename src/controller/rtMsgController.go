@@ -2,6 +2,7 @@ package controller
 
 import (
 	"code.google.com/p/go.net/websocket"
+	"entity"
 	"event"
 	// "fmt"
 	"conn"
@@ -44,7 +45,7 @@ func (this *rtMessageController) listenRTConnect(ws *websocket.Conn) {
 		} else if msgType, ok := msgData["MsgType"].(string); !ok { //解析消息类型
 			// reportRtMsgError(errors.RtMsgError{self.connection.RemoteAddr().String(), self.clientId, "parse recvMsg", "can not parse msg type", "无法处理消息，消息类型解析失败！"}, self.connection)
 		} else { //根据消息类型进一步解析消息内容
-			this.handMessage(msgType, msgData)
+			this.handMessage(msgType, msgData, recvMsg)
 		}
 	}
 }
@@ -56,8 +57,15 @@ func (this *rtMessageController) listenToViewMessage() {
 	})
 }
 
-func (this *rtMessageController) handMessage(msgType string, msgData map[string]interface{}) {
-	event.Trigger("agent:msg", msgData, nil)
+func (this *rtMessageController) handMessage(msgType string,
+	msgData map[string]interface{}, originMsg string) {
+	switch msgType {
+	case entity.WS_MSGTYPE_TALK:
+		// event.Trigger("agent:msg", msgData, nil)
+		conn.Broadcast2AllClient([]byte(originMsg))
+		break
+	}
+
 }
 
 func (this *rtMessageController) sendMessage(msg []byte) {

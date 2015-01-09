@@ -43,7 +43,7 @@ func (this *CommunicationService) start() {
 }
 
 func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
-	// fmt.Printf("receive msg: %s\n\n", msg)
+	fmt.Printf("receive msg: %s\n\n", string(msg))
 	msgMap, _ := utils.DecodeJsonMsg(string(msg))
 	if msgMap["MsgType"].(string) == define.MSG_TYPE_ONLINE {
 		// update online status

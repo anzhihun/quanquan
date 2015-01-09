@@ -3,6 +3,7 @@ package controller
 import (
 	"define"
 	"encoding/json"
+	"entity"
 	"event"
 	"github.com/gocraft/web"
 	"io/ioutil"
@@ -61,7 +62,17 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {
 	users := user.AllUser()
-	contents, err := json.Marshal(users)
+	ackUser := []entity.WSAckUser{}
+	for _, user := range users {
+		ackUser = append(ackUser, entity.WSAckUser{
+			Name:     user.Name,
+			IconUrl:  user.HeadImg,
+			Online:   user.Online,
+			ServerId: 0,
+		})
+	}
+
+	contents, err := json.Marshal(ackUser)
 	if err != nil {
 		rw.Write([]byte("error: " + err.Error()))
 	} else {

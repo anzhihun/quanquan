@@ -34,6 +34,7 @@ func listenViewMsg() {
 
 func handleViewMsg(msgMap map[string]interface{}) {
 	msgType := msgMap["MsgType"].(string)
+	fmt.Println("handle view msg from client: ", msgType)
 	if msgType == define.MSG_TYPE_TALK {
 		commServer.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
 			MsgType:  define.MSG_TYPE_TALK,

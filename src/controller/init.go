@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gocraft/web"
 	"os"
 	"path/filepath"
@@ -45,6 +46,8 @@ func Init() *web.Router {
 	// handle channel requests
 	channelRouter := rootRouter.Subrouter(ChannelContext{}, "/channel")
 	channelRouter.Post("/", (*ChannelContext).addChannel)
+
+	fmt.Println("----out----")
 
 	return rootRouter
 }

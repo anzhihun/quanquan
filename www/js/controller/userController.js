@@ -1,20 +1,20 @@
 define(function(require, exports){
     'use strict';
     
-    var UserView = require('js/view/userView');
+//    var UserView = require('js/view/userView');
     
     // msg handlers 
     var handlers = [{
         msgType: 'addUser',
         handle: function(msg) {
             var user = JSON.parse(msg.Content);
-            UserView.addUser(user);
+//            UserView.addUser(user);
         }
     },{
 		msgType: 'userLogin',
         handle: function(msg) {
             var user = JSON.parse(msg.Content);
-            UserView.login(user);
+//            UserView.login(user);
         }
 	}];
     

@@ -80,6 +80,7 @@
 		"require": true,
 		"module": true,
 		"define": true,
+		'Backbone': true,
 		"brackets": true,
 		"jQuery": true,
 		"$": true,
