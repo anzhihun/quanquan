@@ -4,14 +4,17 @@ define(function(require, exports, module){
     
     var MessageItemTemplate = require('text!/view/messageItem.html');
     var messageContainer = $('.main .message_area .body'),
-		TextMessage = require('js/msg/TextMessage'),
-		TextMessageView = require('js/msg/TextMessageView');
+		TalkMessage = require('js/msg/TalkMessage'),
+		TalkMessageView = require('js/msg/TalkMessageView'),
+        MessageBoard = require('js/msg/MessageBoard');
+    
+    var messageBoard = new MessageBoard();
     
     // msg handlers 
     var handlers = [{
         msgType: 'join',
         handle: function(msg) {
-			var textMessage = new TextMessage({
+			var textMessage = new TalkMessage({
 				user: {
 					name: msg.From,
 					iconUrl: msg.HeadImg
@@ -19,11 +22,8 @@ define(function(require, exports, module){
 				content: 'join',
 				dataTime: new Date().getTime()
 			});
-			
-			var textMessageView = new TextMessageView({
-				model: textMessage
-			});
-			textMessageView.render();
+            
+            messageBoard.getModel().add(textMessage);
         }
     }, {
         msgType: 'online',
@@ -39,6 +39,21 @@ define(function(require, exports, module){
 //                HeadImg: msg.HeadImg,
 //                Name: msg.From
 //            });
+        }
+    }, {
+        msgType: 'userLogin',
+        handle: function(msg) {
+            var msgContent = JSON.parse(msg.Content);
+            var textMessage = new TalkMessage({
+				user: {
+					name: msgContent.name,
+					iconUrl: msgContent.HeadImg
+				},
+				content: 'userLogin',
+				dataTime: new Date().getTime()
+			});
+            
+            messageBoard.getModel().add(textMessage);
         }
     }, {
         msgType: 'offline',
