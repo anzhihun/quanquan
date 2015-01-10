@@ -28,6 +28,10 @@ define(function (require, exports, module) {
 		
 		getUserListView: function(){
 			return this.userListView;
+		},
+		
+		getChannelListView: function() {
+			return this.channelListView;
 		}
 										
 	});

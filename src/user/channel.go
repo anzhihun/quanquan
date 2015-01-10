@@ -1,8 +1,9 @@
 package user
 
 type Channel struct {
-	Name  string
-	Users []*User
+	Name    string
+	Users   []*User
+	Creator string
 }
 
 func (this *Channel) AddUser(newUser *User) {
