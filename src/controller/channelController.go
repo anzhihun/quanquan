@@ -16,7 +16,7 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	req.Body.Close()
 	params, _ := utils.DecodeJsonMsg(string(result))
 	newChannel := user.Channel{Name: params["name"].(string),
-		Users:   []*user.User{},
+		Users:   []*user.User{user.FindUser(params["creator"].(string))},
 		Creator: params["creator"].(string),
 	}
 	user.AddChannel(&newChannel)

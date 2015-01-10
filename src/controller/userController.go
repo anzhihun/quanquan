@@ -135,7 +135,16 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 }
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {
-	users := user.AllUser()
+	req.ParseForm()
+	channelName := req.Form.Get("channel")
+	fmt.Println("get user's channel = ", channelName)
+	var users []*user.User
+	if channelName == "Global" {
+		users = user.AllUser()
+	} else {
+		users = user.FindChannelByName(channelName).Users
+	}
+
 	ackUser := []entity.WSAckUser{}
 	for _, user := range users {
 		ackUser = append(ackUser, entity.WSAckUser{

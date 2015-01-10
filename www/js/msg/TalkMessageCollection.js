@@ -5,7 +5,9 @@ define(function(require, exports, module){
     
     var TalkMessageCollection = Backbone.Collection.extend({
         model: TalkMessage,
-        url: '/talk'
+		initialize: function(channelName) {
+			this.url = '/talk/' + channelName
+		}
     });
     
     return TalkMessageCollection;

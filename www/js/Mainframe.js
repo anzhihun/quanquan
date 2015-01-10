@@ -16,9 +16,16 @@ define(function (require, exports, module) {
 			
 			this.channelListView = new ChannelListView();
 			
-			this.messageBoard = new MessageBoard();
+			this.messageBoard = new MessageBoard('Global');
 
-			this.userListView = new UserListView();
+			this.userListView = new UserListView('Global');
+			this.userListView.refresh();
+		},
+		
+		switchChannel: function(channelName) {
+			// change message board and user list
+			this.messageBoard = new MessageBoard(channelName);
+			this.userListView = new UserListView(channelName);
 			this.userListView.refresh();
 		},
 		

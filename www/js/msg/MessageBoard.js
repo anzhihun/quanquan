@@ -6,8 +6,9 @@ define(function (require, exports, module) {
 	var MessageInputView = require('js/msg/MessageInputView');
     
     var MessageBoard = Backbone.View.extend({
-        initialize: function () {
-            this.messages = new TalkMessageCollection();
+        initialize: function (channelName) {
+			this.channelName = channelName;
+            this.messages = new TalkMessageCollection(channelName);
             this.messages.on('add', this.addMsg, this);
             this.messages.on('reset', this.render, this);
             this.messages.fetch();

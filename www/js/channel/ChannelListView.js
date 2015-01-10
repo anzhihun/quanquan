@@ -46,6 +46,8 @@ define(function(require, exports, module){
 			// switch message list
 			$(evt.currentTarget).addClass('active');
 			$(evt.currentTarget).find('a').attr('style', '');
+			
+			global.mainframe.switchChannel(channelName);
 		}
     });
     
