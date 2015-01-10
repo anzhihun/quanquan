@@ -19,8 +19,8 @@ define(function (require) {
         var msgObj = JSON.parse(msg);
         if (TalkController.handle(msgObj)) {
             return;
-        } else if (UserController.accept(msgObj)){
-            UserController.handle(msgObj);
+        } else if (UserController.handle(msgObj)){
+            return;
         }else {
             console.warn('未知消息' + msg);
         }

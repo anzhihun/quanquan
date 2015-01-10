@@ -2,7 +2,7 @@ package user
 
 import (
 	"errors"
-	"event"
+	// "event"
 	osuser "os/user"
 	"utils"
 )
@@ -48,7 +48,7 @@ func AddUser(user *User) {
 	storeAllUsers(user, nil)
 
 	// trigger msg
-	event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
+	//event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
 }
 
 func RemoveUser(user *User) {

@@ -1,8 +1,9 @@
 package entity
 
 const (
-	WS_MSGTYPE_TALK   = "talk"
-	WS_MSGTYPE_ONLINE = "online"
+	WS_MSGTYPE_TALK     = "talk"
+	WS_MSGTYPE_ONLINE   = "online"
+	WS_MSGTYPE_NEW_USER = "newUser"
 
 	WS_MSGCONTENT_TYPE_TEXT = "text"
 )
@@ -21,4 +22,9 @@ type WSAckTalk struct {
 	Is2P        bool   `json:"is2P"`
 	Receiver    string `json:"receiver"`
 	Content     string `json:"content"`
+}
+
+type WSAckNewUser struct {
+	MsgType string    `json:"msgType"`
+	User    WSAckUser `json:"user"`
 }

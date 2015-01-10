@@ -104,6 +104,21 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 		rw.Write(ackContent)
 	}
 
+	ackNewUser := entity.WSAckNewUser{
+		MsgType: entity.WS_MSGTYPE_NEW_USER,
+		User: entity.WSAckUser{
+			Name:     userName,
+			IconUrl:  "/images/defaultHead.png",
+			ServerId: 0,
+			Online:   true,
+		},
+	}
+	if ackContent, err = json.Marshal(ackNewUser); err != nil {
+		fmt.Println("marshal new user msg error!", err.Error())
+	} else {
+		conn.Broadcast2AllClient(ackContent)
+	}
+
 	this.sendOnlineMsg(userName)
 	// send msg to back end service
 	//event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)

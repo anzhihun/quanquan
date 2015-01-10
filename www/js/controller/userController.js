@@ -5,10 +5,9 @@ define(function(require, exports){
     
     // msg handlers 
     var handlers = [{
-        msgType: 'addUser',
+        msgType: 'newUser',
         handle: function(msg) {
-            var user = JSON.parse(msg.Content);
-//            UserView.addUser(user);
+			global.mainframe.getUserListView().getUsers().add(msg.user);
         }
     },{
 		msgType: 'userLogin',
@@ -21,27 +20,14 @@ define(function(require, exports){
     function handle(msg) {
 
         for (var index = 0, len = handlers.length; index < len; index++) {
-            if (handlers[index].msgType === msg.MsgType) {
+            if (handlers[index].msgType === msg.msgType) {
                 handlers[index].handle(msg);
-                return;
-            }
-        }
-    }
-    
-    function accept(msg) {
-        if (msg === null || msg === undefined ) {
-            return false;
-        }
-        
-        for (var index = 0, len = handlers.length; index < len; index++) {
-            if (handlers[index].msgType === msg.MsgType) {
                 return true;
             }
         }
-        
-        return false;
+		
+		return false;
     }
 
     exports.handle = handle;
-    exports.accept = accept;
 });
