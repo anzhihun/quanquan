@@ -22,10 +22,18 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	user.AddChannel(&newChannel)
 
 	// ack
+	existUser := user.FindUser(newChannel.Creator)
+	var ackUser = entity.WSAckUser{
+		Name:     existUser.Name,
+		IconUrl:  existUser.HeadImg,
+		ServerId: 0,
+		Online:   true,
+	}
+
 	ackChannel := entity.WSAckChannel{
 		Name:    newChannel.Name,
 		Creator: newChannel.Creator,
-		Users:   []entity.WSAckUser{},
+		Users:   []entity.WSAckUser{ackUser},
 	}
 	if content, err := json.Marshal(ackChannel); err != nil {
 		http.Error(rw, "marshal ack channel error!", 500)

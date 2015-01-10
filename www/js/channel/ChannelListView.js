@@ -20,7 +20,8 @@ define(function(require, exports, module){
 //            this.channels.fetch();
         },
         events: {
-            'click #showAddChanDlgBtn': 'openAddChannelDlg'
+            'click #showAddChanDlgBtn': 'openAddChannelDlg',
+			'click dd': 'selectChannel'
         },
 		
 		getModel: function() {
@@ -34,7 +35,18 @@ define(function(require, exports, module){
         
         openAddChannelDlg: function(){
             this.newChanDlg.open();
-        }
+        },
+		
+		selectChannel: function(evt){
+			var channelName = $(evt.currentTarget).text();
+			this.$el.find('dl dd').each(function(index, elem){
+				$(elem).removeClass('active');
+				$(elem).find('a').attr('style', 'background: transparent;');
+			})
+			// switch message list
+			$(evt.currentTarget).addClass('active');
+			$(evt.currentTarget).find('a').attr('style', '');
+		}
     });
     
     return ChannelListView;
