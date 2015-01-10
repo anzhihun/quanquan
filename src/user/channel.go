@@ -28,6 +28,16 @@ func (this *Channel) RemoveUser(u *User) {
 	}
 }
 
+func (this *Channel) ContainsUser(userName string) bool {
+	for index := 0; index < len(this.Users); index++ {
+		if this.Users[index].Name == userName {
+			return true
+		}
+	}
+
+	return false
+}
+
 var channels = make([]*Channel, 0)
 
 func AddChannel(channel *Channel) {

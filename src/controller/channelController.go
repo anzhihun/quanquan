@@ -56,10 +56,14 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 }
 
 func (this *ChannelContext) getChannels(rw web.ResponseWriter, req *web.Request) {
+	req.ParseForm()
+	userName := req.Form.Get("user")
 	channels := user.AllChannels()
 	ackChannels := []entity.WSAckChannel{}
 	for _, channel := range channels {
-		ackChannels = append(ackChannels, convert2AckChannel(channel))
+		if channel.ContainsUser(userName) {
+			ackChannels = append(ackChannels, convert2AckChannel(channel))
+		}
 	}
 
 	if content, err := json.Marshal(ackChannels); err != nil {

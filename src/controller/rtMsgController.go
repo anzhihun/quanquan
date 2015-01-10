@@ -8,6 +8,7 @@ import (
 	"conn"
 	"fmt"
 	"github.com/gocraft/web"
+	"user"
 	"utils"
 )
 
@@ -62,10 +63,27 @@ func (this *rtMessageController) handMessage(msgType string,
 	switch msgType {
 	case entity.WS_MSGTYPE_TALK:
 		// event.Trigger("agent:msg", msgData, nil)
+		if msgData["is2P"].(bool) {
+			conn.SendMsg2Client(msgData["receiver"].(string), []byte(originMsg))
+		} else {
+			sendMsg2ClientThroughChannel(msgData["receiver"].(string), []byte(originMsg))
+		}
+
 		conn.Broadcast2AllClient([]byte(originMsg))
 		break
 	}
 
+}
+
+func sendMsg2ClientThroughChannel(channelName string, content []byte) {
+	var channel = user.FindChannelByName(channelName)
+	if channel == nil {
+		return
+	}
+
+	for _, user := range channel.Users {
+		conn.SendMsg2Client(user.Name, content)
+	}
 }
 
 func (this *rtMessageController) sendMessage(msg []byte) {

@@ -8,7 +8,7 @@ define(function(require, exports, module){
         el: '#channelList',
         initialize: function(){
             // TODO get channel list from server
-            this.channels = new ChannelList();
+            this.channels = new ChannelList(global.currentUser.name);
 			global.currentTalkTarget = {
 				name: 'global',
 				isChannel: true
