@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"define"
+	// "define"
 	"encoding/json"
 	"entity"
-	"event"
+	// "event"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
@@ -25,7 +25,20 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 		http.Error(rw, "invalid user name or password", 500)
 	}
 
-	existUser := user.FindUser(params["name"].(string))
+	var ackContent = []byte{}
+	if ackContent, err = this.getAckHttpUser(params["name"].(string)); err != nil {
+		http.Error(rw, "marshal user error!", 500)
+	} else {
+		rw.Write(ackContent)
+	}
+
+	// send msg to back end service
+	//event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
+
+}
+
+func (this *UserContext) getAckHttpUser(userName string) (content []byte, err error) {
+	existUser := user.FindUser(userName)
 
 	var ackUser = entity.WSAckUser{
 		Name:     existUser.Name,
@@ -33,16 +46,9 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 		ServerId: 0,
 		Online:   true,
 	}
-	var retContent = []byte{}
-	if retContent, err = json.Marshal(ackUser); err != nil {
-		http.Error(rw, "marshal user error!", 500)
-	} else {
-		rw.Write(retContent)
-	}
 
-	// send msg to back end service
-	//event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
-
+	content, err = json.Marshal(ackUser)
+	return
 }
 
 func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
@@ -61,8 +67,22 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 		return
 	}
 
+	user.AddUser(&user.User{
+		Name:     userName,
+		Password: password,
+		HeadImg:  "/images/defaultHead.png",
+		Online:   true,
+	})
+
+	var ackContent = []byte{}
+	if ackContent, err = this.getAckHttpUser(userName); err != nil {
+		http.Error(rw, "marshal user error!", 500)
+	} else {
+		rw.Write(ackContent)
+	}
+
 	// send msg to back end service
-	event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)
+	//event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)
 
 	// add new user
 	// ip, _ := utils.ExternalIP()
