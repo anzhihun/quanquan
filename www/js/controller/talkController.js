@@ -1,70 +1,12 @@
 /* global define, $, Mustache */
 define(function(require, exports, module){
     'use strict';
-    
-    var MessageItemTemplate = require('text!/view/messageItem.html');
-    var messageContainer = $('.main .message_area .body'),
-		TalkMessage = require('js/msg/TalkMessage'),
-		TalkMessageView = require('js/msg/TalkMessageView');
+
+    var TalkMessage = require('js/msg/TalkMessage');
     
 	var messageBoard = null;
     // msg handlers 
     var handlers = [{
-        msgType: 'join',
-        handle: function(msg) {
-			var textMessage = new TalkMessage({
-				user: {
-					name: msg.From,
-					iconUrl: msg.HeadImg
-				},
-				content: 'join',
-				dataTime: new Date().getTime()
-			});
-            
-            messageBoard.getModel().add(textMessage);
-        }
-    }, {
-        msgType: 'online',
-        handle: function(msg) {
-            msg.content = msg.content.replace(new RegExp('\n', 'gm'), '<br>');
-            var textMessage = new TalkMessage({
-				user: {
-					name: msg.sender,
-					iconUrl: getUrl(msg.sender)
-				},
-				content: msg.content,
-				dataTime: new Date().getTime()
-			});
-            
-            messageBoard.getModel().add(textMessage);
-        }
-    }, {
-        msgType: 'userLogin',
-        handle: function(msg) {
-            var msgContent = JSON.parse(msg.Content);
-            var textMessage = new TalkMessage({
-				user: {
-					name: msgContent.name,
-					iconUrl: msgContent.HeadImg
-				},
-				content: 'userLogin',
-				dataTime: new Date().getTime()
-			});
-            
-            messageBoard.getModel().add(textMessage);
-        }
-    }, {
-        msgType: 'offline',
-        handle: function(msg) {
-            var curDate = new Date();
-            messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: msg.HeadImg,
-                name: msg.From,
-                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
-                content: 'offline'
-            }));
-        }
-    }, {
         msgType: 'talk',
         handle: function(msg) {
 			msg.content = msg.content.replace(new RegExp('\n', 'gm'), '<br>');
@@ -94,10 +36,6 @@ define(function(require, exports, module){
 	}
 	
     function handle(msg) {
-        
-        if (messageContainer.length === 0) {
-            messageContainer = $('.main .message_area .body');
-        }
 		
 		messageBoard = messageBoard || global.mainframe.getMessageBoard();
 		
