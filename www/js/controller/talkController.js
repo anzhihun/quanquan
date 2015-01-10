@@ -26,17 +26,17 @@ define(function(require, exports, module){
     }, {
         msgType: 'online',
         handle: function(msg) {
-            var curDate = new Date();
-            messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: msg.HeadImg,
-                name: msg.From,
-                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
-                content: 'online'
-            }));
-//            UserView.addUser({
-//                HeadImg: msg.HeadImg,
-//                Name: msg.From
-//            });
+            msg.content = msg.content.replace(new RegExp('\n', 'gm'), '<br>');
+            var textMessage = new TalkMessage({
+				user: {
+					name: msg.sender,
+					iconUrl: getUrl(msg.sender)
+				},
+				content: msg.content,
+				dataTime: new Date().getTime()
+			});
+            
+            messageBoard.getModel().add(textMessage);
         }
     }, {
         msgType: 'userLogin',
@@ -67,20 +67,11 @@ define(function(require, exports, module){
     }, {
         msgType: 'talk',
         handle: function(msg) {
-			var userList = global.mainframe.getUserListView().getUsers();
-			var iconUrl = '';
-			for(var index = 0, len = userList.length; index < len; index++) {
-				if (userList.at(index).get('name') === msg.sender) {
-					iconUrl = userList.at(index).get('iconUrl');
-					break;
-				}
-			}
-			
 			msg.content = msg.content.replace(new RegExp('\n', 'gm'), '<br>');
             var textMessage = new TalkMessage({
 				user: {
 					name: msg.sender,
-					iconUrl: iconUrl
+					iconUrl: getUrl(msg.sender)
 				},
 				content: msg.content,
 				dataTime: new Date().getTime()
@@ -90,6 +81,18 @@ define(function(require, exports, module){
         }
     }];
     
+	function getUrl(userName) {
+		var userList = global.mainframe.getUserListView().getUsers();
+		var iconUrl = '/images/defaultHead.png';
+		for (var index = 0, len = userList.length; index < len; index++) {
+			if (userList.at(index).get('name') === userName) {
+				iconUrl = userList.at(index).get('iconUrl');
+				break;
+			}
+		}
+		return iconUrl;
+	}
+	
     function handle(msg) {
         
         if (messageContainer.length === 0) {

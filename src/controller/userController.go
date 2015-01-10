@@ -4,7 +4,9 @@ import (
 	// "define"
 	"encoding/json"
 	"entity"
+	"fmt"
 	// "event"
+	"conn"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
@@ -32,6 +34,8 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 		rw.Write(ackContent)
 	}
 
+	this.sendOnlineMsg(params["name"].(string))
+
 	// send msg to back end service
 	//event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
 
@@ -49,6 +53,25 @@ func (this *UserContext) getAckHttpUser(userName string) (content []byte, err er
 
 	content, err = json.Marshal(ackUser)
 	return
+}
+
+func (this *UserContext) sendOnlineMsg(userName string) {
+	msg := entity.WSAckTalk{
+		MsgType:     entity.WS_MSGTYPE_ONLINE,
+		ContentType: entity.WS_MSGCONTENT_TYPE_TEXT,
+		Sender:      "system",
+		Is2P:        false,
+		Receiver:    "all",
+		Content:     userName + " come in",
+	}
+
+	if content, err := json.Marshal(msg); err != nil {
+		fmt.Println("send online msg error! ", err.Error())
+		return
+	} else {
+		conn.Broadcast2AllClient(content)
+	}
+
 }
 
 func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
@@ -81,6 +104,7 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 		rw.Write(ackContent)
 	}
 
+	this.sendOnlineMsg(userName)
 	// send msg to back end service
 	//event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)
 
