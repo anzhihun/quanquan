@@ -11,6 +11,9 @@ define(function (require, exports, module) {
 			this.$el = $(document);
 			$(document).foundation();
 			
+			$('#curUser').find('img')[0].src = global.currentUser.iconUrl;
+			$('#curUser').find('span')[0].innerHTML = global.currentUser.name;
+			
 			this.channelListView = new ChannelListView();
 			
 			this.messageBoard = new MessageBoard();

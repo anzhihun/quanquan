@@ -15,7 +15,7 @@ define(function(require, exports, module){
 			var msg = {
 				msgType: 'talk',
 				contentType: 'text',
-				sender: global.currentUser,
+				sender: global.currentUser.name,
 				is2P: !global.currentTalkTarget.isChannel,
 				receiver: global.currentTalkTarget.name,
 				content: this.inputText.value

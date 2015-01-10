@@ -6,7 +6,11 @@ require.config({
 });
 
 var global = {
-	currentUser: '',
+	
+	/**
+	 * @type {name:, iconUrl:, serverId: , online: true}
+	 */
+	currentUser: null,
 	wsconn: null,
 	/**
 	 * @type {name: , isChannel: false}
@@ -37,7 +41,7 @@ define(function (require) {
 	
     function createWebsocket(callbackOnConn) {
         var url = document.domain,
-            wsUrl = 'ws://' + url + ':52013/rtmsg?id=' + global.currentUser ;
+            wsUrl = 'ws://' + url + ':52013/rtmsg?id=' + global.currentUser.name ;
         return new WSConnector(wsUrl, new WSMsgHandler(), callbackOnConn);
     }
 });

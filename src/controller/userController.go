@@ -25,8 +25,23 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 		http.Error(rw, "invalid user name or password", 500)
 	}
 
+	existUser := user.FindUser(params["name"].(string))
+
+	var ackUser = entity.WSAckUser{
+		Name:     existUser.Name,
+		IconUrl:  existUser.HeadImg,
+		ServerId: 0,
+		Online:   true,
+	}
+	var retContent = []byte{}
+	if retContent, err = json.Marshal(ackUser); err != nil {
+		http.Error(rw, "marshal user error!", 500)
+	} else {
+		rw.Write(retContent)
+	}
+
 	// send msg to back end service
-	event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
+	//event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
 
 }
 

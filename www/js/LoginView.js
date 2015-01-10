@@ -22,10 +22,10 @@ define(function(require, exports, module){
       $.post('/user/login', JSON.stringify({
           name: userName,
           password: password
-      })).done(function(){
+      })).done(function(user){
           //TODO switch to main window
           $('#signInPanel .error').hide();
-          global.currentUser = userName;
+          global.currentUser = JSON.parse(user);
           self.switch2Mainframe();
       }).fail(function(){
           //TODO  show errors
@@ -40,10 +40,10 @@ define(function(require, exports, module){
       $.post('/user/signup', JSON.stringify({
           name: userName,
           password: password
-      })).done(function(){
+      })).done(function(user){
           //TODO switch to main window
           $('#signUpPanel .error').hide();
-          global.currentUser = userName;
+          global.currentUser = JSON.parse(user);
           self.switch2Mainframe();
       }).fail(function(obj){
           //TODO  show errors
