@@ -15,7 +15,6 @@ define(function (require, exports) {
 		return iconUrl;
 	}
 
-	var messageBoard = null;
 	// msg handlers 
 	var handlers = [{
 		msgType: 'newUser',
@@ -35,7 +34,7 @@ define(function (require, exports) {
 				dataTime: new Date().getTime()
 			});
 
-			messageBoard.getModel().add(textMessage);
+			global.mainframe.getMessageBoard().getModel().add(textMessage);
 		}
     }, {
 		msgType: 'join',
@@ -50,8 +49,6 @@ define(function (require, exports) {
     }];
 
 	function handle(msg) {
-
-		messageBoard = messageBoard || global.mainframe.getMessageBoard();
 
 		for (var index = 0, len = handlers.length; index < len; index++) {
 			if (handlers[index].msgType === msg.msgType) {

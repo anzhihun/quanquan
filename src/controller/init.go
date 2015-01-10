@@ -46,6 +46,7 @@ func Init() *web.Router {
 	// handle channel requests
 	channelRouter := rootRouter.Subrouter(ChannelContext{}, "/channel")
 	channelRouter.Post("/", (*ChannelContext).addChannel)
+	channelRouter.Get("/", (*ChannelContext).getChannels)
 
 	fmt.Println("----out----")
 

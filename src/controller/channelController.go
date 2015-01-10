@@ -54,3 +54,37 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	}
 
 }
+
+func (this *ChannelContext) getChannels(rw web.ResponseWriter, req *web.Request) {
+	channels := user.AllChannels()
+	ackChannels := []entity.WSAckChannel{}
+	for _, channel := range channels {
+		ackChannels = append(ackChannels, convert2AckChannel(channel))
+	}
+
+	if content, err := json.Marshal(ackChannels); err != nil {
+		http.Error(rw, "marshal ack channels error! "+err.Error(), 500)
+	} else {
+		rw.Write(content)
+	}
+
+}
+
+func convert2AckChannel(channel *user.Channel) entity.WSAckChannel {
+	ackUsers := []entity.WSAckUser{}
+	for _, user := range channel.Users {
+		ackUsers = append(ackUsers, entity.WSAckUser{
+			Name:     user.Name,
+			IconUrl:  user.HeadImg,
+			Online:   user.Online,
+			ServerId: 0,
+		})
+	}
+
+	return entity.WSAckChannel{
+		Name:     channel.Name,
+		Creator:  channel.Creator,
+		Users:    ackUsers,
+		ServerId: 0,
+	}
+}

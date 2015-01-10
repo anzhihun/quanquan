@@ -15,7 +15,6 @@ define(function (require, exports, module) {
 			$('#curUser').find('span')[0].innerHTML = global.currentUser.name;
 			
 			this.channelListView = new ChannelListView();
-			
 			this.messageBoard = new MessageBoard('Global');
 
 			this.userListView = new UserListView('Global');
@@ -24,6 +23,14 @@ define(function (require, exports, module) {
 		
 		switchChannel: function(channelName) {
 			// change message board and user list
+			
+			if (this.messageBoard) {
+				this.messageBoard.clear();
+			}
+			if (this.userListView) {
+				this.userListView.clear();
+			}
+			
 			this.messageBoard = new MessageBoard(channelName);
 			this.userListView = new UserListView(channelName);
 			this.userListView.refresh();

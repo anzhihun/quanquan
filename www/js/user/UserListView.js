@@ -34,6 +34,12 @@ define(function (require, exports, module) {
 		},
 		getUsers: function () {
 			return this.model;
+		},
+		
+		clear: function(){
+			this.stopListening();
+			this.off();
+			this.undelegateEvents();
 		}
 	});
 

@@ -4,7 +4,6 @@ define(function(require, exports, module){
 
     var TalkMessage = require('js/msg/TalkMessage');
     
-	var messageBoard = null;
     // msg handlers 
     var handlers = [{
         msgType: 'talk',
@@ -19,7 +18,7 @@ define(function(require, exports, module){
 				dataTime: new Date().getTime()
 			});
             
-            messageBoard.getModel().add(textMessage);
+            global.mainframe.getMessageBoard().getModel().add(textMessage);
         }
     }];
     
@@ -36,8 +35,6 @@ define(function(require, exports, module){
 	}
 	
     function handle(msg) {
-		
-		messageBoard = messageBoard || global.mainframe.getMessageBoard();
 		
         for (var index = 0, len = handlers.length; index < len; index++) {
             if (handlers[index].msgType === msg.msgType) {

@@ -4,7 +4,7 @@ define(function(require, exports, module){
     var Channel = require('js/channel/Channel');
     
     var ChannelList = Backbone.Collection.extend({
-        url: '',
+        url: '/channel',
         model: Channel
     });
     

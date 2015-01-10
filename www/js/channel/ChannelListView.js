@@ -15,10 +15,12 @@ define(function(require, exports, module){
 			};
 			
 			this.channels.on('add', this.renderChannel, this);
+			this.channels.on('reset', this.render, this);
+			this.channels.fetch({reset: true});
 			
 			this.newChanDlg = new NewChannelDialog();
-//            this.channels.fetch();
         },
+		
         events: {
             'click #showAddChanDlgBtn': 'openAddChannelDlg',
 			'click dd': 'selectChannel'
@@ -26,6 +28,16 @@ define(function(require, exports, module){
 		
 		getModel: function() {
 			return this.channels;
+		},
+		
+		render: function(){
+			var listView = this.$el.find('dl');
+			listView.empty();
+			listView.append('<dd class="active"><a href="#panel1">Global</a></dd>');
+			
+			for(var index = 0, len = this.channels.length; index < len; index++) {
+				listView.append('<dd><a href="#panel4" style="background: transparent;">' + this.channels.at(index).get('name') + '</a></dd>');
+			}
 		},
 		
 		renderChannel: function(channel){
@@ -42,7 +54,7 @@ define(function(require, exports, module){
 			this.$el.find('dl dd').each(function(index, elem){
 				$(elem).removeClass('active');
 				$(elem).find('a').attr('style', 'background: transparent;');
-			})
+			});
 			// switch message list
 			$(evt.currentTarget).addClass('active');
 			$(evt.currentTarget).find('a').attr('style', '');

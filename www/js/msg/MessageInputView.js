@@ -22,6 +22,12 @@ define(function(require, exports, module){
 			};
 			global.wsconn.sendMessage(JSON.stringify(msg));
 			this.inputText.value = '';
+		},
+		
+		clear: function(){
+			this.stopListening();
+			this.off();
+			this.undelegateEvents();
 		}
 	});
 	

@@ -30,7 +30,14 @@ define(function (require, exports, module) {
                 this.$el = $('.main .message_area .body');
             }
             this.$el.append(msgView.render());
-        }
+        },
+		
+		clear: function(){
+			this.inputView.clear();
+			this.stopListening();
+			this.off();
+			this.undelegateEvents();
+		}
     });
 
     return MessageBoard;

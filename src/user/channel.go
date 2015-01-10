@@ -1,5 +1,9 @@
 package user
 
+import (
+	"event"
+)
+
 type Channel struct {
 	Name    string
 	Users   []*User
@@ -11,12 +15,14 @@ func (this *Channel) AddUser(newUser *User) {
 		this.Users = make([]*User, 0)
 	}
 	this.Users = append(this.Users, newUser)
+	event.Trigger("channel:user:change", nil, nil)
 }
 
 func (this *Channel) RemoveUser(u *User) {
 	for index := 0; index < len(this.Users); index++ {
 		if this.Users[index].Name == u.Name {
 			this.Users = append(this.Users[:index], this.Users[index+1:]...)
+			event.Trigger("channel:user:change", nil, nil)
 			return
 		}
 	}
@@ -26,6 +32,7 @@ var channels = make([]*Channel, 0)
 
 func AddChannel(channel *Channel) {
 	channels = append(channels, channel)
+	event.Trigger("channel:add", nil, nil)
 }
 
 func RemoveChannelByName(chanName string) {
@@ -44,4 +51,8 @@ func FindChannelByName(chanName string) *Channel {
 		}
 	}
 	return nil
+}
+
+func AllChannels() []*Channel {
+	return channels
 }
