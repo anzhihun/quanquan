@@ -97,10 +97,10 @@ body {
     width: 100%;
     position: relative;
     margin: 0.5em 0 0 0;
+	float: left;
 }
 
 .message_head {
-    position: relative;
     float: left;
 }
 
@@ -112,10 +112,9 @@ body {
 }
 
 .message_container {
-    position: relative;
-    float: left;
     clear: right;
     line-height: 1em;
+	margin-left: 48px;
 }
 
 .message_tip {
@@ -132,7 +131,8 @@ body {
 }
 
 .message_content {
-    
+    width: inherit;
+	word-break: break-all;
 }
 
 /*------user item -------*/
