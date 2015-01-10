@@ -70,3 +70,16 @@ func Broadcast2AllClient(content []byte) {
 	}
 
 }
+
+func SendMsg2Client(clientId string, content []byte) {
+	fmt.Printf("send to client %s : %s\n", clientId, string(content))
+	for i := 0; i < len(clientConnectors); i++ {
+		if clientConnectors[i].IsMe(clientId) {
+			if err := websocket.Message.Send(clientConnectors[i].conn, string(content)); err != nil {
+				fmt.Println("send msg to client error: ", err.Error())
+				// log.GetLogger().Warning(fmt.Sprintf("rtMsg Send failed\n remote address:%s\n clientId:%d\n message:%s\n error:%s\n", self.connection.RemoteAddr().String(), self.clientId, msg, err.Error()))
+			}
+			return
+		}
+	}
+}

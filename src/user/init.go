@@ -68,5 +68,5 @@ func storeAllChannel(ewValue, oldValue interface{}) {
 		return
 	}
 
-	storage.StoreUsers(channelBuffer.Bytes())
+	storage.StoreChannels(channelBuffer.Bytes())
 }

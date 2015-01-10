@@ -50,7 +50,7 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	if content, err := json.Marshal(msg); err != nil {
 		http.Error(rw, "marshal broadcast channel msg error!", 500)
 	} else {
-		conn.Broadcast2AllClient(content)
+		conn.SendMsg2Client(newChannel.Creator, content)
 	}
 
 }
