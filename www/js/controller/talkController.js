@@ -76,6 +76,7 @@ define(function(require, exports, module){
 				}
 			}
 			
+			msg.content = msg.content.replace(new RegExp('\n', 'gm'), '<br>');
             var textMessage = new TalkMessage({
 				user: {
 					name: msg.sender,
