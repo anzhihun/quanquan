@@ -42,7 +42,7 @@ func (this *rtMessageController) listenRTConnect(ws *websocket.Conn) {
 		if msgData, err := utils.DecodeJsonMsg(recvMsg); err != nil { //解析json字符串
 			// reportRtMsgError(errors.RtMsgError{self.connection.RemoteAddr().String(), self.clientId, "ultils.DecodeJsonMsg", err.Error(), "无法处理消息，消息解析失败！"}, self.connection)
 			continue
-		} else if msgType, ok := msgData["MsgType"].(string); !ok { //解析消息类型
+		} else if msgType, ok := msgData["msgType"].(string); !ok { //解析消息类型
 			// reportRtMsgError(errors.RtMsgError{self.connection.RemoteAddr().String(), self.clientId, "parse recvMsg", "can not parse msg type", "无法处理消息，消息类型解析失败！"}, self.connection)
 		} else { //根据消息类型进一步解析消息内容
 			this.handMessage(msgType, msgData, recvMsg)

@@ -3,6 +3,7 @@ define(function (require, exports, module) {
 
     var TalkMessageCollection = require('js/msg/TalkMessageCollection');
     var TalkMessageView = require('js/msg/TalkMessageView');
+	var MessageInputView = require('js/msg/MessageInputView');
     
     var MessageBoard = Backbone.View.extend({
         initialize: function () {
@@ -11,6 +12,8 @@ define(function (require, exports, module) {
             this.messages.on('reset', this.render, this);
             this.messages.fetch();
             this.$el = $('.main .message_area .body');
+			
+			this.inputView = new MessageInputView();
         },
         
         render: function(){

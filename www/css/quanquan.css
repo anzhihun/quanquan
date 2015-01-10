@@ -126,6 +126,11 @@ body {
     color: #ccc;
 }
 
+.message_tip .message_name {
+	font-weight: 700;
+	color: #999;
+}
+
 .message_content {
     
 }

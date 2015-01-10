@@ -5,11 +5,9 @@ define(function(require, exports, module){
     var MessageItemTemplate = require('text!/view/messageItem.html');
     var messageContainer = $('.main .message_area .body'),
 		TalkMessage = require('js/msg/TalkMessage'),
-		TalkMessageView = require('js/msg/TalkMessageView'),
-        MessageBoard = require('js/msg/MessageBoard');
+		TalkMessageView = require('js/msg/TalkMessageView');
     
-    var messageBoard = new MessageBoard();
-    
+	var messageBoard = null;
     // msg handlers 
     var handlers = [{
         msgType: 'join',
@@ -69,13 +67,25 @@ define(function(require, exports, module){
     }, {
         msgType: 'talk',
         handle: function(msg) {
-            var curDate = new Date();
-            messageContainer.append(Mustache.render(MessageItemTemplate, {
-                headImg: msg.HeadImg,
-                name: msg.From,
-                datetime: curDate.toLocaleDateString() + ' ' + curDate.toLocaleTimeString(),
-                content: msg.Content
-            }));
+			var userList = global.mainframe.getUserListView().getUsers();
+			var iconUrl = '';
+			for(var index = 0, len = userList.length; index < len; index++) {
+				if (userList.at(index).get('name') === msg.sender) {
+					iconUrl = userList.at(index).get('iconUrl');
+					break;
+				}
+			}
+			
+            var textMessage = new TalkMessage({
+				user: {
+					name: msg.sender,
+					iconUrl: iconUrl
+				},
+				content: msg.content,
+				dataTime: new Date().getTime()
+			});
+            
+            messageBoard.getModel().add(textMessage);
         }
     }];
     
@@ -84,29 +94,19 @@ define(function(require, exports, module){
         if (messageContainer.length === 0) {
             messageContainer = $('.main .message_area .body');
         }
-        
+		
+		messageBoard = messageBoard || global.mainframe.getMessageBoard();
+		
         for (var index = 0, len = handlers.length; index < len; index++) {
-            if (handlers[index].msgType === msg.MsgType) {
+            if (handlers[index].msgType === msg.msgType) {
                 handlers[index].handle(msg);
-                return;
-            }
-        }
-    }
-    
-    function accept(msg) {
-        if (msg === null || msg === undefined ) {
-            return false;
-        }
-        
-        for (var index = 0, len = handlers.length; index < len; index++) {
-            if (handlers[index].msgType === msg.MsgType) {
                 return true;
             }
         }
-        
-        return false;
+		
+		return false;
     }
     
+    
     exports.handle = handle;
-    exports.accept = accept;
 });

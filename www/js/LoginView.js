@@ -1,7 +1,6 @@
 define(function(require, exports, module){
   'use strict';
-  var LoginHtml = require('text!/view/login.html'),
-      Context = require('js/context');
+  var LoginHtml = require('text!/view/login.html');
   
   var LoginView = Backbone.View.extend({
     initialize: function(option){
@@ -26,7 +25,7 @@ define(function(require, exports, module){
       })).done(function(){
           //TODO switch to main window
           $('#signInPanel .error').hide();
-          Context.currentUser = userName;
+          global.currentUser = userName;
           self.switch2Mainframe();
       }).fail(function(){
           //TODO  show errors
@@ -44,7 +43,7 @@ define(function(require, exports, module){
       })).done(function(){
           //TODO switch to main window
           $('#signUpPanel .error').hide();
-          Context.currentUser = userName;
+          global.currentUser = userName;
           self.switch2Mainframe();
       }).fail(function(obj){
           //TODO  show errors

@@ -5,6 +5,19 @@ require.config({
     }
 });
 
+var global = {
+	currentUser: '',
+	wsconn: null,
+	/**
+	 * @type {name: , isChannel: false}
+	 */
+	currentTalkTarget: null,
+	
+	/**
+	 *@type {Mainframe}
+	 */
+	mainframe: null
+};
 
 define(function (require) {
     'use strict';
@@ -13,19 +26,18 @@ define(function (require) {
         WSMsgHandler = require('js/WSMsgHandler'),
         
         LoginView = require('js/LoginView'),
-		Mainframe = require('js/Mainframe'),
-        Context = require('js/context');
+		Mainframe = require('js/Mainframe');
 	
-    var mainframe = new Mainframe();
+    global.mainframe = new Mainframe();
     var loginView = new LoginView(function(){
-        Context.wsconn = createWebsocket(function(){
-          mainframe.show();
+        global.wsconn = createWebsocket(function(){
+          global.mainframe.show();
         });
     }); 
 	
     function createWebsocket(callbackOnConn) {
         var url = document.domain,
-            wsUrl = 'ws://' + url + ':52013/rtmsg?id=' + Context.currentUser ;
+            wsUrl = 'ws://' + url + ':52013/rtmsg?id=' + global.currentUser ;
         return new WSConnector(wsUrl, new WSMsgHandler(), callbackOnConn);
     }
 });

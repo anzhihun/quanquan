@@ -27,6 +27,9 @@ define(function(require, exports, module){
 		refresh: function(){
 			this.model.url = '/user?channel=global';
 			this.model.fetch();
+		},
+		getUsers: function() {
+			return this.model;
 		}
 	});
 

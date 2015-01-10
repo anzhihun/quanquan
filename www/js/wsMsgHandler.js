@@ -17,8 +17,8 @@ define(function (require) {
         }
         
         var msgObj = JSON.parse(msg);
-        if (TalkController.accept(msgObj)) {
-            TalkController.handle(msgObj);
+        if (TalkController.handle(msgObj)) {
+            return;
         } else if (UserController.accept(msgObj)){
             UserController.handle(msgObj);
         }else {
