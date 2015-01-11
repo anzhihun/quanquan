@@ -49,6 +49,7 @@ define(function (require, exports, module) {
 		},
 		
 		clear: function(){
+			this.inviteUserDlg.clear();
 			this.stopListening();
 			this.off();
 			this.undelegateEvents();

@@ -7,6 +7,7 @@ define(function(require, exports, module){
 	var InviteUserDlg = Backbone.View.extend({
 		el: '#inviteUserDialog',
 		initialize: function(){
+			this.clear();
 			this.model = new UserList();
 			this.model.on('reset', this.render, this);
 		},
@@ -17,15 +18,33 @@ define(function(require, exports, module){
 			}});
 		},
 		
-		events: {
-			'click .button': 'inviteUsers'
-		},
-		
 		inviteUsers: function(){
-			//TODO 
+			var inviteUserNames = [];
+			var userName = '';
+			this.$el.find('input').each(function(index, elem){
+				if (elem.checked) {
+					userName = $(elem).parent().find('a').text().trim();
+					inviteUserNames.push(userName);
+				}
+			});
+			
+			// send request 
+			var self = this;
+			$.post('/channel/inviteUser', JSON.stringify({
+			  userNames: inviteUserNames,
+			  channelName: global.currentTalkTarget.name,
+			  inviter: global.currentUser.name
+			})).done(function(user){
+			  //TODO switch to main window
+				self.close();
+			}).fail(function(){
+			  //TODO  show errors
+				self.close();
+			});
 		},
 		
 		render: function() {
+			this.clear();
 			this.$el.empty();
 			var users = [];
 			var userModel = this.model;
@@ -39,12 +58,20 @@ define(function(require, exports, module){
 				users: users
 			});
 			this.$el.append(dlgHtml);
+			this.$el.find('.button').click(this.inviteUsers.bind(this));
 		},
 		
 		close: function() {
 			this.$el.foundation('reveal', 'close');
 			this.$el.empty();
-		}						
+		},
+		
+		clear: function() {
+			this.$el.empty();
+			this.stopListening();
+			this.off();
+			this.undelegateEvents();
+		}
 	});
 	
 	return InviteUserDlg;
