@@ -5,7 +5,7 @@ define(function(require){
 	
 	var UserList = Backbone.Collection.extend({
 		model: User,
-		url: '/user?channel=global'
+		url: '/user?channel=Global'
 	});
 	
 	return UserList;
