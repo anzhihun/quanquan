@@ -60,22 +60,25 @@ func (this *rtMessageController) listenToViewMessage() {
 
 func (this *rtMessageController) handMessage(msgType string,
 	msgData map[string]interface{}, originMsg string) {
+
+	receiver := msgData["receiver"].(string)
 	switch msgType {
 	case entity.WS_MSGTYPE_TALK:
 		// event.Trigger("agent:msg", msgData, nil)
 		if msgData["is2P"].(bool) {
-			conn.SendMsg2Client(msgData["receiver"].(string), []byte(originMsg))
+			conn.SendMsg2Client(receiver, []byte(originMsg))
+		} else if receiver == "Global" {
+			conn.Broadcast2AllClient([]byte(originMsg))
 		} else {
-			sendMsg2ClientThroughChannel(msgData["receiver"].(string), []byte(originMsg))
+			sendMsg2ClientThroughChannel(receiver, []byte(originMsg))
 		}
-
-		conn.Broadcast2AllClient([]byte(originMsg))
 		break
 	}
 
 }
 
 func sendMsg2ClientThroughChannel(channelName string, content []byte) {
+	fmt.Println("send msg to channel ", channelName)
 	var channel = user.FindChannelByName(channelName)
 	if channel == nil {
 		return

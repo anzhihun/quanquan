@@ -61,7 +61,7 @@ func RemoveClientConnector(id string) {
 }
 
 func Broadcast2AllClient(content []byte) {
-	fmt.Println("send to client: ", string(content))
+	fmt.Println("send to all client: ", string(content))
 	for i := 0; i < len(clientConnectors); i++ {
 		if err := websocket.Message.Send(clientConnectors[i].conn, string(content)); err != nil {
 			fmt.Println("send msg to client error: ", err.Error())

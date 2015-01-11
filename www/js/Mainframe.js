@@ -10,7 +10,7 @@ define(function (require, exports, module) {
 			document.body.innerHTML = MainWindowHtml;
 			this.$el = $(document);
 			$(document).foundation();
-			
+
 			$('#curUser').find('img')[0].src = global.currentUser.iconUrl;
 			$('#curUser').find('span')[0].innerHTML = global.currentUser.name;
 			

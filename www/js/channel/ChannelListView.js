@@ -10,7 +10,7 @@ define(function(require, exports, module){
             // TODO get channel list from server
             this.channels = new ChannelList(global.currentUser.name);
 			global.currentTalkTarget = {
-				name: 'global',
+				name: 'Global',
 				isChannel: true
 			};
 			
@@ -60,6 +60,11 @@ define(function(require, exports, module){
 			$(evt.currentTarget).find('a').attr('style', '');
 			
 			global.mainframe.switchChannel(channelName);
+			
+			global.currentTalkTarget = {
+				name: channelName,
+				isChannel: true
+			};
 		}
     });
     
