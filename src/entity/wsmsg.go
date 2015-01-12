@@ -1,10 +1,11 @@
 package entity
 
 const (
-	WS_MSGTYPE_TALK        = "talk"
-	WS_MSGTYPE_ONLINE      = "online"
-	WS_MSGTYPE_NEW_USER    = "newUser"
-	WS_MSGTYPE_NEW_CHANNEL = "newChannel"
+	WS_MSGTYPE_TALK              = "talk"
+	WS_MSGTYPE_ONLINE            = "online"
+	WS_MSGTYPE_NEW_USER          = "newUser"
+	WS_MSGTYPE_NEW_CHANNEL       = "newChannel"
+	WS_MSGTYPE_INVITE_TO_CHANNEL = "invite2Channel"
 
 	WS_MSGCONTENT_TYPE_TEXT = "text"
 )
@@ -40,4 +41,12 @@ type WSAckNewUser struct {
 type WSAckNewChannel struct {
 	MsgType string       `json:"msgType"`
 	Channel WSAckChannel `json:"channel"`
+}
+
+type WSAckInvite2Channel struct {
+	MsgType     string `json:"msgType"`
+	Inviter     string `json:"inviter"`
+	ChannelName string `json:"channelName"`
+	ServerId    uint64 `json:"serverId"`
+	Datetime    int64  `json:"datetime"`
 }

@@ -4,9 +4,11 @@ import (
 	"conn"
 	"encoding/json"
 	"entity"
+	"fmt"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
+	"time"
 	"user"
 	"utils"
 )
@@ -70,6 +72,35 @@ func (this *ChannelContext) getChannels(rw web.ResponseWriter, req *web.Request)
 		http.Error(rw, "marshal ack channels error! "+err.Error(), 500)
 	} else {
 		rw.Write(content)
+	}
+
+}
+
+func (this *ChannelContext) inviteUserToChannel(rw web.ResponseWriter, req *web.Request) {
+	result, _ := ioutil.ReadAll(req.Body)
+	req.Body.Close()
+	fmt.Println("invite user to channel: ", string(result))
+	params, _ := utils.DecodeJsonMsg(string(result))
+	fmt.Printf("invite user to channel's users: %#v \n", params["userNames"])
+
+	ackMsg := entity.WSAckInvite2Channel{
+		MsgType:     entity.WS_MSGTYPE_INVITE_TO_CHANNEL,
+		Inviter:     params["inviter"].(string),
+		ChannelName: params["channelName"].(string),
+		ServerId:    0,
+		Datetime:    time.Now().Unix(),
+	}
+
+	ackContent, err := json.Marshal(ackMsg)
+	if err != nil {
+		http.Error(rw, "marshal invite msg error! "+err.Error(), 500)
+		return
+	}
+
+	userNames := params["userNames"].([]interface{})
+	for _, userName := range userNames {
+		name := userName.(string)
+		conn.SendMsg2Client(name, ackContent)
 	}
 
 }
