@@ -7,6 +7,9 @@ define(function (require, exports, module) {
 		MessageInputView = require('js/msg/MessageInputView');
   
 	var Mainframe = Backbone.View.extend({
+		initialize: function(){
+			this._msgBoards = {};
+		},
 		show: function () {
 			document.body.innerHTML = MainWindowHtml;
 			this.$el = $(document);
@@ -17,6 +20,8 @@ define(function (require, exports, module) {
 			
 			this.channelListView = new ChannelListView();
 			this.messageBoard = new MessageBoard('Global');
+			this._msgBoards['chan::Global'] = this.messageBoard;
+			this.messageBoard.show();
 
 			this.userListView = new UserListView('Global');
 			this.userListView.refresh();
@@ -25,22 +30,36 @@ define(function (require, exports, module) {
 		},
 		
 		switchChannel: function(channelName) {
-			// change message board and user list
-			
-			if (this.messageBoard) {
-				this.messageBoard.clear();
+			// check
+			if (this._msgBoards['chan::'+channelName] === this.messageBoard) {
+				return;
 			}
+			
+			// change message board and user list
 			if (this.userListView) {
 				this.userListView.clear();
 			}
 			
-			this.messageBoard = new MessageBoard(channelName);
+			this.messageBoard.hide();
+			if (this._msgBoards['chan::'+channelName]) {
+				this.messageBoard = this._msgBoards['chan::'+channelName];
+			} else {
+				this.messageBoard = new MessageBoard(channelName);
+				// cache
+				this._msgBoards['chan::'+channelName] = this.messageBoard;
+			}
+			this.messageBoard.show();
+			
 			this.userListView = new UserListView(channelName);
 			this.userListView.refresh();
 		},
 		
-		getMessageBoard: function(){
-			return this.messageBoard;
+		getMessageBoard: function(boardId){
+			return this._msgBoards[boardId];
+		},
+		
+		getCurrentMessageBoard: function(){
+			return this._msgBoards['chan::'+global.currentTalkTarget.name];
 		},
 		
 		getUserListView: function(){

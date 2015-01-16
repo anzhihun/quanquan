@@ -33,8 +33,9 @@ define(function (require, exports) {
 				content: msg.content,
 				dataTime: new Date().getTime()
 			});
-
-			global.mainframe.getMessageBoard().getModel().add(textMessage);
+			
+			// future: we should send msg to all channel which the user is belong to 
+			global.mainframe.getMessageBoard('chan::Global').getModel().add(textMessage);
 		}
     }, {
 		msgType: 'join',

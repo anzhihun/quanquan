@@ -17,8 +17,13 @@ define(function(require, exports, module){
 				content: msg.content,
 				dataTime: new Date().getTime()
 			});
-            
-            global.mainframe.getMessageBoard().getModel().add(textMessage);
+			var msgBoardId = '';
+			if (msg.is2P) {
+				msgBoardId = 'p2p::' + msg.receiver;
+			} else {
+				msgBoardId = 'chan::' + msg.receiver;
+			}
+            global.mainframe.getMessageBoard(msgBoardId).getModel().add(textMessage);
         }
     }];
     
