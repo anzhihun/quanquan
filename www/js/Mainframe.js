@@ -3,7 +3,8 @@ define(function (require, exports, module) {
 	var MainWindowHtml = require('text!/view/mainWindow.html'),
 		UserListView = require('js/user/UserlistView'),
 		ChannelListView = require('js/channel/ChannelListView'),
-		MessageBoard = require('js/msg/MessageBoard');
+		MessageBoard = require('js/msg/MessageBoard'),
+		MessageInputView = require('js/msg/MessageInputView');
   
 	var Mainframe = Backbone.View.extend({
 		show: function () {
@@ -19,6 +20,8 @@ define(function (require, exports, module) {
 
 			this.userListView = new UserListView('Global');
 			this.userListView.refresh();
+			
+			this.inputView = new MessageInputView();
 		},
 		
 		switchChannel: function(channelName) {
