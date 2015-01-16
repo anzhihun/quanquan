@@ -53,6 +53,7 @@ define(function (require, exports, module) {
 			this.stopListening();
 			this.off();
 			this.undelegateEvents();
+			this.$el.empty();
 		}
 	});
 

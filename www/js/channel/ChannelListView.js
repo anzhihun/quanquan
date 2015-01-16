@@ -49,12 +49,17 @@ define(function(require, exports, module){
             this.newChanDlg.open();
         },
 		
-		selectChannel: function(evt){
-			var channelName = $(evt.currentTarget).text();
+		unselectAll: function() {
 			this.$el.find('dl dd').each(function(index, elem){
 				$(elem).removeClass('active');
 				$(elem).find('a').attr('style', 'background: transparent;');
 			});
+		},
+		
+		selectChannel: function(evt){
+			var channelName = $(evt.currentTarget).text();
+			this.unselectAll();
+		
 			// switch message list
 			$(evt.currentTarget).addClass('active');
 			$(evt.currentTarget).find('a').attr('style', '');

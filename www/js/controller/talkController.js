@@ -20,8 +20,28 @@ define(function(require, exports, module){
 			var msgBoardId = '';
 			if (msg.is2P) {
 				msgBoardId = 'p2p::' + msg.receiver;
+				if (!global.mainframe.getMessageBoard(msgBoardId)) {
+					global.mainframe.addDirectDialogue(msg.sender);
+				}
 			} else {
 				msgBoardId = 'chan::' + msg.receiver;
+			}
+            global.mainframe.getMessageBoard(msgBoardId).getModel().add(textMessage);
+        }
+    }, {
+        msgType: 'invite2Channel',
+        handle: function(msg) {
+            var textMessage = new TalkMessage({
+				user: {
+					name: msg.inviter,
+					iconUrl: getUrl(msg.inviter)
+				},
+				content: msg.inviter + ' invite you join in the channel ' + msg.channelName,
+				dataTime: new Date().getTime()
+			});
+			var msgBoardId = 'p2p::system';
+			if (!global.mainframe.getMessageBoard(msgBoardId)) {
+				global.mainframe.addDirectDialogue('system');
 			}
             global.mainframe.getMessageBoard(msgBoardId).getModel().add(textMessage);
         }

@@ -3,6 +3,7 @@ define(function (require, exports, module) {
 	var MainWindowHtml = require('text!/view/mainWindow.html'),
 		UserListView = require('js/user/UserlistView'),
 		ChannelListView = require('js/channel/ChannelListView'),
+		DirectListView = require('js/channel/DirectListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
 		MessageInputView = require('js/msg/MessageInputView');
   
@@ -22,6 +23,8 @@ define(function (require, exports, module) {
 			this.messageBoard = new MessageBoard('Global');
 			this._msgBoards['chan::Global'] = this.messageBoard;
 			this.messageBoard.show();
+			
+			this.directListView = new DirectListView();
 
 			this.userListView = new UserListView('Global');
 			this.userListView.refresh();
@@ -34,6 +37,8 @@ define(function (require, exports, module) {
 			if (this._msgBoards['chan::'+channelName] === this.messageBoard) {
 				return;
 			}
+			
+			this.directListView.unselectAll();
 			
 			// change message board and user list
 			if (this.userListView) {
@@ -52,6 +57,38 @@ define(function (require, exports, module) {
 			
 			this.userListView = new UserListView(channelName);
 			this.userListView.refresh();
+		},
+		
+		switch2DirectDialogue: function(userName) {
+			// check
+			var boardId = 'p2p::'+userName;
+			if (this._msgBoards[boardId] === this.messageBoard) {
+				return;
+			}
+			
+			this.channelListView.unselectAll();
+			
+			// change message board and user list
+			if (this.userListView) {
+				this.userListView.clear();
+				this.userListView = null;
+			}
+			
+			this.messageBoard.hide();
+			if (this._msgBoards[boardId]) {
+				this.messageBoard = this._msgBoards[boardId];
+			} else {
+				this.messageBoard = new MessageBoard(userName);
+				// cache
+				this._msgBoards[boardId] = this.messageBoard;
+			}
+			this.messageBoard.show();
+		},
+		
+		addDirectDialogue: function(userName){
+			this.directListView.addDialogue(userName);
+			this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
+//			this.directListView.selectDialogue(userName);
 		},
 		
 		getMessageBoard: function(boardId){

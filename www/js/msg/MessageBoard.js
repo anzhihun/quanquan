@@ -12,7 +12,12 @@ define(function (require, exports, module) {
             this.messages = new TalkMessageCollection(channelName);
             this.messages.on('add', this.addMsg, this);
             this.messages.on('reset', this.render, this);
-            this._isAdded = false;
+			
+			this.$el.css({'display': 'none'});
+			this.$el.insertBefore($('.main .send_area'));
+			this.$el[0].innerHTML = '<h1>Messages: </h1><div class="body"> </div>';
+			
+			this.messages.fetch();
         },
         
         render: function(){
@@ -23,12 +28,6 @@ define(function (require, exports, module) {
 		},
 		
 		show: function(){
-			if (this._isAdded === false) {
-				this.$el.insertBefore($('.main .send_area'));
-				this.$el[0].innerHTML = '<h1>Messages: </h1><div class="body"> </div>';
-				this._isAdded = true;
-			}
-			this.messages.fetch();
 			this.$el.css({'display': 'block'});
 		},
         
