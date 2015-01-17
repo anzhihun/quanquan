@@ -19,7 +19,7 @@ define(function(require, exports, module){
 			});
 			var msgBoardId = '';
 			if (msg.is2P) {
-				msgBoardId = 'p2p::' + msg.receiver;
+				msgBoardId = 'p2p::' + msg.sender;
 				if (!global.mainframe.getMessageBoard(msgBoardId)) {
 					global.mainframe.addDirectDialogue(msg.sender);
 				}
@@ -48,7 +48,7 @@ define(function(require, exports, module){
     }];
     
 	function getUrl(userName) {
-		var userList = global.mainframe.getUserListView().getUsers();
+		var userList = global.allUsers;
 		var iconUrl = '/images/defaultHead.png';
 		for (var index = 0, len = userList.length; index < len; index++) {
 			if (userList.at(index).get('name') === userName) {

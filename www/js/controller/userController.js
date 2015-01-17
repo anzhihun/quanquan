@@ -4,7 +4,7 @@ define(function (require, exports) {
 	var TalkMessage = require('js/msg/TalkMessage');
 	
 	function getUrl(userName) {
-		var userList = global.mainframe.getUserListView().getUsers();
+		var userList = global.allUsers;
 		var iconUrl = '/images/defaultHead.png';
 		for (var index = 0, len = userList.length; index < len; index++) {
 			if (userList.at(index).get('name') === userName) {

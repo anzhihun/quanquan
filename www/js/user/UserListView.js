@@ -25,6 +25,10 @@ define(function (require, exports, module) {
 				this.$el.append(userItemView.render());
 			}
 			
+			if (this.channelName === 'Global') {
+				global.allUsers = this.model;
+			}
+			
 			this.inviteUserDlg = new InviteUserDlg();
 		},
 		events: {

@@ -20,7 +20,13 @@ var global = {
 	/**
 	 *@type {Mainframe}
 	 */
-	mainframe: null
+	mainframe: null,
+	
+	/**
+	 * @type {UserList}
+	 * 
+	 */
+	allUsers: null
 };
 
 define(function (require) {
