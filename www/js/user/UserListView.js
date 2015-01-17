@@ -28,9 +28,13 @@ define(function (require, exports, module) {
 			this.inviteUserDlg = new InviteUserDlg();
 		},
 		events: {
-			'click #inviteUsers': 'openInviteUserDlg'
+			'click #inviteUsers': 'openInviteUserDlg',
+			'click .talk_button': 'onTalkButtonClick'
 		},
-		
+		onTalkButtonClick: function(evt){
+			var userName = $(evt.currentTarget).parent().find('.user_name').text().trim();
+			console.log('on onTalkButtonClick userName: ' + userName);
+		},
 		addUser: function (user) {
 			var userItemView = new UserItemView();
 			userItemView.model = user;
