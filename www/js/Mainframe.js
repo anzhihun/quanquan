@@ -91,6 +91,10 @@ define(function (require, exports, module) {
 //			this.directListView.selectDialogue(userName);
 		},
 		
+		getDirectListView: function(){
+			return this.directListView;	
+		},
+		
 		getMessageBoard: function(boardId){
 			return this._msgBoards[boardId];
 		},

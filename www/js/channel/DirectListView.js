@@ -9,10 +9,18 @@ define(function(require, exports, module){
         events: {
 			'click dd': 'onDialogueClick'
         },
-		
+		initialize: function(){
+			this._userNames = [];	
+		},
 		addDialogue: function(userName) {
+			
+			if (this._userNames.indexOf(userName) !== -1) {
+				return;
+			}
+			
 			var $list = this.$el.find('dl');
 			$list.append('<dd><a href="#panel4" style="background: transparent;">' + userName + '</a></dd>');
+			this._userNames.push(userName);
 		},
 		
 		onDialogueClick: function(evt){

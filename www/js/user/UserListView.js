@@ -34,6 +34,8 @@ define(function (require, exports, module) {
 		onTalkButtonClick: function(evt){
 			var userName = $(evt.currentTarget).parent().find('.user_name').text().trim();
 			console.log('on onTalkButtonClick userName: ' + userName);
+			global.mainframe.addDirectDialogue(userName);
+			global.mainframe.getDirectListView().selectDialogue(userName);
 		},
 		addUser: function (user) {
 			var userItemView = new UserItemView();
