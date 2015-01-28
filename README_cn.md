@@ -14,8 +14,8 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 鉴于以上原因，自己决定弄一个开源的版本出来，以解决公司内部协作的问题。期望所有的内部系统都能集成到quanquan上来，quanquan成为一个前端的入口，也只用进入这个入口，就可以即时高效的处理各种工作任务。
 
 
-##如何运行
-1. 编译运行：进入build目录，如果是windows平台，请执行dist.bat。如果是linux或者Mac OS X平台，请执行dist.sh。在执行前，请先获取[第三方依赖包](#thirdparty)，若已经安装了，则不用再次获取安装。
+##如何使用
+1. 本地编译运行：进入build目录，如果是windows平台，请执行dist.bat。如果是linux或者Mac OS X平台，请执行dist.sh。在执行前，请先获取[第三方依赖包](#thirdparty)，若已经安装了，则不用再次获取安装。执行即可编译并运行服务器端程序，待启动完成后，在本地打开浏览器，并输入网址http://localhost:52013 即可打开登录页面。
 2. 可执行文件执行: 目前还没有发布版本，暂时只能自己在本地编译运行。
 
 ##<a name="thirdparty" id="thirdpartyt">第三方依赖包</a>
@@ -32,12 +32,12 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 详情参见[quanquan开发指南]()
 
 ##感谢
-1. [Underscore.JS](http://underscorejs.org/)
-2. [Backbone.JS](http://backbonejs.org/)
-3. [Foundation](http://foundation.zurb.com/)
-4. [Golang](https://golang.org/)
-5. [gocraft/web](https://github.com/gocraft/web)
-6. [tiedot](https://github.com/HouzuoGuo/tiedot)
+* [Underscore.JS](http://underscorejs.org/)
+* [Backbone.JS](http://backbonejs.org/)
+* [Foundation](http://foundation.zurb.com/)
+* [Golang](https://golang.org/)
+* [gocraft/web](https://github.com/gocraft/web)
+* [tiedot](https://github.com/HouzuoGuo/tiedot)
 
 ##开源协议
 [Apache License Version 2.0](LICENSE)
