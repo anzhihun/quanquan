@@ -1,6 +1,7 @@
 echo off 
 
 taskkill /f /t /im quanquan.exe
+del quanquan.exe
 
 set GOPATH=%GOPATH%;%~dp0
 echo %GOPATH%
