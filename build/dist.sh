@@ -1,7 +1,8 @@
 #!/bin/sh
-export GOPATH=$GOPATH:`pwd`/server
+export GOPATH=$GOPATH:`pwd`/../server
 
 killall quanquan
+cd ../
 rm -f client/quanquan
 
 go build -a -v -o client/quanquan server/src/main.go
