@@ -24,9 +24,21 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 3. [tiedot](https://github.com/HouzuoGuo/tiedot): 这是项目使用的数据库，执行命令 go get github.com/HouzuoGuo/tiedot 获取并安装到本地
 
 ##帮助我们
-1. 发现bug：请优先在已经存在的issue里面查找改bug是否已经有了，如果没有，麻烦提供重现bug的步骤，截图，期望结果，以及运行环境，包括操作系统，quanquan版本号等信息。
-2. 新建议：请优先在已经存在的issue里面查找是否已经存在了，如果没有，请新建issue，我们会尽快将确认。
+1. 发现bug：请优先在已经存在的[issues](https://github.com/anzhihun/quanquan/issues)里面查找改bug是否已经有了，如果没有，麻烦提供重现bug的步骤，截图，期望结果，以及运行环境，包括操作系统，quanquan版本号等信息。
+2. 新建议：请优先在已经存在的[issues](https://github.com/anzhihun/quanquan/issues)里面查找是否已经存在了，如果没有，请新建issue，我们会尽快将确认。
 3. 参与开发：非常的欢迎大家提交PR，为了帮助你更容易更好的参与开发，请参见[开发指南](#developGuide)
 
 ##<a name="developGuide" id="developGuide">开发指南</a>
 详情参见[quanquan开发指南]()
+
+##感谢
+1. [Underscore.JS](http://underscorejs.org/)
+2. [Backbone.JS](http://backbonejs.org/)
+3. [Foundation](http://foundation.zurb.com/)
+4. [Golang](https://golang.org/)
+5. [gocraft/web](https://github.com/gocraft/web)
+6. [tiedot](https://github.com/HouzuoGuo/tiedot)
+
+##开源协议
+[Apache License Version 2.0](LICENSE)
+
