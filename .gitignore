@@ -1,8 +1,4 @@
-quanquan.exe
-quanquan
-
+client/quanquan.exe
+client/quanquan
 *.a
-
-src/src
-
-.conf/.users
+client/.conf
