@@ -41,7 +41,7 @@ change it to the feature issue for you.
 Awesome! Please feel free to push your request. To make it more easy, please see [Develop Guide](#developGuide)
 
 ##<a name="developGuide" id="developGuide">Develop Guide</a>
-[Develop Guide]()
+[Develop Guide](https://github.com/anzhihun/quanquan/wiki/Develop-Guide)
 
 ##Credits
 * [Underscore.JS](http://underscorejs.org/)

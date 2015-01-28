@@ -29,7 +29,7 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 3. 参与开发：非常的欢迎大家提交PR，为了帮助你更容易更好的参与开发，请参见[开发指南](#developGuide)
 
 ##<a name="developGuide" id="developGuide">开发指南</a>
-详情参见[quanquan开发指南]()
+详情参见[quanquan开发指南](https://github.com/anzhihun/quanquan/wiki/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97)
 
 ##感谢
 * [Underscore.JS](http://underscorejs.org/)
