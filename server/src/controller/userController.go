@@ -14,6 +14,10 @@ import (
 	"utils"
 )
 
+type UserContext struct {
+	*RootContext
+}
+
 func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 	result, _ := ioutil.ReadAll(req.Body)
 	req.Body.Close()

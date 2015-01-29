@@ -3,7 +3,13 @@ package utils
 import (
 	"errors"
 	"os"
+	"path/filepath"
 )
+
+func GetRootDir() string {
+	rootDir, _ := os.Getwd()
+	return rootDir
+}
 
 func IsFileExist(path string) bool {
 	_, err := os.Stat(path)
@@ -79,4 +85,16 @@ func FileSize(path string) (int64, error) {
 		return -1, err
 	}
 	return fileInfo.Size(), nil
+}
+
+func MakePath(dirNames []string) string {
+	if dirNames == nil || len(dirNames) == 0 {
+		return ""
+	} else {
+		path := dirNames[0]
+		for i := 1; i < len(dirNames); i++ {
+			path = path + string(filepath.Separator) + dirNames[i]
+		}
+		return path
+	}
 }

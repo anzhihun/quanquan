@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gocraft/web"
 	"os"
 	"path/filepath"
@@ -10,21 +9,13 @@ import (
 type RootContext struct {
 }
 
-type UserContext struct {
-	*RootContext
-}
-
-type ChannelContext struct {
-	*RootContext
-}
-
 func Init() *web.Router {
 
 	rtMsgController.listenToViewMessage()
 
-	rootRouter := web.New(RootContext{}). // Create your rootRouter
-						Middleware(web.LoggerMiddleware). // Use some included middleware
-						Middleware(web.ShowErrorsMiddleware)
+	rootRouter := web.New(RootContext{}).
+		Middleware(web.LoggerMiddleware).
+		Middleware(web.ShowErrorsMiddleware)
 
 	// handle index request
 	rootRouter.Get("/", (*RootContext).GetIndex)
@@ -37,19 +28,33 @@ func Init() *web.Router {
 	// handle websocket requests
 	rootRouter.Middleware(webSocketMiddleware)
 
-	// handle user requests
+	// route user requests
+	initUserRouter(rootRouter)
+
+	// route channel requests
+	initChannelRouter(rootRouter)
+
+	// route resource requests
+	initResRouter(rootRouter)
+
+	return rootRouter
+}
+
+func initUserRouter(rootRouter *web.Router) {
 	userRouter := rootRouter.Subrouter(UserContext{}, "/user")
 	userRouter.Get("/", (*UserContext).GetUsers)
 	userRouter.Post("/login", (*UserContext).Login)
 	userRouter.Post("/signup", (*UserContext).SignUp)
+}
 
-	// handle channel requests
+func initChannelRouter(rootRouter *web.Router) {
 	channelRouter := rootRouter.Subrouter(ChannelContext{}, "/channel")
 	channelRouter.Post("/", (*ChannelContext).addChannel)
 	channelRouter.Get("/", (*ChannelContext).getChannels)
 	channelRouter.Post("/inviteUser", (*ChannelContext).inviteUserToChannel)
+}
 
-	fmt.Println("----out----")
-
-	return rootRouter
+func initResRouter(rootRouter *web.Router) {
+	resRouter := rootRouter.Subrouter(resController{}, "/res")
+	resRouter.Get("/language", (*resController).getLanguage)
 }

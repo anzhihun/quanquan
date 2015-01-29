@@ -1,10 +1,11 @@
 define(function(require, exports, module){
   'use strict';
-  var LoginHtml = require('text!/view/login.html');
+  var LoginHtml = require('text!/view/login.html'),
+      Mustache = require('js/thirdparty/mustache');
   
   var LoginView = Backbone.View.extend({
     initialize: function(option){
-      document.body.innerHTML = LoginHtml;
+      document.body.innerHTML = Mustache.render(LoginHtml, {strings: global.strings});
       this.$el = $(document);
       $(document).foundation();
       this.switch2Mainframe = option || function(){};

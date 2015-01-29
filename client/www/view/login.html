@@ -1,50 +1,50 @@
 <div style="text-align: center;max-width: 600px;margin: 0 auto;margin-top: 10em;">
     <dl class="tabs" data-tab>
-        <dd class="active"><a href="#signInPanel">Sign In </a></dd>
-        <dd><a href="#signUpPanel">Sign Up</a></dd>
+        <dd class="active"><a href="#signInPanel">{{strings.LOGIN_LBL_SIGN_IN}}</a></dd>
+        <dd><a href="#signUpPanel">{{strings.LOGIN_LBL_SIGN_UP}}</a></dd>
     </dl>
     <div class="tabs-content">
         <div class="content active" id="signInPanel">
             <div class="row collapse">
                 <div class="small-3 large-2 columns">
-                    <span class="prefix">User Name</span>
+                    <span class="prefix">{{strings.LOGIN_LBL_USER_NAME}}</span>
                 </div>
                 <div class="small-9 large-10 columns">
-                    <input type="text" placeholder="Enter your name...">
+                    <input type="text" placeholder="{{strings.LOGIN_TIP_ENTER_NAME}}">
                 </div>
             </div>
 
             <div class="row collapse">
                 <div class="small-3 large-2 columns">
-                    <span class="prefix">Password</span>
+                    <span class="prefix">{{strings.LOGIN_LBL_PASSWORD}}</span>
                 </div>
                 <div class="small-9 large-10 columns">
-                    <input type="password" placeholder="Enter your password...">
+                    <input type="password" placeholder="{{strings.LOGIN_TIP_ENTER_PWD}}">
                 </div>
             </div>
-            <small class="error" style="display:none;">Invalid user name or password</small>
-            <a class="button" style="position: relative;float: right;"> Go </a>
+            <small class="error" style="display:none;">{{strings.LOGIN_ERR_INVALID}}</small>
+            <a class="button" style="position: relative;float: right;"> {{strings.LOGIN_BTN_OK}} </a>
         </div>
         <div class="content" id="signUpPanel">
             <div class="row collapse">
                 <div class="small-3 large-2 columns">
-                    <span class="prefix">User Name</span>
+                    <span class="prefix">{{strings.LOGIN_LBL_USER_NAME}}</span>
                 </div>
                 <div class="small-9 large-10 columns">
-                    <input type="text" placeholder="Enter your name...">
+                    <input type="text" placeholder="{{strings.LOGIN_TIP_ENTER_NAME}}">
                 </div>
             </div>
 
             <div class="row collapse">
                 <div class="small-3 large-2 columns">
-                    <span class="prefix">Password</span>
+                    <span class="prefix">{{strings.LOGIN_LBL_PASSWORD}}</span>
                 </div>
                 <div class="small-9 large-10 columns">
-                    <input type="password" placeholder="Enter your password...">
+                    <input type="password" placeholder="{{strings.LOGIN_TIP_ENTER_PWD}}">
                 </div>
             </div>
             <small class="error" style="display:none;"></small>
-            <a class="button" style="position: relative;float: right;"> Go </a>
+            <a class="button" style="position: relative;float: right;"> {{strings.LOGIN_BTN_OK}} </a>
         </div>
     </div>
 </div>

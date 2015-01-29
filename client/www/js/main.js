@@ -26,18 +26,25 @@ var global = {
 	 * @type {UserList}
 	 * 
 	 */
-	allUsers: null
+	allUsers: null,
+    
+    /**
+     * @type {Object}
+     * view strings
+     */
+    strings: ""
 };
 
 define(function (require) {
     'use strict';
-
+    
     var WSConnector = require('js/wsConnector'),
         WSMsgHandler = require('js/WSMsgHandler'),
-        
+
         LoginView = require('js/LoginView'),
 		Mainframe = require('js/Mainframe');
 	
+    global.strings = require('/res/language');
     global.mainframe = new Mainframe();
     var loginView = new LoginView(function(){
         global.wsconn = createWebsocket(function(){

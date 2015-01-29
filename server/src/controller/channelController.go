@@ -13,6 +13,10 @@ import (
 	"utils"
 )
 
+type ChannelContext struct {
+	*RootContext
+}
+
 func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) {
 	result, _ := ioutil.ReadAll(req.Body)
 	req.Body.Close()
