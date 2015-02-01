@@ -2,3 +2,7 @@ client/quanquan.exe
 client/quanquan
 *.a
 client/.conf
+
+quanquan
+
+server/src/user/.conf/.users

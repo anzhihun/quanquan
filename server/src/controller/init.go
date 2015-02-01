@@ -2,8 +2,7 @@ package controller
 
 import (
 	"github.com/gocraft/web"
-	"os"
-	"path/filepath"
+	"utils"
 )
 
 type RootContext struct {
@@ -18,11 +17,10 @@ func Init() *web.Router {
 		Middleware(web.ShowErrorsMiddleware)
 
 	// handle index request
-	rootRouter.Get("/", (*RootContext).GetIndex)
+	// rootRouter.Get("/", (*RootContext).GetIndex)
 
 	// handle static file requests
-	rootDir, _ := os.Getwd()
-	rootDir = rootDir + string(filepath.Separator) + "www"
+	rootDir := utils.MakePath([]string{utils.GetRootDir(), "www"})
 	rootRouter.Middleware(web.StaticMiddleware(rootDir))
 
 	// handle websocket requests

@@ -19,9 +19,10 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 2. 可执行文件执行: 目前还没有发布版本，暂时只能自己在本地编译运行。
 
 ##<a name="thirdparty" id="thirdpartyt">第三方依赖包</a>
-1. [gocraft/web](https://github.com/gocraft/web): 这是一个第三方的web路由，执行命令 go get github.com/gocraft/web 获取并安装到本地
-2. [websocket](https://code.google.com/p/go.net/websocket): 这是大家都熟悉的websocket库，国内的不能直接下载，可以通过其他的途径（你懂的）下载，执行命令 go get code.google.com/p/go.net/websocket 获取并安装到本地
-3. [tiedot](https://github.com/HouzuoGuo/tiedot): 这是项目使用的数据库，执行命令 go get github.com/HouzuoGuo/tiedot 获取并安装到本地
+1. [gocraft/web](https://github.com/gocraft/web): 这是一个第三方的web路由，执行命令 `go get github.com/gocraft/web` 获取并安装到本地
+2. [websocket](https://code.google.com/p/go.net/websocket): 这是大家都熟悉的websocket库，国内的不能直接下载，可以通过其他的途径（你懂的）下载，执行命令 `go get code.google.com/p/go.net/websocket` 获取并安装到本地
+3. [tiedot](https://github.com/HouzuoGuo/tiedot): 这是项目使用的数据库，执行命令 `go get github.com/HouzuoGuo/tiedot` 获取并安装到本地
+4. [go-i18n](https://github.com/nicksnyder/go-i18n): 这是项目使用的国际化库，执行命令 `go get github.com/nicksnyder/go-i18n/i18n` 获取并安装到本地
 
 ##帮助我们
 1. 发现bug：请优先在已经存在的[issues](https://github.com/anzhihun/quanquan/issues)里面查找改bug是否已经有了，如果没有，麻烦提供重现bug的步骤，截图，期望结果，以及运行环境，包括操作系统，quanquan版本号等信息。
@@ -38,6 +39,7 @@ QuanQuan 是一个用于团队协作的即时通信工具，其目标是为了�
 * [Golang](https://golang.org/)
 * [gocraft/web](https://github.com/gocraft/web)
 * [tiedot](https://github.com/HouzuoGuo/tiedot)
+* [go-i18n](github.com/nicksnyder/go-i18n)
 
 ##开源协议
 [Apache License Version 2.0](LICENSE)

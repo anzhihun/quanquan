@@ -21,6 +21,7 @@ So, I decide to make a new open source tool like slack to help us in teamwork. I
 1. [gocraft/web](https://github.com/gocraft/web): This is a router used in server. Please execute the command `go get github.com/gocraft/web` to get and install.
 2. [websocket](https://code.google.com/p/go.net/websocket): This is websocket library used in server. Please execute the command `go get code.google.com/p/go.net/websocket` to get and install.
 3. [tiedot](https://github.com/HouzuoGuo/tiedot):  This is a documented nosql database used in server. Please execute the command `go get github.com/HouzuoGuo/tiedot` to get and install.
+4. [go-i18n](https://github.com/nicksnyder/go-i18n): This is a i18n library used in server. Please execute the command  `go get github.com/nicksnyder/go-i18n/i18n` to get and install.
 
 ##Helping QuanQuan
 
@@ -50,6 +51,7 @@ Awesome! Please feel free to push your request. To make it more easy, please see
 * [Golang](https://golang.org/)
 * [gocraft/web](https://github.com/gocraft/web)
 * [tiedot](https://github.com/HouzuoGuo/tiedot)
+* [go-i18n](github.com/nicksnyder/go-i18n)
 
 ##License
 [Apache License Version 2.0](LICENSE)

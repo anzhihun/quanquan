@@ -1,0 +1,6 @@
+[
+	{
+		"id": "ERR_FORMAT_JSON",
+		"translation": "Failed to format json: {{.Error}}"
+	}
+]

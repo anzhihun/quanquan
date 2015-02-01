@@ -1,0 +1,6 @@
+[
+	{
+		"id": "testKey",
+		"translation": "test translation {{.Error}}"
+	}
+]
