@@ -14,8 +14,8 @@ define(function (require, exports, module) {
             this.messages.on('reset', this.render, this);
 			
 			this.$el.css({'display': 'none'});
-			this.$el.insertBefore($('.main .send_area'));
-			this.$el[0].innerHTML = '<h1>Messages: </h1><div class="body"> </div>';
+			this.$el.insertAfter($('.main .message_board_toolbar'));
+            this.$el[0].innerHTML = '<div class="body"> </div>'
 			
 			this.messages.fetch();
         },

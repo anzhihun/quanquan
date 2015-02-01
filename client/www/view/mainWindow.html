@@ -1,42 +1,76 @@
 <div class="main_frame">
+    <!-- left bar -->
     <div class="left">
+        <div class="list_container">
+            <div id="channelList" style="position:relative; width:100%;">
 
-        <div id="curUser">
-            <img src="/images/anzhihun.png" class="head_img"> <span style="color: white;font-size: 1.5em;">anzhihun</span>
-        </div>
-		
-        <div id="channelList" style="width:100%;">
-            
-            <span style="margin-left:1em;">Channels</span><a id="showAddChanDlgBtn" style="position: relative;float: right;margin-right: 1em;color: white;cursor: pointer;">+</a>
-            
-            <div id="addChannelDialog" class="reveal-modal" data-reveal>
-                <h2>Add new channel</h2>
-                <p>Channel Name <input id="newChannelNameInput" type="text"/></p>
-                <a id="addChannelButton" class="button" style="position: relative;float: right;">Add</a>
+                <div class="list_header">
+                    <span>Channels</span><a id="showAddChanDlgBtn" class="btn">+</a>
+                </div>
+
+                <div id="addChannelDialog" class="reveal-modal" data-reveal>
+                    <h2>Add new channel</h2>
+                    <p>Channel Name
+                        <input id="newChannelNameInput" type="text" />
+                    </p>
+                    <a id="addChannelButton" class="button" style="position: relative;float: right;">Add</a>
+                </div>
+
+                <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
+                    <dd class="active"><a href="#panel1">Global</a>
+                    </dd>
+                </dl>
+
             </div>
-            
-            <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-                <dd class="active"><a href="#panel1">Global</a></dd>
-            </dl>
-            
-            <hr></hr>
-        </div>
-	
-		<div id="directList">
-			<span style="margin-left:1em;">Direct messages</span>
-			<dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-            </dl>
-		</div>
 
+            <div id="directList" style="position:relative; width:100%;">
+                <div class="list_header">
+                    <span>Direct messages</span><a id="showAddDirectMessagBtn" class="btn">+</a>
+                </div>
+                <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
+                </dl>
+            </div>
+        </div>
+
+        <div id="curUser" class="cur_user">
+            <img src="/images/anzhihun.png" class="head_img"> <span style="font-size: 1.5em;">anzhihun</span>
+        </div>
     </div>
 
-    <div class="right"><span>users</span><a id="inviteUsers" style="position: relative;float: right;margin-right: 1em;color: white;cursor: pointer;">+</a></div>
+    <!-- right bar -->
+    <div class="right">
+        <ul class="buttons">
+<!--            <li id="inviteUsers"><i class="fa fa-user-plus"></i></li>-->
+            <li id="configureBtn"><i class="fa fa-cog"></i></li>
+            <li id="showAllUser"><i class="fa fa-users"></i></li>
+        </ul>
+    </div>
 
-	<div id="inviteUserDialog" class="reveal-modal" data-reveal>
-	</div>
+    <div class="user_list"></i></div>
 
+    <div id="inviteUserDialog" class="reveal-modal" data-reveal>
+    </div>
+
+    <!-- middle message area -->
     <div class="main">
-		<!-- here is message body -->
+        <div class="message_board_toolbar">
+            <div class="row"> 
+                <div class="small-6 columns">
+                  <span class="chan_desc">描述信息</span>
+                </div>
+                <div class="small-6 columns">
+                  <div class="row collapse postfix-round">
+                    <div class="small-9 columns">
+                      <input type="text" placeholder="search text">
+                    </div>
+                    <div class="small-3 columns">
+                      <a href="#" class="button postfix">Go</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- here is message body -->
         <div class="send_area">
             <div class="row">
                 <div class="large-12 columns">

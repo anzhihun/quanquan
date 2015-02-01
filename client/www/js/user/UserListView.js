@@ -1,12 +1,11 @@
 define(function (require, exports, module) {
 	'use strict';
 
-	var UserList = require('js/user/UserList');
-	var UserItemView = require('js/user/UserItemView');
-	var InviteUserDlg = require('js/user/InviteUserDlg');
+	var UserList = require('js/user/UserList'),
+        UserItemView = require('js/user/UserItemView');
 
 	var UserListView = Backbone.View.extend({
-		el: '.main_frame .right',
+		el: '.main_frame .user_list',
 		
 		model: /*@type {UserList}*/ new UserList(),
 		initialize: function (channelName) {
@@ -17,7 +16,7 @@ define(function (require, exports, module) {
 		},
 		render: function () {
 			this.$el.empty();
-			this.$el.append('<span>users</span><a id="inviteUsers" style="position: relative;float: right;margin-right: 1em;color: white;cursor: pointer;">+</a>');
+			this.$el.append('<i class="triangle"></i><h4>users</h4>');
 			
 			var userItemView = new UserItemView();
 			for (var index = 0, len = this.model.length; index < len; index++) {
@@ -28,11 +27,14 @@ define(function (require, exports, module) {
 			if (this.channelName === 'Global') {
 				global.allUsers = this.model;
 			}
-			
-			this.inviteUserDlg = new InviteUserDlg();
 		},
+        show: function(evt) {
+            this.$el.css({'display':'block'});
+        },
+        hide: function(evt) {
+            this.$el.css({'display':'none'});
+        },
 		events: {
-			'click #inviteUsers': 'openInviteUserDlg',
 			'click .talk_button': 'onTalkButtonClick'
 		},
 		onTalkButtonClick: function(evt){
@@ -53,13 +55,7 @@ define(function (require, exports, module) {
 		getUsers: function () {
 			return this.model;
 		},
-		
-		openInviteUserDlg: function() {
-			this.inviteUserDlg.open();
-		},
-		
 		clear: function(){
-			this.inviteUserDlg.clear();
 			this.stopListening();
 			this.off();
 			this.undelegateEvents();

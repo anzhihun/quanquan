@@ -5,7 +5,8 @@ define(function (require, exports, module) {
 		ChannelListView = require('js/channel/ChannelListView'),
 		DirectListView = require('js/channel/DirectListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
-		MessageInputView = require('js/msg/MessageInputView');
+		MessageInputView = require('js/msg/MessageInputView'),
+        InviteUserDlg = require('js/user/InviteUserDlg');
   
 	var Mainframe = Backbone.View.extend({
 		initialize: function(){
@@ -30,6 +31,11 @@ define(function (require, exports, module) {
 			this.userListView.refresh();
 			
 			this.inputView = new MessageInputView();
+            
+            this.inviteUserDlg = new InviteUserDlg();
+            
+//            $('#inviteUsers').click(this.openInviteUserDlg.bind(this));
+            $('#showAllUser').click(this.showAllUsers.bind(this));
 		},
 		
 		switchChannel: function(channelName) {
@@ -37,6 +43,8 @@ define(function (require, exports, module) {
 			if (this._msgBoards['chan::'+channelName] === this.messageBoard) {
 				return;
 			}
+            
+            $('.message_board_toolbar .chan_desc').html('#'+channelName);
 			
 			this.directListView.unselectAll();
 			
@@ -90,6 +98,19 @@ define(function (require, exports, module) {
 			this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
 //			this.directListView.selectDialogue(userName);
 		},
+        
+		openInviteUserDlg: function(evt) {
+			this.inviteUserDlg.open();
+		},
+        
+        showAllUsers: function(evt){
+            if ($(evt.currentTarget).hasClass('active')) {
+                this.userListView.hide();
+            } else {
+                this.userListView.show();
+            }
+            $(evt.currentTarget).toggleClass('active');
+        },
 		
 		getDirectListView: function(){
 			return this.directListView;	

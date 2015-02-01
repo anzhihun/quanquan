@@ -3,6 +3,39 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow-x: hidden;
+}
+
+/*---- override font icon -------*/
+i.fa {
+    color: #a0a0a0;
+}
+
+/*---- triangle -----------*/
+.triangle:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 30px;
+    right: -20px;
+    border: 10px solid #e0e0e0;
+    border-color: transparent transparent transparent #a0a0a0;
+}
+
+.triangle:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 30px;
+    right: -18px;
+    border: 10px solid #e0e0e0;
+    border-color: transparent transparent transparent #fff;
 }
 
 /*----override foundation.css-----*/
@@ -20,7 +53,7 @@ body {
     border-bottom: none;
 }
 
-.tabs.vertical dd.active a{
+.tabs.vertical dd.active a {
     background-color: #fff;
     color: #222;
     border: none;
@@ -32,6 +65,19 @@ body {
     border: 1px solid #ccc;
 }
 
+.left .tabs.vertical dd.active a {
+    font-size: 1.2em;
+    font-weight: 700;
+    background: #fff;
+    color: rgb(0, 133, 222);
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.left .tabs dd > a {
+    background: transparent;
+    width: 220px;
+}
 /*----end override foundation.css-----*/
 
 .main_frame {
@@ -42,46 +88,168 @@ body {
 .left,
 .right {
     float: left;
-    width: 220px;
     height: 100%;
-    background: #6699cc;
 }
-.right {
+
+.left {
+    width: 220px;
+    border-right: solid 1px #e0e0e0;
+    background: #fff;
+}
+
+.left .list_container {
+    position: absolute;
+    bottom: 90px;
+    top: 0;
+    width: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*------ define scroll bar ----------*/
+textarea::-webkit-scrollbar,
+.message_area .body::-webkit-scrollbar,
+.left .list_container::-webkit-scrollbar {
+    width: 2px;
+    height: 15px;
+    background: transparent;
+    border: none;
+}
+
+textarea::-webkit-scrollbar,
+.message_area .body::-webkit-scrollbar,
+.left .list_container:hover::-webkit-scrollbar {
+    background: c0c0c0;
+}
+
+textarea::-webkit-scrollbar-thumb,
+.message_area .body::-webkit-scrollbar-thumb,
+.left .list_container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: none;
+    border-radius: 80px;
+}
+
+textarea::-webkit-scrollbar-thumb,
+.message_area .body::-webkit-scrollbar-thumb,
+.left .list_container:hover::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border: 1px solid #909090;
+}
+
+
+.left .list_header {
+    display: inline-block;
+    width: 100%;
+    margin-top: 0.75em;
+    padding-bottom: 0.75em;
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 1em;
+}
+
+.left .list_header span {
+    margin-left: 0.5em;
+    font-weight: 700;
+}
+
+.left .list_header .btn {
+    cursor: pointer;
+    position: relative;
     float: right;
+    margin-right: 0.5em;
+    border-radius: 0.5em;
+    width: 1.2em;
+    height: 1em;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    line-height: 1em;
+}
+
+.left .list_header .btn:hover {
+    border-color: #009cbb;
+}
+
+.left .list_header a {
+    color: #a0a0a0;
+}
+
+.left .list_header a:hover {
+    color: #009cbb;
+}
+
+.left .cur_user {
+    position: absolute;
+    bottom: 0;
+    width: 220px;
+    border-top: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.right {
+    width: 50px;
+    float: right;
+    border-left: solid 1px #e0e0e0;
+    background-color: #fff;
+}
+
+.user_list {
+    position: absolute;
+    top: 2em;
+    display: none;
+    background: #fff;
+    z-index: 1000;
+    border: 1px solid #909090;
+    border-radius: 5px;
+    padding: 1em;
+    right: 45px;
+    max-height: 80%;
+    width: 220px;
 }
 
 .main {
     margin-left: 220px;
-    margin-right: 220px;
+    margin-right: 50px;
     height: 100%;
     width: auto;
 }
 
+.main .desc_bar,
 .main .message_area,
 .main .send_area {
     position: absolute;
     background: white;
     left: 220px;
-    right: 220px;
+    right: 50px;
 }
 
-.main .message_area{
+.main .message_board_toolbar {
     top: 0;
-    bottom: 3.3125rem;
-/*    overflow: auto;*/
+    height: 3em;
+    padding-top: 0.5em;
 }
 
-.main .send_area{
+.main .message_board_toolbar .chan_desc{
+    font-weight: 700;
+    color: #909090;
+    font-size: 1em;
+}
+
+.main .message_area {
+    top: 3em;
+    bottom: 4rem;
+}
+
+.main .send_area {
     bottom: 0;
     padding: 0.5em 0 0.5em 0;
 }
 
 .message_area .body {
-    overflow: auto; 
-    position:absolute; 
-    top:61px; 
-    bottom:0; 
-    width:100%;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .head_img {
@@ -91,13 +259,13 @@ body {
     border-radius: 32px;
     border: 1px solid #ccc;
 }
-
 /*-------message_item---------*/
+
 .message_item {
     width: 100%;
     position: relative;
     margin: 0.5em 0 0 0;
-	float: left;
+    float: left;
 }
 
 .message_head {
@@ -114,7 +282,7 @@ body {
 .message_container {
     clear: right;
     line-height: 1em;
-	margin-left: 48px;
+    margin-left: 48px;
 }
 
 .message_tip {
@@ -126,20 +294,51 @@ body {
 }
 
 .message_tip .message_name {
-	font-weight: 700;
-	color: #999;
+    font-weight: 700;
+    color: #999;
 }
 
 .message_content {
     width: inherit;
-	word-break: break-all;
+    word-break: break-all;
+}
+
+ul.buttons {
+    list-style-type: none;
+    margin-top: 1em;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+ul.buttons li {
+    cursor: pointer;
+    margin-bottom: 1em;
+}
+
+ul.buttons li:first-child {
+    margin-top: 1em;
+}
+
+ul.buttons li:hover > i.fa {
+    color: rgb(0, 133, 222);
+}
+
+ul.buttons li.active > i.fa {
+    color: rgb(0, 133, 222);
 }
 
 /*------user item -------*/
+
 a.user_item {
     display: inline-block;
     width: 100%;
-    background-color: white;
-    border-left: 2px solid #006cba;
     margin-bottom: 1px;
+/*    border-bottom: 1px solid #e0e0e0;*/
 }
+
+a.user_item:hover {
+    background: #e0e0e0;
+}
+
+

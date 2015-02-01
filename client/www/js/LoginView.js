@@ -8,6 +8,7 @@ define(function(require, exports, module){
       document.body.innerHTML = Mustache.render(LoginHtml, {strings: global.strings});
       this.$el = $(document);
       $(document).foundation();
+      $('#signInPanel input[type="text"]')[0].focus();
       this.switch2Mainframe = option || function(){};
     },
     
