@@ -2,7 +2,9 @@ define(function (require, exports, module) {
 	'use strict';
 
 	var UserList = require('js/user/UserList'),
-        UserItemView = require('js/user/UserItemView');
+        UserPanel = require('text!/view/userPanel.html'),
+        UserItemView = require('js/user/UserItemView'),
+        Mustache = require('js/thirdparty/mustache');
 
 	var UserListView = Backbone.View.extend({
 		el: '.main_frame .user_list',
@@ -16,7 +18,7 @@ define(function (require, exports, module) {
 		},
 		render: function () {
 			this.$el.empty();
-			this.$el.append('<i class="triangle"></i><h4>users</h4>');
+			this.$el.append(Mustache.render(UserPanel, {strings: global.strings}));
 			
 			var userItemView = new UserItemView();
 			for (var index = 0, len = this.model.length; index < len; index++) {

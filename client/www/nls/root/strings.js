@@ -12,5 +12,17 @@ define({
     LOGIN_TIP_ENTER_PWD: "Enter your password...",
     LOGIN_BTN_OK: "Go",
     
-    
+    // mainframe.html
+    MAIN_FRAME_LBL_CHANNELS: "Channels",
+    MAIN_FRAME_LBL_ADD_NEW_CHANNEL: "Add new channel",
+    MAIN_FRAME_LBL_CHANNEL_NAME: "Channel Name",
+    MAIN_FRAME_BTN_ADD: "Add",
+    MAIN_FRAME_LBL_DIRECT_MSG: "Direct messages",
+    MAIN_FRAME_BTN_SEARCH: "Go",
+    MAIN_FRAME_TIP_SEARCH: "search text...",
+    MAIN_FRAME_TIP_MSG_INPUT: "message...",
+    MAIN_FRAME_BTN_SEND_MSG: "Send",
+
+    // userPanel.html
+    USER_PANEL_LBL_CUR_CHANNEL_USER: "Channel Users",
 });

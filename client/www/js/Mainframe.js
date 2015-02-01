@@ -6,14 +6,15 @@ define(function (require, exports, module) {
 		DirectListView = require('js/channel/DirectListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
 		MessageInputView = require('js/msg/MessageInputView'),
-        InviteUserDlg = require('js/user/InviteUserDlg');
+        InviteUserDlg = require('js/user/InviteUserDlg'),
+        Mustache = require('js/thirdparty/mustache');
   
 	var Mainframe = Backbone.View.extend({
 		initialize: function(){
 			this._msgBoards = {};
 		},
 		show: function () {
-			document.body.innerHTML = MainWindowHtml;
+			document.body.innerHTML = Mustache.render(MainWindowHtml, {strings: global.strings});
 			this.$el = $(document);
 			$(document).foundation();
 

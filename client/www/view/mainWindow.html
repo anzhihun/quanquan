@@ -5,27 +5,25 @@
             <div id="channelList" style="position:relative; width:100%;">
 
                 <div class="list_header">
-                    <span>Channels</span><a id="showAddChanDlgBtn" class="btn">+</a>
+                    <span>{{strings.MAIN_FRAME_LBL_CHANNELS}}</span><a id="showAddChanDlgBtn" class="btn">+</a>
                 </div>
 
                 <div id="addChannelDialog" class="reveal-modal" data-reveal>
-                    <h2>Add new channel</h2>
-                    <p>Channel Name
+                    <h2>{{strings.MAIN_FRAME_LBL_ADD_NEW_CHANNEL}}</h2>
+                    <p>{{strings.MAIN_FRAME_LBL_CHANNEL_NAME}}
                         <input id="newChannelNameInput" type="text" />
                     </p>
-                    <a id="addChannelButton" class="button" style="position: relative;float: right;">Add</a>
+                    <a id="addChannelButton" class="button" style="position: relative;float: right;">{{strings.MAIN_FRAME_BTN_ADD}}</a>
                 </div>
 
                 <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-                    <dd class="active"><a href="#panel1">Global</a>
-                    </dd>
                 </dl>
 
             </div>
 
             <div id="directList" style="position:relative; width:100%;">
                 <div class="list_header">
-                    <span>Direct messages</span><a id="showAddDirectMessagBtn" class="btn">+</a>
+                    <span>{{strings.MAIN_FRAME_LBL_DIRECT_MSG}}</span><a id="showAddDirectMessagBtn" class="btn">+</a>
                 </div>
                 <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
                 </dl>
@@ -46,7 +44,7 @@
         </ul>
     </div>
 
-    <div class="user_list"></i></div>
+    <div class="user_list"></div>
 
     <div id="inviteUserDialog" class="reveal-modal" data-reveal>
     </div>
@@ -56,15 +54,15 @@
         <div class="message_board_toolbar">
             <div class="row"> 
                 <div class="small-6 columns">
-                  <span class="chan_desc">描述信息</span>
+                  <span class="chan_desc"></span>
                 </div>
                 <div class="small-6 columns">
                   <div class="row collapse postfix-round">
                     <div class="small-9 columns">
-                      <input type="text" placeholder="search text">
+                      <input type="text" placeholder="{{strings.MAIN_FRAME_TIP_SEARCH}}">
                     </div>
                     <div class="small-3 columns">
-                      <a href="#" class="button postfix">Go</a>
+                      <a href="#" class="button postfix">{{strings.MAIN_FRAME_BTN_SEARCH}}</a>
                     </div>
                   </div>
                 </div>
@@ -76,10 +74,10 @@
                 <div class="large-12 columns">
                     <div class="row collapse">
                         <div class="small-10 columns">
-                            <textarea id="msgInput" maxlength="" autocorrect="off" autocomplete="off" spellcheck="true" style="height:57px;margin:0; padding:0; resize:none !important;" placeholder="message"></textarea>
+                            <textarea id="msgInput" maxlength="" autocorrect="off" autocomplete="off" spellcheck="true" style="height:57px;margin:0; padding:0; resize:none !important;" placeholder="{{strings.MAIN_FRAME_TIP_MSG_INPUT}}"></textarea>
                         </div>
                         <div class="small-2 columns">
-                            <a class="button postfix" style="margin:0; padding:0;height: 100%;line-height: 57px;" id="sendMsgBtn">Send</a>
+                            <a class="button postfix" style="margin:0; padding:0;height: 100%;line-height: 57px;" id="sendMsgBtn">{{strings.MAIN_FRAME_BTN_SEND_MSG}}</a>
                         </div>
                     </div>
                 </div>
