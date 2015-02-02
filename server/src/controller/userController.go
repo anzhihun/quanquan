@@ -1,13 +1,13 @@
 package controller
 
 import (
-	// "define"
+	"conn"
+	"define"
 	"encoding/json"
 	"entity"
 	"fmt"
-	// "event"
-	"conn"
 	"github.com/gocraft/web"
+	"i18n"
 	"io/ioutil"
 	"net/http"
 	"user"
@@ -79,36 +79,75 @@ func (this *UserContext) sendOnlineMsg(userName string) {
 }
 
 func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
-	result, _ := ioutil.ReadAll(req.Body)
-	req.Body.Close()
-	params, err := utils.DecodeJsonMsg(string(result))
+	langId := utils.GetLanguageId(req.Header)
+	translator := i18n.GetTranslator(langId)
+
+	result, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		http.Error(rw, err.Error(), 404)
+		errInfo := translator.T("ERR_READ_HTTP_BODY", map[string]interface{}{
+			"Error": err.Error(),
+		})
+		http.Error(rw, errInfo, define.ERR_READ_HTTP_BODY)
+		return
+	}
+	req.Body.Close()
+
+	var params map[string]interface{}
+	if params, err = utils.DecodeJsonMsg(string(result)); err != nil {
+		errInfo := translator.T("ERR_DECODE_JSON", map[string]interface{}{
+			"Error": err.Error(),
+		})
+		http.Error(rw, errInfo, define.ERR_DECODE_JSON)
 		return
 	}
 
-	userName := params["name"].(string)
-	password := params["password"].(string)
-	if err = user.SignUp(userName, password); err != nil {
-		http.Error(rw, err.Error(), 500)
+	var ok bool
+	var userName string
+	var password string
+	if userName, ok = params["name"].(string); !ok {
+		errInfo := translator.T("ERR_WRONG_TYPE", map[string]interface{}{
+			"Var":  "name",
+			"Type": "string",
+		})
+		http.Error(rw, errInfo, define.ERR_WRONG_TYPE)
 		return
 	}
 
-	user.AddUser(&user.User{
+	if password, ok = params["password"].(string); !ok {
+		errInfo := translator.T("ERR_WRONG_TYPE", map[string]interface{}{
+			"Var":  "password",
+			"Type": "string",
+		})
+		http.Error(rw, errInfo, define.ERR_WRONG_TYPE)
+		return
+	}
+
+	if err = user.AddUser(&user.User{
 		Name:     userName,
 		Password: password,
 		HeadImg:  "/images/defaultHead.png",
 		Online:   true,
-	})
+	}); err != nil {
+		errInfo := translator.T("ERR_ADD_USER", map[string]interface{}{
+			"Error": err.Error(),
+		})
+		http.Error(rw, errInfo, define.ERR_INVALID_USER)
+		return
+	}
 
 	var ackContent = []byte{}
 	if ackContent, err = this.getAckHttpUser(userName); err != nil {
-		http.Error(rw, "marshal user error!", 500)
+		errInfo := translator.T("ERR_ENCODE_JSON", map[string]interface{}{
+			"Error": err.Error(),
+		})
+		http.Error(rw, errInfo, define.ERR_ENCODE_JSON)
+		return
 	} else {
 		rw.Write(ackContent)
 	}
 
-	ackNewUser := entity.WSAckNewUser{
+	// send add user message to all other client
+	newUserMsg := entity.WSAckNewUser{
 		MsgType: entity.WS_MSGTYPE_NEW_USER,
 		User: entity.WSAckUser{
 			Name:     userName,
@@ -117,25 +156,13 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 			Online:   true,
 		},
 	}
-	if ackContent, err = json.Marshal(ackNewUser); err != nil {
+	if ackContent, err = json.Marshal(newUserMsg); err != nil {
 		fmt.Println("marshal new user msg error!", err.Error())
 	} else {
 		conn.Broadcast2AllClient(ackContent)
 	}
 
 	this.sendOnlineMsg(userName)
-	// send msg to back end service
-	//event.Trigger(event.EVENT_F2B_ADD_USER, define.AddUserMessage{UserName: userName, Password: password}, nil)
-
-	// add new user
-	// ip, _ := utils.ExternalIP()
-	// user.AddUser(&user.User{
-	// 	Name:     userName,
-	// 	Password: password,
-	// 	HeadImg:  "/images/defaultHead.png",
-	// 	IP:       ip,
-	// 	Online:   true,
-	// })
 }
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {

@@ -1,7 +1,7 @@
 package i18n
 
 // cache translator
-var translators map[string]*Translator
+var translators = map[string]*Translator{}
 
 func GetTranslator(languageId string) *Translator {
 	if _, ok := translators[languageId]; !ok {

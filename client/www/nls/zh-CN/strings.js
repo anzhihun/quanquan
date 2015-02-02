@@ -10,6 +10,8 @@ define({
 	LOGIN_ERR_INVALID:  "用户名或密码错误",
     LOGIN_TIP_ENTER_NAME: "请输入用户名...",
     LOGIN_TIP_ENTER_PWD: "请输入密码...",
+    LOGIN_ERR_USER_NAME_TOO_SHORT: "用户名不能少于2个字符",
+    LOGIN_ERR_PWD_TOO_SHORT: "密码不能少于6个字符",
     LOGIN_BTN_OK: "确定",
 
     // mainframe.html

@@ -21,7 +21,24 @@ var Self *User = nil
 
 var allUsers = []*User{}
 
-func SignUp(userName, password string) error {
+func AddUser(user *User) error {
+
+	if err := check(user.Name, user.Password); err != nil {
+		return err
+	}
+
+	allUsers = append(allUsers, user)
+
+	// save to disk
+	storeAllUsers(user, nil)
+
+	return nil
+
+	// trigger msg
+	//event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
+}
+
+func check(userName, password string) error {
 	if len(userName) == 0 {
 		return errors.New("The user name can not be empty")
 	}
@@ -35,20 +52,6 @@ func SignUp(userName, password string) error {
 	}
 
 	return nil
-}
-
-func AddUser(user *User) {
-
-	oldUser := FindUser(user.Name)
-	if oldUser == nil {
-		allUsers = append(allUsers, user)
-	}
-
-	// save to disk
-	storeAllUsers(user, nil)
-
-	// trigger msg
-	//event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
 }
 
 func RemoveUser(user *User) {

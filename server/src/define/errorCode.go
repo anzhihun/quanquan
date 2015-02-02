@@ -1,0 +1,9 @@
+package define
+
+const (
+	ERR_READ_HTTP_BODY = 1000
+	ERR_DECODE_JSON    = 1001
+	ERR_ENCODE_JSON    = 1002
+	ERR_WRONG_TYPE     = 1003
+	ERR_INVALID_USER   = 1004
+)

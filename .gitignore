@@ -6,3 +6,5 @@ client/.conf
 quanquan
 
 server/src/user/.conf/.users
+
+client/.conf/.users

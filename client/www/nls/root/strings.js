@@ -10,6 +10,8 @@ define({
 	LOGIN_ERR_INVALID:  "Invalid user name or password",
     LOGIN_TIP_ENTER_NAME: "Enter your name...",
     LOGIN_TIP_ENTER_PWD: "Enter your password...",
+    LOGIN_ERR_USER_NAME_TOO_SHORT: "The user name's length should not be less than 2 characters.",
+    LOGIN_ERR_PWD_TOO_SHORT: "The password's length should not be less than 6 characters",
     LOGIN_BTN_OK: "Go",
     
     // mainframe.html
