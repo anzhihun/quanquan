@@ -328,6 +328,19 @@ ul.buttons li.active > i.fa {
     color: rgb(0, 133, 222);
 }
 
+i.icon-button{
+	cursor: pointer;
+}
+
+i.icon-button:hover{
+	color: rgb(0, 133, 222);
+}
+
+i.algin-right {
+	float: right;
+	margin-right: 0.5em;
+}
+
 /*------user item -------*/
 
 a.user_item {
