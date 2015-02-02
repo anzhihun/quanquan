@@ -8,7 +8,72 @@ body {
 
 /*---- override font icon -------*/
 i.fa {
-    color: #a0a0a0;
+    color: #c0c0c0;
+}
+
+ul.toolbar {
+	list-style: none;
+	background: transparent;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+}
+
+ul.toolbar li:first-child {
+	margin-top: 0.5em;
+}
+
+ul.toolbar li {
+	cursor: pointer;
+	color: #c0c0c0;
+	font-size: 1em;
+	padding: 0.5em 0 0.5em 0;
+}
+
+ul.toolbar li:hover i,
+ul.toolbar li:hover {
+/*	color: #FFDEAA;*/
+	color: #008573;
+	font-weight: 700;
+}
+
+ul.toolbar li.active i,
+ul.toolbar li.active {
+/*	color: #1D7F78;*/
+/*	background: #fff;*/
+	background: #008573;
+	color: #fff;
+	font-weight: 700;
+}
+
+ul.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.list li {
+	cursor: pointer;
+	padding: 0.25em 0 0.25em 0.5em;
+	font-size: 0.9em;
+}
+
+ul.list li:first-child {
+	margin-top: 0.25em;
+}
+
+ul.list li.active:hover,
+ul.list li.active {
+	background: #008573;
+	color: #fff;
+	font-weight: 700;
+}
+
+ul.list li:hover {
+/*	background: #ececec;*/
+	color: #008573;
+	font-weight: 700;
 }
 
 /*---- triangle -----------*/
@@ -65,19 +130,7 @@ i.fa {
     border: 1px solid #ccc;
 }
 
-.left .tabs.vertical dd.active a {
-    font-size: 1.2em;
-    font-weight: 700;
-    background: #fff;
-    color: rgb(0, 133, 222);
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
-}
 
-.left .tabs dd > a {
-    background: transparent;
-    width: 220px;
-}
 /*----end override foundation.css-----*/
 
 .main_frame {
@@ -85,23 +138,35 @@ i.fa {
     height: 100%;
 }
 
-.left,
+.left-toolbar,
+.left-title {
+	position: relative;
+	float: left;
+	height: 100%;
+/*	background: #008573;*/
+	background: #fff;
+	border-right: 1px solid #eee;
+}
+
+.left-toolbar {
+	width: 50px;
+}
+
 .right {
     float: left;
     height: 100%;
 }
 
-.left {
-    width: 220px;
+.left-title {
+    width: 160px;
     border-right: solid 1px #e0e0e0;
     background: #fff;
 }
 
-.left .list_container {
+.left-title .list_container {
     position: absolute;
-    bottom: 90px;
-    top: 0;
-    width: 220px;
+    height: 100%;
+    width: 160px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -109,7 +174,7 @@ i.fa {
 /*------ define scroll bar ----------*/
 textarea::-webkit-scrollbar,
 .message_area .body::-webkit-scrollbar,
-.left .list_container::-webkit-scrollbar {
+.left-title .list_container::-webkit-scrollbar {
     width: 2px;
     height: 15px;
     background: transparent;
@@ -118,13 +183,13 @@ textarea::-webkit-scrollbar,
 
 textarea::-webkit-scrollbar,
 .message_area .body::-webkit-scrollbar,
-.left .list_container:hover::-webkit-scrollbar {
+.left-title .list_container::-webkit-scrollbar {
     background: c0c0c0;
 }
 
 textarea::-webkit-scrollbar-thumb,
 .message_area .body::-webkit-scrollbar-thumb,
-.left .list_container::-webkit-scrollbar-thumb {
+.left-title .list_container::-webkit-scrollbar-thumb {
     background: transparent;
     border: none;
     border-radius: 80px;
@@ -132,27 +197,24 @@ textarea::-webkit-scrollbar-thumb,
 
 textarea::-webkit-scrollbar-thumb,
 .message_area .body::-webkit-scrollbar-thumb,
-.left .list_container:hover::-webkit-scrollbar-thumb {
+.left-title .list_container::-webkit-scrollbar-thumb {
     background: #c0c0c0;
     border: 1px solid #909090;
 }
 
-
-.left .list_header {
+.left-title .list_header {
     display: inline-block;
     width: 100%;
-    margin-top: 0.75em;
-    padding-bottom: 0.75em;
-    border-bottom: 1px solid #e0e0e0;
+    margin-top: 1.5em;
     line-height: 1em;
 }
 
-.left .list_header span {
+.left-title .list_header span {
     margin-left: 0.5em;
     font-weight: 700;
 }
 
-.left .list_header .btn {
+.left-title .list_header .btn {
     cursor: pointer;
     position: relative;
     float: right;
@@ -165,24 +227,16 @@ textarea::-webkit-scrollbar-thumb,
     line-height: 1em;
 }
 
-.left .list_header .btn:hover {
+.left-title .list_header .btn:hover {
     border-color: #009cbb;
 }
 
-.left .list_header a {
+.left-title .list_header a {
     color: #a0a0a0;
 }
 
-.left .list_header a:hover {
+.left-title .list_header a:hover {
     color: #009cbb;
-}
-
-.left .cur_user {
-    position: absolute;
-    bottom: 0;
-    width: 220px;
-    border-top: 1px solid #e0e0e0;
-    cursor: pointer;
 }
 
 .right {
@@ -207,25 +261,27 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .main {
-    margin-left: 220px;
+    margin-left: 210px;
     margin-right: 50px;
     height: 100%;
     width: auto;
 }
 
+.main .message_board_toolbar,
 .main .desc_bar,
 .main .message_area,
 .main .send_area {
     position: absolute;
     background: white;
-    left: 220px;
+    left: 210px;
     right: 50px;
 }
 
 .main .message_board_toolbar {
     top: 0;
     height: 3em;
-    padding-top: 0.5em;
+    padding: 0.5em;
+	border-bottom: 1px solid #e0e0e0;
 }
 
 .main .message_board_toolbar .chan_desc{
@@ -254,10 +310,11 @@ textarea::-webkit-scrollbar-thumb,
 
 .head_img {
     margin: 0.5em;
-    width: 64px;
-    height: 64px;
+    width: 32px;
+    height: 32px;
     border-radius: 32px;
-    border: 1px solid #ccc;
+    border: 1px solid #fff;
+	background: #fff;
 }
 /*-------message_item---------*/
 
@@ -336,7 +393,7 @@ i.icon-button:hover{
 	color: rgb(0, 133, 222);
 }
 
-i.algin-right {
+i.align-right {
 	float: right;
 	margin-right: 0.5em;
 }

@@ -1,15 +1,24 @@
 define(function(require, exports, module){
     'use strict';
     
-    var ChannelList = require('js/channel/ChannelList');
-	var NewChannelDialog = require('js/channel/NewChannelDialog');
+    var ChannelList = require('js/channel/ChannelList'),
+		Mustache = require('js/thirdparty/mustache'),
+		DirectListPanel = require('text!/view/directListPanel.html'),
+		DirectItem = require('text!/view/directItem.html'),
+		NewChannelDialog = require('js/channel/NewChannelDialog');
 	
     var DirectListView = Backbone.View.extend({
-        el: '#directList',
         events: {
-			'click dd': 'onDialogueClick'
+			'click li': 'onDialogueClick'
         },
-		initialize: function(){
+		initialize: function(msgType){
+			this._msgType = msgType;
+			this._id = msgType + 'DirectList';
+			$('.list_container').append(Mustache.render(DirectListPanel, {
+				strings: global.strings,
+				id: this._id,
+			}));
+			this.$el = $('#' + this._id);
 			this._userNames = [];	
 		},
 		addDialogue: function(userName) {
@@ -18,8 +27,11 @@ define(function(require, exports, module){
 				return;
 			}
 			
-			var $list = this.$el.find('dl');
-			$list.append('<dd><a href="#panel4" style="background: transparent;">' + userName + '</a></dd>');
+			var $list = this.$el.find('ul');
+			$list.append( Mustache.render(DirectItem, {
+				id: userName,
+				name: userName,
+			}) );
 			this._userNames.push(userName);
 		},
 		
@@ -29,17 +41,15 @@ define(function(require, exports, module){
 		},
 		
 		unselectAll: function() {
-			this.$el.find('dl dd').each(function(index, elem){
+			this.$el.find('ul li').each(function(index, elem){
 				$(elem).removeClass('active');
-				$(elem).find('a').attr('style', 'background: transparent;');
 			});
 		},
         
 		selectDialogue: function(userName){
 			var $currentUserElem = null;
-			this.$el.find('dl dd').each(function(index, elem){
+			this.$el.find('ul li').each(function(index, elem){
 				$(elem).removeClass('active');
-				$(elem).find('a').attr('style', 'background: transparent;');
 				if ($(elem).text() === userName) {
 					$currentUserElem = $(elem);
 				}
@@ -47,13 +57,20 @@ define(function(require, exports, module){
 			
 			// switch message list
 			$currentUserElem.addClass('active');
-			$currentUserElem.find('a').attr('style', '');
 
 			global.mainframe.switch2DirectDialogue(userName);
 			global.currentTalkTarget = {
 				name: userName,
 				isChannel: false
 			};
+		},
+		
+		show: function() {
+			this.$el.show();
+		},
+		
+		hide: function() {
+			this.$el.hide();
 		}
     });
     

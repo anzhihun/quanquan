@@ -2,11 +2,13 @@ define(function (require, exports, module) {
 	'use strict';
 	var MainWindowHtml = require('text!/view/mainWindow.html'),
 		UserListView = require('js/user/UserlistView'),
-		ChannelListView = require('js/channel/ChannelListView'),
-		DirectListView = require('js/channel/DirectListView'),
+//		ChannelListView = require('js/channel/ChannelListView'),
+//		DirectListView = require('js/channel/DirectListView'),
+		MsgListView = require('js/MsgListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
 		MessageInputView = require('js/msg/MessageInputView'),
         InviteUserDlg = require('js/user/InviteUserDlg'),
+		MsgTypeBar = require('js/msgTypeBar'),
         Mustache = require('js/thirdparty/mustache');
   
 	var Mainframe = Backbone.View.extend({
@@ -19,14 +21,21 @@ define(function (require, exports, module) {
 			$(document).foundation();
 
 			$('#curUser').find('img')[0].src = global.currentUser.iconUrl;
-			$('#curUser').find('span')[0].innerHTML = global.currentUser.name;
+			$('#curUser').find('img')[0].title = global.currentUser.name;
 			
-			this.channelListView = new ChannelListView();
+			this._msgListView = {};
+			
+			this.msgListView = null;
+			this.msgTypeBar = new MsgTypeBar();
+			this.msgTypeBar.select('channel');
+
+//			this.channelListView = new ChannelListView();
 			this.messageBoard = new MessageBoard('Global');
 			this._msgBoards['chan::Global'] = this.messageBoard;
+			$('.message_board_toolbar span').html('#Global');
 			this.messageBoard.show();
 			
-			this.directListView = new DirectListView();
+//			this.directListView = new DirectListView();
 
 			this.userListView = new UserListView('Global');
 			this.userListView.refresh();
@@ -35,8 +44,21 @@ define(function (require, exports, module) {
             
             this.inviteUserDlg = new InviteUserDlg();
             
-//            $('#inviteUsers').click(this.openInviteUserDlg.bind(this));
+            $('#inviteUserBtn').click(this.openInviteUserDlg.bind(this));
             $('#showAllUser').click(this.showAllUsers.bind(this));
+		},
+		
+		switchMsgType: function(msgType) {
+			if (!this._msgListView[msgType]) {
+				this._msgListView[msgType] = new MsgListView(msgType);
+			}
+			
+			for (var key in this._msgListView) {
+				this._msgListView[key].hide();
+			}
+			
+			this._msgListView[msgType].show();
+			this.msgListView = this._msgListView[msgType];
 		},
 		
 		switchChannel: function(channelName) {
@@ -44,10 +66,12 @@ define(function (require, exports, module) {
 			if (this._msgBoards['chan::'+channelName] === this.messageBoard) {
 				return;
 			}
-            
-            $('.message_board_toolbar .chan_desc').html('#'+channelName);
 			
-			this.directListView.unselectAll();
+			$('.message_board_toolbar span').html('#' + channelName);
+			
+			if (this.msgListView && this.msgListView.getDirectListView()) {
+				this.msgListView.getDirectListView().unselectAll();
+			}
 			
 			// change message board and user list
 			if (this.userListView) {
@@ -75,7 +99,11 @@ define(function (require, exports, module) {
 				return;
 			}
 			
-			this.channelListView.unselectAll();
+			if (this.msgListView && this.msgListView.getChannelListView()) {
+				this.msgListView.getChannelListView().unselectAll();
+			}
+			
+//			this.channelListView.unselectAll();
 			
 			// change message board and user list
 			if (this.userListView) {
@@ -95,8 +123,20 @@ define(function (require, exports, module) {
 		},
 		
 		addDirectDialogue: function(userName){
-			this.directListView.addDialogue(userName);
-			this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
+			if (this.msgListView && this.msgListView.getDirectListView()) {
+				this.msgListView.getDirectListView().addDialogue(userName);
+				this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
+			} else if (this._msgListView['direct'] && this._msgListView['direct'].getDirectListView()) {
+				this._msgListView['direct'].getDirectListView().addDialogue(userName);
+				this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
+			} else {
+				this._msgListView['direct'] = new MsgListView('direct');
+				this._msgListView['direct'].getDirectListView().addDialogue(userName);
+				this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
+			}
+			
+//			this.directListView.addDialogue(userName);
+//			this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
 //			this.directListView.selectDialogue(userName);
 		},
         
@@ -114,7 +154,12 @@ define(function (require, exports, module) {
         },
 		
 		getDirectListView: function(){
-			return this.directListView;	
+			if (this.msgListView) {
+				return this.msgListView.getDirectListView();
+			} else {
+				return null;
+			}
+//			return this.directListView;	
 		},
 		
 		getMessageBoard: function(boardId){
@@ -130,7 +175,12 @@ define(function (require, exports, module) {
 		},
 		
 		getChannelListView: function() {
-			return this.channelListView;
+			if (this.msgListView) {
+				return this.msgListView.getChannelListView();
+			} else {
+				return null;
+			}
+//			return this.channelListView;
 		}
 										
 	});

@@ -1,14 +1,21 @@
 define(function(require, exports, module){
     'use strict';
     
-    var ChannelList = require('js/channel/ChannelList');
-	var NewChannelDialog = require('js/channel/NewChannelDialog'),
+    var ChannelList = require('js/channel/ChannelList'),
+		NewChannelDialog = require('js/channel/NewChannelDialog'),
         Mustache = require('js/thirdparty/mustache'),
+		ChannelListPanel = require('text!/view/channelListPanel.html'),
         ChannelItemTemplate = require('text!/view/channelItem.html');
 	
     var ChannelListView = Backbone.View.extend({
-        el: '#channelList',
-        initialize: function(){
+        initialize: function(msgType){
+			this._msgType = msgType;
+			this._id = msgType + 'ChanList';
+			$('.list_container').append(Mustache.render(ChannelListPanel, {
+				strings: global.strings,
+				id: msgType + 'ChanList'
+			}));
+			this.$el = $('#' + this._id);
             this.channels = new ChannelList(global.currentUser.name);
 			global.currentTalkTarget = {
 				name: 'Global',
@@ -24,7 +31,7 @@ define(function(require, exports, module){
 		
         events: {
             'click #showAddChanDlgBtn': 'openAddChannelDlg',
-			'click dd': 'onSelectChannel'
+			'click li': 'onSelectChannel'
         },
 		
 		getModel: function() {
@@ -32,7 +39,7 @@ define(function(require, exports, module){
 		},
 		
 		render: function(){
-			var listView = this.$el.find('dl');
+			var listView = this.$el.find('ul');
 			listView.empty();
             this.addDefaultChannels(listView);
 
@@ -40,7 +47,7 @@ define(function(require, exports, module){
                 listView.append(Mustache.render(ChannelItemTemplate, {
                     strings: global.strings,
                     chanId: this.channels.at(index).get('name'),
-                    chanName: '#'+this.channels.at(index).get('name')
+                    chanName: this.channels.at(index).get('name')
                 }));
 			}
             
@@ -52,16 +59,16 @@ define(function(require, exports, module){
             listView.append(Mustache.render(ChannelItemTemplate, {
                 strings: global.strings,
                 chanId: 'Global',
-                chanName: '#Global'
+                chanName: 'Global'
             }));
         },
 		
 		renderChannel: function(channel){
-			var $list = this.$el.find('dl');
+			var $list = this.$el.find('ul');
             $list.append(Mustache.render(ChannelItemTemplate, {
                     strings: global.strings,
                     chanId: channel.get('name'),
-                    chanName: '#'+channel.get('name')
+                    chanName: channel.get('name')
                 }));
 		},
         
@@ -70,7 +77,7 @@ define(function(require, exports, module){
         },
 		
 		unselectAll: function() {
-			this.$el.find('dl dd').each(function(index, elem){
+			this.$el.find('ul li').each(function(index, elem){
 				$(elem).removeClass('active');
 			});
 		},
@@ -81,11 +88,10 @@ define(function(require, exports, module){
 		},
         
         selectChannel: function(chanId) {
-            $('.message_board_toolbar .chan_desc').html('#'+chanId);
+            $('.message_board_toolbar .chan_desc').html(chanId);
             this.unselectAll();
 		
 			// switch message list
-            this.$el.find('dl');
             this.$el.find('[data-chan-id="' + chanId + '"]').addClass('active');
 			global.mainframe.switchChannel(chanId);
 			
@@ -93,7 +99,15 @@ define(function(require, exports, module){
 				name: chanId,
 				isChannel: true
 			};
-        }
+        },
+		
+		show: function() {
+			this.$el.show();
+		},
+		
+		hide: function() {
+			this.$el.hide();
+		}
     });
     
     return ChannelListView;

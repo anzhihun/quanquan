@@ -1,44 +1,27 @@
 <div class="main_frame">
-    <!-- left bar -->
-    <div class="left">
-        <div class="list_container">
-            <div id="channelList" style="position:relative; width:100%;">
-
-                <div class="list_header">
-                    <span>{{strings.MAIN_FRAME_LBL_CHANNELS}}</span><i id="showAddChanDlgBtn" class="fa fa-plus-circle icon-button algin-right"></i>
-                </div>
-
-                <div id="addChannelDialog" class="reveal-modal" data-reveal>
-                    <h2>{{strings.MAIN_FRAME_LBL_ADD_NEW_CHANNEL}}</h2>
-                    <p>{{strings.MAIN_FRAME_LBL_CHANNEL_NAME}}
-                        <input id="newChannelNameInput" type="text" />
-                    </p>
-                    <a id="addChannelButton" class="button" style="position: relative;float: right;">{{strings.MAIN_FRAME_BTN_ADD}}</a>
-                </div>
-
-                <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-                </dl>
-
-            </div>
-
-            <div id="directList" style="position:relative; width:100%;">
-                <div class="list_header">
-                    <span>{{strings.MAIN_FRAME_LBL_DIRECT_MSG}}</span>
-                </div>
-                <dl class="tabs vertical" data-tab style="max-width:100%; width:100%;">
-                </dl>
-            </div>
+	
+	<div class="left-toolbar">
+		<div id="curUser" class="cur_user">
+			<img title="userName" src="/images/anzhihun.png" class="head_img"> 
         </div>
-
-        <div id="curUser" class="cur_user">
-            <img src="/images/anzhihun.png" class="head_img"> <span style="font-size: 1.5em;">anzhihun</span>
+		<ul class="toolbar">
+			<li data-id="star" title="marked"><i class="fa fa-star-o"></i></li>
+			<li data-id="channel" title="channels">#</li>
+			<li data-id="direct" title="direct message"><i class="fa fa-at"></i></li>
+			<li data-id="achived" title="achived"><i class="fa fa-database"></i></li>
+		</ul>
+	</div>
+	
+    <!-- left bar -->
+    <div class="left-title">
+        <div class="list_container">
         </div>
     </div>
 
     <!-- right bar -->
     <div class="right">
         <ul class="buttons">
-<!--            <li id="inviteUsers"><i class="fa fa-user-plus"></i></li>-->
+            <li id="searchBtn"><i class="fa fa-search"></i></li>
             <li id="configureBtn"><i class="fa fa-cog"></i></li>
             <li id="showAllUser"><i class="fa fa-users"></i></li>
         </ul>
@@ -51,23 +34,10 @@
 
     <!-- middle message area -->
     <div class="main">
-        <div class="message_board_toolbar">
-            <div class="row"> 
-                <div class="small-6 columns">
-                  <span class="chan_desc"></span>
-                </div>
-                <div class="small-6 columns">
-                  <div class="row collapse postfix-round">
-                    <div class="small-9 columns">
-                      <input type="text" placeholder="{{strings.MAIN_FRAME_TIP_SEARCH}}">
-                    </div>
-                    <div class="small-3 columns">
-                      <a href="#" class="button postfix">{{strings.MAIN_FRAME_BTN_SEARCH}}</a>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        </div>
+		<div class="message_board_toolbar">
+			<span></span>
+			<i id="inviteUserBtn" class="fa fa-user-plus icon-button align-right"></i>
+		</div>
         <!-- here is message body -->
         <div class="send_area">
             <div class="row">
