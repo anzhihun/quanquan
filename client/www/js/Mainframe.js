@@ -2,13 +2,11 @@ define(function (require, exports, module) {
 	'use strict';
 	var MainWindowHtml = require('text!/view/mainWindow.html'),
 		UserListView = require('js/user/UserlistView'),
-//		ChannelListView = require('js/channel/ChannelListView'),
-//		DirectListView = require('js/channel/DirectListView'),
 		MsgListView = require('js/MsgListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
 		MessageInputView = require('js/msg/MessageInputView'),
         InviteUserDlg = require('js/user/InviteUserDlg'),
-		MsgTypeBar = require('js/msgTypeBar'),
+		MsgTypeBar = require('js/MsgTypeBar'),
         Mustache = require('js/thirdparty/mustache');
   
 	var Mainframe = Backbone.View.extend({

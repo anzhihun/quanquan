@@ -38,7 +38,7 @@ var global = {
 define(function (require) {
     'use strict';
     
-    var WSConnector = require('js/wsConnector'),
+    var WSConnector = require('js/WSConnector'),
         WSMsgHandler = require('js/WSMsgHandler'),
 
         LoginView = require('js/LoginView'),

@@ -1,8 +1,8 @@
 define(function (require) {
 	'use strict';
 
-	var TalkController = require('js/controller/talkController'),
-		UserController = require('js/controller/userController'),
+	var TalkController = require('js/controller/TalkController'),
+		UserController = require('js/controller/UserController'),
 		ChannelMsgHanlder = require('js/controller/ChannelMsgHanlder');
 
 	function WSMsgHandler() {}
