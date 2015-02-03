@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 	'use strict';
 	var MainWindowHtml = require('text!/view/mainWindow.html'),
-		UserListView = require('js/user/UserlistView'),
+		UserListView = require('js/user/UserListView'),
 		MsgListView = require('js/MsgListView'),
 		MessageBoard = require('js/msg/MessageBoard'),
 		MessageInputView = require('js/msg/MessageInputView'),
