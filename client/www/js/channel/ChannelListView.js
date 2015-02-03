@@ -8,14 +8,14 @@ define(function(require, exports, module){
         ChannelItemTemplate = require('text!/view/channelItem.html');
 	
     var ChannelListView = Backbone.View.extend({
-        initialize: function(msgType){
+        initialize: function(msgType, container){
 			this._msgType = msgType;
 			this._id = msgType + 'ChanList';
-			$('.list_container').append(Mustache.render(ChannelListPanel, {
+			$(container).append(Mustache.render(ChannelListPanel, {
 				strings: global.strings,
 				id: msgType + 'ChanList'
 			}));
-			this.$el = $('#' + this._id);
+			this.$el = $(container).find('#' + this._id);
             this.channels = new ChannelList(global.currentUser.name);
 			global.currentTalkTarget = {
 				name: 'Global',
@@ -99,15 +99,7 @@ define(function(require, exports, module){
 				name: chanId,
 				isChannel: true
 			};
-        },
-		
-		show: function() {
-			this.$el.show();
-		},
-		
-		hide: function() {
-			this.$el.hide();
-		}
+        }
     });
     
     return ChannelListView;

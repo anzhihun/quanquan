@@ -5,6 +5,10 @@ define(function (require, exports, module) {
 		DirectListView = require('js/channel/DirectListView');
 
 	var MsgListView = function (msgType) {
+		
+		$('.left-title').append('<div class="list_container" id="list-' + msgType  + '"></div>');
+		this.$el = $('.left-title #list-' + msgType);
+		
 		this._msgType = msgType;
 		this._channelListView = null;
 		this._directListView = null;
@@ -23,11 +27,11 @@ define(function (require, exports, module) {
 	};
 
 	MsgListView.prototype.loadChannelListView = function () {
-		this._channelListView = new ChannelListView(this._msgType);
+		this._channelListView = new ChannelListView(this._msgType, this.$el);
 	};
 
 	MsgListView.prototype.loadDirectListView = function () {
-		this._directListView = new DirectListView(this._msgType);
+		this._directListView = new DirectListView(this._msgType, this.$el);
 	};
 
 	MsgListView.prototype.getChannelListView = function () {
@@ -39,21 +43,15 @@ define(function (require, exports, module) {
 	};
 	
 	MsgListView.prototype.show = function() {
-		if (this._channelListView) {
-			this._channelListView.show();
-		} 
-		if (this._directListView) {
-			this._directListView.show();
-		}
+		this.$el.removeClass('left-to-right-hide');
+		this.$el.removeClass('left-to-right-show');
+		this.$el.addClass('left-to-right-show');
 	};
 	
 	MsgListView.prototype.hide = function() {
-		if (this._channelListView) {
-			this._channelListView.hide();
-		} 
-		if (this._directListView) {
-			this._directListView.hide();
-		}
+		this.$el.removeClass('left-to-right-hide');
+		this.$el.removeClass('left-to-right-show');
+		this.$el.addClass('left-to-right-hide');
 	}
 
 	return MsgListView;

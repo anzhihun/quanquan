@@ -53,12 +53,16 @@ define(function (require, exports, module) {
 				this._msgListView[msgType] = new MsgListView(msgType);
 			}
 			
-			for (var key in this._msgListView) {
-				this._msgListView[key].hide();
+			if (this.msgListView) {
+				this.msgListView.hide();
 			}
-			
-			this._msgListView[msgType].show();
+//			
+//			for (var key in this._msgListView) {
+//				this._msgListView[key].hide();
+//			}
+
 			this.msgListView = this._msgListView[msgType];
+			this.msgListView.show();
 		},
 		
 		switchChannel: function(channelName) {

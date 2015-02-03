@@ -150,6 +150,7 @@ ul.list li:hover {
 
 .left-toolbar {
 	width: 50px;
+	z-index: 10;
 }
 
 .right {
@@ -411,4 +412,35 @@ a.user_item:hover {
     background: #e0e0e0;
 }
 
+.left-title .left-to-right-show {
+	-webkit-animation: 0.3s leftToRightShow;
+	animation: 0.3s leftToRightShow;
+	left: 0;
+}
+
+.left-title .left-to-right-hide {
+	-webkit-animation: 0.3s leftToRightHide;
+	animation: 0.3s leftToRightHide;
+	left: 160px;
+}
+
+@-webkit-keyframes leftToRightShow {
+  0% { left: -160px;}
+  100% { left: 0px; }
+}
+
+@keyframes leftToRightShow {
+  0% { left: -160px;}
+  100% { left: 0px; }
+}
+
+@-webkit-keyframes leftToRightHide{
+  0% { left: 0px;}
+  100% { left: 160px; }
+}
+
+@keyframes leftToRightHide {
+  0% { left: 0px;}
+  100% { left: 160px; }
+}
 

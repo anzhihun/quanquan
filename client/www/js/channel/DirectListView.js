@@ -11,14 +11,14 @@ define(function(require, exports, module){
         events: {
 			'click li': 'onDialogueClick'
         },
-		initialize: function(msgType){
+		initialize: function(msgType, container){
 			this._msgType = msgType;
 			this._id = msgType + 'DirectList';
-			$('.list_container').append(Mustache.render(DirectListPanel, {
+			$(container).append(Mustache.render(DirectListPanel, {
 				strings: global.strings,
 				id: this._id,
 			}));
-			this.$el = $('#' + this._id);
+			this.$el = $(container).find('#' + this._id);
 			this._userNames = [];	
 		},
 		addDialogue: function(userName) {
@@ -63,14 +63,6 @@ define(function(require, exports, module){
 				name: userName,
 				isChannel: false
 			};
-		},
-		
-		show: function() {
-			this.$el.show();
-		},
-		
-		hide: function() {
-			this.$el.hide();
 		}
     });
     
