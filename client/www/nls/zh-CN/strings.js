@@ -19,7 +19,7 @@ define({
     MAIN_FRAME_LBL_ADD_NEW_CHANNEL: "添加新频道",
     MAIN_FRAME_LBL_CHANNEL_NAME: "频道名称",
     MAIN_FRAME_BTN_ADD: "添加",
-    MAIN_FRAME_LBL_DIRECT_MSG: "对话",
+    MAIN_FRAME_LBL_DIRECT_MSG: "私聊",
     MAIN_FRAME_BTN_SEARCH: "搜索",
     MAIN_FRAME_TIP_SEARCH: "搜索文本...",
     MAIN_FRAME_TIP_MSG_INPUT: "消息...",

@@ -270,7 +270,6 @@ textarea::-webkit-scrollbar-thumb,
 
 .main .message_board_toolbar,
 .main .desc_bar,
-.main .message_area,
 .main .send_area {
     position: absolute;
     background: white;
@@ -291,9 +290,20 @@ textarea::-webkit-scrollbar-thumb,
     font-size: 1em;
 }
 
-.main .message_area {
+.main .msg_board_container {
     top: 3em;
     bottom: 4rem;
+	position: absolute;
+	left: 210px;
+	right: 50px;
+	background: #fff;
+}
+
+.msg_board_container .message_area {
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	position: absolute;
 }
 
 .main .send_area {
@@ -443,4 +453,39 @@ a.user_item:hover {
   0% { left: 0px;}
   100% { left: 160px; }
 }
+
+.message_area.left-to-right-show {
+	-webkit-animation: 0.5s msgAreaLeftToRightShow;
+	animation: 0.5s msgAreaLeftToRightShow;
+	left: 0;
+	z-index: 0;
+}
+
+.message_area.left-to-right-hide {
+	-webkit-animation: 0.5s msgAreaLeftToRightHide;
+	animation: 0.5s msgAreaLeftToRightHide;
+	left: 1800px;
+	z-index: 1;
+}
+
+@-webkit-keyframes msgAreaLeftToRightShow {
+  0% { left: 200px; opacity: 1;}
+  100% { left: 0; }
+}
+
+@keyframes msgAreaLeftToRightShow {
+  0% { left: 200px; opacity: 1;}
+  100% { left: 0; }
+}
+
+@-webkit-keyframes msgAreaLeftToRightHide{
+  0% { left: 0; opacity: 1;}
+  100% { left: 200px; opacity: 0;}
+}
+
+@keyframes msgAreaLeftToRightHide {
+  0% { left: 0; opacity: 1;}
+  100% { left: 200px; opacity: 0;}
+}
+
 

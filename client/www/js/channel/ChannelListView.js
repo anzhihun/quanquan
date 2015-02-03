@@ -26,7 +26,7 @@ define(function(require, exports, module){
 			this.channels.on('reset', this.render, this);
 			this.channels.fetch({reset: true});
 			
-			this.newChanDlg = new NewChannelDialog();
+			this.newChanDlg = new NewChannelDialog(this.$el);
         },
 		
         events: {
@@ -99,7 +99,16 @@ define(function(require, exports, module){
 				name: chanId,
 				isChannel: true
 			};
-        }
+        },
+		
+		getSelectChannelId: function() {
+			var chanItem = this.$el.find('.active');
+			if (chanItem.length === 0) {
+				return '';
+			} else {
+				return chanItem.data('chan-id').toString();
+			}
+		}
     });
     
     return ChannelListView;

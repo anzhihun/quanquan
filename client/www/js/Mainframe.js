@@ -29,14 +29,6 @@ define(function (require, exports, module) {
 			this.msgTypeBar = new MsgTypeBar();
 			this.msgTypeBar.select('channel');
 
-//			this.channelListView = new ChannelListView();
-			this.messageBoard = new MessageBoard('Global');
-			this._msgBoards['chan::Global'] = this.messageBoard;
-			$('.message_board_toolbar span').html('#Global');
-			this.messageBoard.show();
-			
-//			this.directListView = new DirectListView();
-
 			this.userListView = new UserListView('Global');
 			this.userListView.refresh();
 			
@@ -46,6 +38,9 @@ define(function (require, exports, module) {
             
             $('#inviteUserBtn').click(this.openInviteUserDlg.bind(this));
             $('#showAllUser').click(this.showAllUsers.bind(this));
+			
+			// select global channel default
+			this.switchChannel('Global');
 		},
 		
 		switchMsgType: function(msgType) {
@@ -142,6 +137,18 @@ define(function (require, exports, module) {
 //			this.directListView.addDialogue(userName);
 //			this._msgBoards['p2p::'+userName] = new MessageBoard(userName);
 //			this.directListView.selectDialogue(userName);
+		},
+		
+		clearMessageBoard: function() {
+			if (this.messageBoard) {
+				this.messageBoard.hide();
+			}
+			if (!this._msgBoards['blank']) {
+				this._msgBoards['blank'] = new MessageBoard('blank');
+			}
+			this.messageBoard = this._msgBoards['blank'];
+			this.messageBoard.show();
+			$('.message_board_toolbar span').html('');
 		},
         
 		openInviteUserDlg: function(evt) {

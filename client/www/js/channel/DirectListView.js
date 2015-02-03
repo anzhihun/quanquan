@@ -63,6 +63,15 @@ define(function(require, exports, module){
 				name: userName,
 				isChannel: false
 			};
+		}, 
+		
+		getSelectUserId: function() {
+			var $userElem = this.$el.find('ul li.active');
+			if ($userElem.length === 0) {
+				return '';
+			} else {
+				return $userElem.data('user-id');
+			}
 		}
     });
     

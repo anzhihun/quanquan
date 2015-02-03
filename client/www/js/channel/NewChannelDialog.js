@@ -1,9 +1,9 @@
 define(function (require, exports, module) {
 	'use strict';
 	var NewChannelDialog = Backbone.View.extend({
-		el: '#addChannelDialog',
-		initialize: function () {
-			this.newChanInput = $('#newChannelNameInput')[0];
+		initialize: function (container) {
+			this.$el = $(container).find('#addChannelDialog');
+			this.newChanInput = this.$el.find('#newChannelNameInput')[0];
 			this.newChanInput.value = '';
 		},
 

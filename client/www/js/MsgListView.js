@@ -46,6 +46,26 @@ define(function (require, exports, module) {
 		this.$el.removeClass('left-to-right-hide');
 		this.$el.removeClass('left-to-right-show');
 		this.$el.addClass('left-to-right-show');
+
+		if (this._channelListView) {
+			var chanId = this._channelListView.getSelectChannelId();
+			if (chanId.length !== 0) {
+				this._channelListView.selectChannel(chanId);
+				return;
+			}
+		} 
+		
+		if (this._directListView) {
+			var userId = this._directListView.getSelectUserId();
+			if (userId.length !== 0) {
+				this._directListView.selectDialogue(userId);
+				return;
+			}
+		}
+		
+		// clear message board
+		global.mainframe.clearMessageBoard();
+		
 	};
 	
 	MsgListView.prototype.hide = function() {
