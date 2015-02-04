@@ -11,7 +11,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"service"
-	"user"
 	"utils"
 )
 
@@ -197,7 +196,7 @@ func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {
 	if channelName == "Global" {
 		users = service.AllUser()
 	} else {
-		users = user.FindChannelByName(channelName).Users
+		users = service.FindChannelByName(channelName).Users
 	}
 
 	ackUser := []entity.WSAckUser{}

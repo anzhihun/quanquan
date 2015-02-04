@@ -7,12 +7,10 @@ import (
 	"event"
 	"net/http"
 	"service"
-	"user"
 )
 
 func main() {
 	event.RunEventDispather()
-	user.Init()
 	service.Init()
 	startHttpServer()
 }

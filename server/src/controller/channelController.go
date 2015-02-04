@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"service"
 	"time"
-	"user"
 	"utils"
 )
 
@@ -22,11 +21,11 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	result, _ := ioutil.ReadAll(req.Body)
 	req.Body.Close()
 	params, _ := utils.DecodeJsonMsg(string(result))
-	newChannel := user.Channel{Name: params["name"].(string),
+	newChannel := entity.Channel{Name: params["name"].(string),
 		Users:   []*entity.User{service.FindUser(params["creator"].(string))},
 		Creator: params["creator"].(string),
 	}
-	user.AddChannel(&newChannel)
+	service.AddChannel(&newChannel)
 
 	// ack
 	existUser := service.FindUser(newChannel.Creator)
@@ -65,7 +64,7 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 func (this *ChannelContext) getChannels(rw web.ResponseWriter, req *web.Request) {
 	req.ParseForm()
 	userName := req.Form.Get("user")
-	channels := user.AllChannels()
+	channels := service.AllChannels()
 	ackChannels := []entity.WSAckChannel{}
 	for _, channel := range channels {
 		if channel.ContainsUser(userName) {
@@ -110,7 +109,7 @@ func (this *ChannelContext) inviteUserToChannel(rw web.ResponseWriter, req *web.
 
 }
 
-func convert2AckChannel(channel *user.Channel) entity.WSAckChannel {
+func convert2AckChannel(channel *entity.Channel) entity.WSAckChannel {
 	ackUsers := []entity.WSAckUser{}
 	for _, user := range channel.Users {
 		ackUsers = append(ackUsers, entity.WSAckUser{

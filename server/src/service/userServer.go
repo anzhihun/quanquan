@@ -28,9 +28,6 @@ func AddUser(user *entity.User) error {
 	storeAllUsers(user, nil)
 
 	return nil
-
-	// trigger msg
-	//event.Trigger(event.EVENT_B2F_ADD_USER, user, nil)
 }
 
 func check(userName, password string) error {

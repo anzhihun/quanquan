@@ -8,7 +8,7 @@ import (
 	"conn"
 	"fmt"
 	"github.com/gocraft/web"
-	"user"
+	"service"
 	"utils"
 )
 
@@ -79,7 +79,7 @@ func (this *rtMessageController) handMessage(msgType string,
 
 func sendMsg2ClientThroughChannel(channelName string, content []byte) {
 	fmt.Println("send msg to channel ", channelName)
-	var channel = user.FindChannelByName(channelName)
+	var channel = service.FindChannelByName(channelName)
 	if channel == nil {
 		return
 	}
