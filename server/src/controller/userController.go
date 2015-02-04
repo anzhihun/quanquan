@@ -32,20 +32,20 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 	}
 
 	var ackContent = []byte{}
-	if ackContent, err = this.getAckHttpUser(params["name"].(string)); err != nil {
+	if ackContent, err = getAckHttpUser(params["name"].(string)); err != nil {
 		http.Error(rw, "marshal user error!", 500)
 	} else {
 		rw.Write(ackContent)
 	}
 
-	this.sendOnlineMsg(params["name"].(string))
+	sendOnlineMsg(params["name"].(string))
 
 	// send msg to back end service
 	//event.Trigger(event.EVENT_F2B_LOGIN, params["name"].(string), nil)
 
 }
 
-func (this *UserContext) getAckHttpUser(userName string) (content []byte, err error) {
+func getAckHttpUser(userName string) (content []byte, err error) {
 	existUser := user.FindUser(userName)
 
 	var ackUser = entity.WSAckUser{
@@ -59,7 +59,7 @@ func (this *UserContext) getAckHttpUser(userName string) (content []byte, err er
 	return
 }
 
-func (this *UserContext) sendOnlineMsg(userName string) {
+func sendOnlineMsg(userName string) {
 	msg := entity.WSAckTalk{
 		MsgType:     entity.WS_MSGTYPE_ONLINE,
 		ContentType: entity.WS_MSGCONTENT_TYPE_TEXT,
@@ -82,61 +82,83 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 	langId := utils.GetLanguageId(req.Header)
 	translator := i18n.GetTranslator(langId)
 
+	userName, password, errInfo, errCode := prepareSignUpParams(req, translator)
+	if errCode != 0 {
+		http.Error(rw, errInfo, errCode)
+		return
+	}
+
+	if errInfo, errCode = addNewUser(userName, password, translator); errCode != 0 {
+		http.Error(rw, errInfo, errCode)
+		return
+	}
+
+	responseSignUp(rw, userName, translator)
+	broadcastSignUpMsg(userName)
+}
+
+func prepareSignUpParams(req *web.Request, translator *i18n.Translator) (userName string, password string, errInfo string, errCode int) {
+	errCode = 0
 	result, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		errInfo := translator.T("ERR_READ_HTTP_BODY", map[string]interface{}{
+		errInfo = translator.T("ERR_READ_HTTP_BODY", map[string]interface{}{
 			"Error": err.Error(),
 		})
-		http.Error(rw, errInfo, define.ERR_READ_HTTP_BODY)
+		errCode = define.ERR_READ_HTTP_BODY
 		return
 	}
 	req.Body.Close()
 
 	var params map[string]interface{}
 	if params, err = utils.DecodeJsonMsg(string(result)); err != nil {
-		errInfo := translator.T("ERR_DECODE_JSON", map[string]interface{}{
+		errInfo = translator.T("ERR_DECODE_JSON", map[string]interface{}{
 			"Error": err.Error(),
 		})
-		http.Error(rw, errInfo, define.ERR_DECODE_JSON)
+		errCode = define.ERR_DECODE_JSON
 		return
 	}
 
 	var ok bool
-	var userName string
-	var password string
 	if userName, ok = params["name"].(string); !ok {
-		errInfo := translator.T("ERR_WRONG_TYPE", map[string]interface{}{
+		errInfo = translator.T("ERR_WRONG_TYPE", map[string]interface{}{
 			"Var":  "name",
 			"Type": "string",
 		})
-		http.Error(rw, errInfo, define.ERR_WRONG_TYPE)
+		errCode = define.ERR_WRONG_TYPE
 		return
 	}
 
 	if password, ok = params["password"].(string); !ok {
-		errInfo := translator.T("ERR_WRONG_TYPE", map[string]interface{}{
+		errInfo = translator.T("ERR_WRONG_TYPE", map[string]interface{}{
 			"Var":  "password",
 			"Type": "string",
 		})
-		http.Error(rw, errInfo, define.ERR_WRONG_TYPE)
+		errCode = define.ERR_WRONG_TYPE
 		return
 	}
 
-	if err = user.AddUser(&user.User{
+	return
+}
+
+func addNewUser(userName string, password string, translator *i18n.Translator) (errInfo string, errCode int) {
+	errCode = 0
+	if err := user.AddUser(&user.User{
 		Name:     userName,
 		Password: password,
 		HeadImg:  "/images/defaultHead.png",
 		Online:   true,
 	}); err != nil {
-		errInfo := translator.T("ERR_ADD_USER", map[string]interface{}{
+		errInfo = translator.T("ERR_ADD_USER", map[string]interface{}{
 			"Error": err.Error(),
 		})
-		http.Error(rw, errInfo, define.ERR_INVALID_USER)
-		return
+		errCode = define.ERR_INVALID_USER
 	}
 
-	var ackContent = []byte{}
-	if ackContent, err = this.getAckHttpUser(userName); err != nil {
+	return
+}
+
+func responseSignUp(rw web.ResponseWriter, userName string, translator *i18n.Translator) {
+	if ackContent, err := getAckHttpUser(userName); err != nil {
 		errInfo := translator.T("ERR_ENCODE_JSON", map[string]interface{}{
 			"Error": err.Error(),
 		})
@@ -145,8 +167,9 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 	} else {
 		rw.Write(ackContent)
 	}
+}
 
-	// send add user message to all other client
+func broadcastSignUpMsg(userName string) {
 	newUserMsg := entity.WSAckNewUser{
 		MsgType: entity.WS_MSGTYPE_NEW_USER,
 		User: entity.WSAckUser{
@@ -156,13 +179,13 @@ func (this *UserContext) SignUp(rw web.ResponseWriter, req *web.Request) {
 			Online:   true,
 		},
 	}
-	if ackContent, err = json.Marshal(newUserMsg); err != nil {
+	if ackContent, err := json.Marshal(newUserMsg); err != nil {
 		fmt.Println("marshal new user msg error!", err.Error())
 	} else {
 		conn.Broadcast2AllClient(ackContent)
 	}
 
-	this.sendOnlineMsg(userName)
+	sendOnlineMsg(userName)
 }
 
 func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {
