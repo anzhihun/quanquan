@@ -8,14 +8,13 @@ import (
 	"net"
 	"testing"
 	"time"
-	"user"
 )
 
 func TestHandleOnlineMessage(t *testing.T) {
 
 	event.RunEventDispather()
-	user.Clear()
-	defer user.Clear()
+	Clear()
+	defer Clear()
 
 	channel := make(chan interface{})
 	eventId := event.On("view:msg", func(newValue, oldValue interface{}) {
@@ -47,8 +46,8 @@ func TestHandleOnlineMessage(t *testing.T) {
 
 func TestHandleOfflineMessage(t *testing.T) {
 	event.RunEventDispather()
-	user.Clear()
-	defer user.Clear()
+	Clear()
+	defer Clear()
 
 	msgCount := 0
 	channel := make(chan interface{})
@@ -63,7 +62,7 @@ func TestHandleOfflineMessage(t *testing.T) {
 		if msgCount == 1 && msg != "{\"MsgType\":\"offline\",\"From\":\"testName1\",\"HeadImg\":\"testImg1\",\"To\":\"all\",\"IsPublic\":true,\"Content\":\"testContent1\"}" {
 			t.Fatal("Handle offline msg error!")
 		}
-		newUser := user.FindUser("testName1")
+		newUser := FindUser("testName1")
 		if msgCount == 1 && newUser != nil {
 			t.Fatal("Handle offline message not remove user")
 		}

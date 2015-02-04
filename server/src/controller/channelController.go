@@ -8,6 +8,7 @@ import (
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
+	"service"
 	"time"
 	"user"
 	"utils"
@@ -22,13 +23,13 @@ func (this *ChannelContext) addChannel(rw web.ResponseWriter, req *web.Request) 
 	req.Body.Close()
 	params, _ := utils.DecodeJsonMsg(string(result))
 	newChannel := user.Channel{Name: params["name"].(string),
-		Users:   []*user.User{user.FindUser(params["creator"].(string))},
+		Users:   []*entity.User{service.FindUser(params["creator"].(string))},
 		Creator: params["creator"].(string),
 	}
 	user.AddChannel(&newChannel)
 
 	// ack
-	existUser := user.FindUser(newChannel.Creator)
+	existUser := service.FindUser(newChannel.Creator)
 	var ackUser = entity.WSAckUser{
 		Name:     existUser.Name,
 		IconUrl:  existUser.HeadImg,

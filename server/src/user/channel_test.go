@@ -1,12 +1,13 @@
 package user
 
 import (
+	"entity"
 	"testing"
 )
 
 func TestAddChannelUser(t *testing.T) {
 	channel := Channel{Name: "test", Users: nil}
-	channel.AddUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
+	channel.AddUser(&entity.User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
 
 	if channel.Users == nil || len(channel.Users) != 1 || channel.Users[0].Name != "name1" {
 		t.Fatal("failed to add channel user")
@@ -15,8 +16,8 @@ func TestAddChannelUser(t *testing.T) {
 
 func TestRemoveChannelUser(t *testing.T) {
 	channel := Channel{Name: "test", Users: nil}
-	channel.AddUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
-	channel.RemoveUser(&User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
+	channel.AddUser(&entity.User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
+	channel.RemoveUser(&entity.User{Name: "name1", IP: "127.0.0.1", HeadImg: "/images/test1.png"})
 	if len(channel.Users) != 0 {
 		t.Fatal("failed to remove channel user")
 	}

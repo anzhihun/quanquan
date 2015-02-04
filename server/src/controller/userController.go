@@ -10,6 +10,7 @@ import (
 	"i18n"
 	"io/ioutil"
 	"net/http"
+	"service"
 	"user"
 	"utils"
 )
@@ -27,7 +28,7 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 		return
 	}
 
-	if !user.Validate(params["name"].(string), params["password"].(string)) {
+	if !service.Validate(params["name"].(string), params["password"].(string)) {
 		http.Error(rw, "invalid user name or password", 500)
 	}
 
@@ -46,7 +47,7 @@ func (this *UserContext) Login(rw web.ResponseWriter, req *web.Request) {
 }
 
 func getAckHttpUser(userName string) (content []byte, err error) {
-	existUser := user.FindUser(userName)
+	existUser := service.FindUser(userName)
 
 	var ackUser = entity.WSAckUser{
 		Name:     existUser.Name,
@@ -142,7 +143,7 @@ func prepareSignUpParams(req *web.Request, translator *i18n.Translator) (userNam
 
 func addNewUser(userName string, password string, translator *i18n.Translator) (errInfo string, errCode int) {
 	errCode = 0
-	if err := user.AddUser(&user.User{
+	if err := service.AddUser(&entity.User{
 		Name:     userName,
 		Password: password,
 		HeadImg:  "/images/defaultHead.png",
@@ -192,9 +193,9 @@ func (this *UserContext) GetUsers(rw web.ResponseWriter, req *web.Request) {
 	req.ParseForm()
 	channelName := req.Form.Get("channel")
 	fmt.Println("get user's channel = ", channelName)
-	var users []*user.User
+	var users []*entity.User
 	if channelName == "Global" {
-		users = user.AllUser()
+		users = service.AllUser()
 	} else {
 		users = user.FindChannelByName(channelName).Users
 	}

@@ -1,24 +1,25 @@
 package user
 
 import (
+	"entity"
 	"event"
 )
 
 type Channel struct {
 	Name    string
-	Users   []*User
+	Users   []*entity.User
 	Creator string
 }
 
-func (this *Channel) AddUser(newUser *User) {
+func (this *Channel) AddUser(newUser *entity.User) {
 	if this.Users == nil {
-		this.Users = make([]*User, 0)
+		this.Users = make([]*entity.User, 0)
 	}
 	this.Users = append(this.Users, newUser)
 	event.Trigger("channel:user:change", nil, nil)
 }
 
-func (this *Channel) RemoveUser(u *User) {
+func (this *Channel) RemoveUser(u *entity.User) {
 	for index := 0; index < len(this.Users); index++ {
 		if this.Users[index].Name == u.Name {
 			this.Users = append(this.Users[:index], this.Users[index+1:]...)

@@ -3,10 +3,10 @@ package service
 import (
 	"define"
 	"encoding/json"
+	"entity"
 	"event"
 	"fmt"
 	"net"
-	"user"
 	"utils"
 )
 
@@ -47,15 +47,15 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 	msgMap, _ := utils.DecodeJsonMsg(string(msg))
 	if msgMap["MsgType"].(string) == define.MSG_TYPE_ONLINE {
 		// update online status
-		user.Online(msgMap["Content"].(string))
+		Online(msgMap["Content"].(string))
 		event.Trigger("view:msg", msg, nil)
 
 		// response
-		if user.Self != nil {
+		if Self != nil {
 			this.sendMessage(remoteIp, define.Message{
 				MsgType:  define.MSG_TYPE_ACK_ONLINE,
-				From:     user.Self.Name,
-				HeadImg:  user.Self.HeadImg,
+				From:     Self.Name,
+				HeadImg:  Self.HeadImg,
 				To:       msgMap["Content"].(string),
 				IsPublic: true,
 				Content:  "",
@@ -88,7 +88,7 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 			return
 		}
 
-		user.AddUser(&user.User{
+		AddUser(&entity.User{
 			Name:     addUserMsg["UserName"].(string),
 			Password: addUserMsg["Password"].(string),
 			HeadImg:  "/images/defaultHead.png",
@@ -107,11 +107,11 @@ func (this *CommunicationService) handleMessage(remoteIp net.IP, msg []byte) {
 }
 
 func (this *CommunicationService) broadcastMe() {
-	if user.Self != nil {
+	if Self != nil {
 		this.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
 			MsgType:  define.MSG_TYPE_ONLINE,
-			From:     user.Self.Name,
-			HeadImg:  user.Self.HeadImg,
+			From:     Self.Name,
+			HeadImg:  Self.HeadImg,
 			To:       "all",
 			IsPublic: true,
 			Content:  "",

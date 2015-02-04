@@ -4,10 +4,10 @@ import (
 	"conn"
 	"define"
 	"encoding/json"
+	"entity"
 	"event"
 	"fmt"
 	"net"
-	"user"
 )
 
 func listenViewMsg() {
@@ -20,7 +20,7 @@ func listenViewMsg() {
 	})
 
 	event.On(event.EVENT_B2F_ADD_USER, func(newValue, oldValue interface{}) {
-		handleB2FAddUserMsg(newValue.(*user.User))
+		handleB2FAddUserMsg(newValue.(*entity.User))
 	})
 
 	event.On(event.EVENT_F2B_LOGIN, func(newValue, oldValue interface{}) {
@@ -38,8 +38,8 @@ func handleViewMsg(msgMap map[string]interface{}) {
 	if msgType == define.MSG_TYPE_TALK {
 		commServer.sendMessage(net.IPv4(255, 255, 255, 255), define.Message{
 			MsgType:  define.MSG_TYPE_TALK,
-			From:     user.Self.Name,
-			HeadImg:  user.Self.HeadImg,
+			From:     Self.Name,
+			HeadImg:  Self.HeadImg,
 			To:       msgMap["To"].(string),
 			IsPublic: true,
 			Content:  msgMap["Content"].(string),
@@ -66,7 +66,7 @@ func handleF2BAddUserMsg(newUser define.AddUserMessage) {
 	})
 }
 
-func handleB2FAddUserMsg(newUser *user.User) {
+func handleB2FAddUserMsg(newUser *entity.User) {
 
 	userContent, err := json.Marshal(newUser)
 	if err != nil {
@@ -100,7 +100,7 @@ func handleF2BUserLogin(userName string) {
 func handleB2FUserLogin(userName string) {
 	// broadcast to all agent, include self
 	fmt.Println("user login: ", userName)
-	loginUser := user.FindUser(userName)
+	loginUser := FindUser(userName)
 	if loginUser == nil {
 		// user not exist
 		// log
