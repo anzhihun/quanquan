@@ -17,5 +17,5 @@ func main() {
 
 func startHttpServer() {
 
-	http.ListenAndServe("localhost:52013", controller.Init()) // Start the server!
+	http.ListenAndServe(":52013", controller.Init()) // Start the server!
 }
