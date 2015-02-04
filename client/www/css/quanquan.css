@@ -455,15 +455,15 @@ a.user_item:hover {
 }
 
 .message_area.left-to-right-show {
-	-webkit-animation: 0.5s msgAreaLeftToRightShow;
-	animation: 0.5s msgAreaLeftToRightShow;
+	-webkit-animation: 0.3s msgAreaLeftToRightShow;
+	animation: 0.3s msgAreaLeftToRightShow;
 	left: 0;
 	z-index: 0;
 }
 
 .message_area.left-to-right-hide {
-	-webkit-animation: 0.5s msgAreaLeftToRightHide;
-	animation: 0.5s msgAreaLeftToRightHide;
+	-webkit-animation: 0.3s msgAreaLeftToRightHide;
+	animation: 0.3s msgAreaLeftToRightHide;
 	left: 1800px;
 	z-index: 1;
 }
@@ -479,12 +479,12 @@ a.user_item:hover {
 }
 
 @-webkit-keyframes msgAreaLeftToRightHide{
-  0% { left: 0; opacity: 1;}
+  0% { left: 0; opacity: 0;}
   100% { left: 200px; opacity: 0;}
 }
 
 @keyframes msgAreaLeftToRightHide {
-  0% { left: 0; opacity: 1;}
+  0% { left: 0; opacity: 0;}
   100% { left: 200px; opacity: 0;}
 }
 

@@ -17,11 +17,14 @@ So, I decide to make a new open source tool like slack to help us in teamwork. I
 1. Compile and Run by self：Please get [thirdparty library](#thirdparty) before compiling if you didn't get and install them. Then change to directory `build` and execute dist.bat if the os is Windows or dist.sh if the os is Linux or Mac OSX to compile `QuanQuan`. It will start server automaticly after compiled. After the server is started, please open your browser and input `http://localhost:52013` to open login page. Hope you will like it.
 2. Run binary file: You can not use this way now, since we didn't release any version before. Maybe later soon. 
 
-##<a name="thirdparty" id="thirdpartyt">Thirdparty Library</a>
+##<a name="thirdparty" id="thirdparty">Thirdparty Library</a>
+You can get and install all third party libraries by execute `build/installThirdpartLib.sh` or `build/installThirdpartLib.bat` according to OS. Also you can do it one by one as follows:
+
 1. [gocraft/web](https://github.com/gocraft/web): This is a router used in server. Please execute the command `go get github.com/gocraft/web` to get and install.
 2. [websocket](https://code.google.com/p/go.net/websocket): This is websocket library used in server. Please execute the command `go get code.google.com/p/go.net/websocket` to get and install.
 3. [tiedot](https://github.com/HouzuoGuo/tiedot):  This is a documented nosql database used in server. Please execute the command `go get github.com/HouzuoGuo/tiedot` to get and install.
-4. [go-i18n](https://github.com/nicksnyder/go-i18n): This is a i18n library used in server. Please execute the command  `go get github.com/nicksnyder/go-i18n/i18n` to get and install.
+4. [go-i18n](https://github.com/nicksnyder/go-i18n): This is a i18n library used in server. Please execute the command `go get github.com/nicksnyder/go-i18n/i18n` to get and install.
+5. [structs](https://github.com/fatih/structs): This is useful tool library used in server. Please execute the command `go get github.com/fatih/structs` to get and install.
 
 ##Helping QuanQuan
 

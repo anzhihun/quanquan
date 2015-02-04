@@ -1,17 +1,18 @@
 package service
 
 import (
-	"bytes"
-	"encoding/gob"
+	"adapter"
 	"entity"
-	"storage"
+	"fmt"
 )
 
 var channels = make([]*entity.Channel, 0)
 
 func AddChannel(channel *entity.Channel) {
 	channels = append(channels, channel)
-	storeAllChannel(nil, nil)
+	if err := adapter.AddChannel(channel); err != nil {
+		fmt.Println("failed to store channel", err.Error())
+	}
 }
 
 func RemoveChannelByName(chanName string) {
@@ -37,29 +38,11 @@ func AllChannels() []*entity.Channel {
 }
 
 func initChannels() {
-	channelContent, err := storage.ReadChannels()
+
+	var err error
+	channels, err = adapter.GetAllChannels()
 	if err != nil {
 		// TODO log error
 		return
 	}
-
-	channelBuffer := bytes.NewBuffer(channelContent)
-	enc := gob.NewDecoder(channelBuffer)
-	if err = enc.Decode(&channels); err != nil {
-		//TODO log error
-		return
-	}
-}
-
-func storeAllChannel(ewValue, oldValue interface{}) {
-	// save all channels
-	var channelBuffer bytes.Buffer
-	enc := gob.NewEncoder(&channelBuffer)
-	err := enc.Encode(channels)
-	if err != nil {
-		// TODO log error
-		return
-	}
-
-	storage.StoreChannels(channelBuffer.Bytes())
 }

@@ -5,6 +5,11 @@ client/.conf
 
 quanquan
 
-server/src/user/.conf/.users
+client/db
+server/src/adapter/db
 
-client/.conf/.users
+server/src/service/.conf/.channels
+
+server/src/service/.conf/.users
+
+server/src/src

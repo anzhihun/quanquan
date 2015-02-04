@@ -18,7 +18,7 @@ func TestAddUser(t *testing.T) {
 	Clear()
 	defer Clear()
 
-	err := AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test.png"})
+	err := AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test.png"})
 	if err != nil || allUsers == nil || len(allUsers) != 1 {
 		t.Fatal("falied to add new user")
 	}
@@ -27,7 +27,7 @@ func TestAddUser(t *testing.T) {
 		t.Fatal("added user is wrong")
 	}
 
-	err = AddUser(&entity.User{Name: "test1", Password: "123456", IP: "127.0.0.2", HeadImg: "/images/test1.png"})
+	err = AddUser(&entity.User{Name: "test1", Password: "123456", HeadImg: "/images/test1.png"})
 	if err != nil || len(allUsers) != 2 && allUsers[1].Name != "test1" {
 		t.Fatal("failed to add more allUsers")
 	}
@@ -37,8 +37,8 @@ func TestAddDuplicateUser(t *testing.T) {
 	Clear()
 	defer Clear()
 
-	AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test.png", Online: false})
-	AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test1.png", Online: true})
+	AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test.png", Online: false})
+	AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test1.png", Online: true})
 	if len(allUsers) != 1 {
 		t.Fatal("failed to update user when adding duplicate user")
 	}
@@ -47,14 +47,14 @@ func TestAddDuplicateUser(t *testing.T) {
 func TestRemoveUser(t *testing.T) {
 	defer Clear()
 	Clear()
-	AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test.png"})
-	RemoveUser(&entity.User{Name: "test", IP: "127.0.0.1", HeadImg: "/images/test.png"})
+	AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test.png"})
+	RemoveUser(&entity.User{Name: "test", HeadImg: "/images/test.png"})
 	if len(allUsers) != 0 {
 		t.Fatal("failed to remove user")
 	}
-	AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test.png"})
-	AddUser(&entity.User{Name: "test1", Password: "123456", IP: "127.0.0.2", HeadImg: "/images/test2.png"})
-	RemoveUser(&entity.User{Name: "test", IP: "127.0.0.1", HeadImg: "/images/test.png"})
+	AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test.png"})
+	AddUser(&entity.User{Name: "test1", Password: "123456", HeadImg: "/images/test2.png"})
+	RemoveUser(&entity.User{Name: "test", HeadImg: "/images/test.png"})
 	if len(allUsers) != 1 || allUsers[0].Name != "test1" {
 		t.Fatal("failed to remove correct user")
 	}
@@ -63,7 +63,7 @@ func TestRemoveUser(t *testing.T) {
 func TestFindUser(t *testing.T) {
 	defer Clear()
 	Clear()
-	AddUser(&entity.User{Name: "test", Password: "123456", IP: "127.0.0.1", HeadImg: "/images/test.png"})
+	AddUser(&entity.User{Name: "test", Password: "123456", HeadImg: "/images/test.png"})
 	findUser := FindUser("userName")
 	if findUser != nil {
 		t.Fatal("failed to find user")

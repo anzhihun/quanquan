@@ -1,12 +1,10 @@
 package service
 
 import (
-	"bytes"
-	"encoding/gob"
+	"adapter"
 	"entity"
 	"errors"
 	osuser "os/user"
-	"storage"
 	"utils"
 )
 
@@ -25,7 +23,9 @@ func AddUser(user *entity.User) error {
 	allUsers = append(allUsers, user)
 
 	// save to disk
-	storeAllUsers(user, nil)
+	if err := adapter.AddUser(user); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -80,31 +80,14 @@ func Clear() {
 }
 
 func initUsers() {
-	userContent, err := storage.ReadUsers()
+
+	adapter.InitStorage()
+	var err error
+	allUsers, err = adapter.GetAllUsers()
 	if err != nil {
 		// TODO log error
 		return
 	}
-
-	userBuffer := bytes.NewBuffer(userContent)
-	enc := gob.NewDecoder(userBuffer)
-	if err = enc.Decode(&allUsers); err != nil {
-		//TODO log error
-		return
-	}
-}
-
-func storeAllUsers(newValue, oldValue interface{}) {
-	// save all user
-	var userBuffer bytes.Buffer
-	enc := gob.NewEncoder(&userBuffer)
-	err := enc.Encode(allUsers)
-	if err != nil {
-		// TODO log error
-		return
-	}
-
-	storage.StoreUsers(userBuffer.Bytes())
 }
 
 func Validate(userName, password string) bool {
