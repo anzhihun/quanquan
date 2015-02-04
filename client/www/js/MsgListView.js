@@ -24,6 +24,8 @@ define(function (require, exports, module) {
 		} else if (msgType === 'direct') {
 			this.loadDirectListView();
 		}
+        
+        this.$el.foundation();
 	};
 
 	MsgListView.prototype.loadChannelListView = function () {

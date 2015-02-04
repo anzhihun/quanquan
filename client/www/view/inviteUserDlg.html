@@ -1,10 +1,11 @@
-<h2>Invite Users</h2>
+<h2>{{strings.INVITE_DLG_LBL_TITLE}}</h2>
 {{#users}}
 <div>
 	<input type="checkbox" />
 	<a>
-		<img src="{{iconUrl}}" class="message_head_img" />{{name}}</a>
+		<img src="{{iconUrl}}" class="message_head_img" />{{name}}
+    </a>
 </div>
 {{/users}}
 
-<a class="button" style="position: relative;float: right;">Invite</a>
+<a class="button" style="position: relative;float: right;">{{strings.INVITE_DLG_BTN_INVITE}}</a>

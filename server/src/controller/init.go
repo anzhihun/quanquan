@@ -17,7 +17,7 @@ func Init() *web.Router {
 		Middleware(web.ShowErrorsMiddleware)
 
 	// handle index request
-	// rootRouter.Get("/", (*RootContext).GetIndex)
+	rootRouter.Get("/", (*RootContext).GetIndex)
 
 	// handle static file requests
 	rootDir := utils.MakePath([]string{utils.GetRootDir(), "www"})

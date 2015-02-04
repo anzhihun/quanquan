@@ -55,7 +55,8 @@ define(function(require, exports, module){
 				});
 			}
 			var dlgHtml = Mustache.render(InviteUserDlgTemplate, {
-				users: users
+				users: users,
+                strings: global.strings
 			});
 			this.$el.append(dlgHtml);
 			this.$el.find('.button').click(this.inviteUsers.bind(this));

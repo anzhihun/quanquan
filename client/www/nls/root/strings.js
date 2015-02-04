@@ -16,7 +16,7 @@ define({
     
     // mainframe.html
     MAIN_FRAME_LBL_CHANNELS: "Channels",
-    MAIN_FRAME_LBL_ADD_NEW_CHANNEL: "Add new channel",
+    MAIN_FRAME_LBL_ADD_NEW_CHANNEL: "Create channel",
     MAIN_FRAME_LBL_CHANNEL_NAME: "Channel Name",
     MAIN_FRAME_BTN_ADD: "Add",
     MAIN_FRAME_LBL_DIRECT_MSG: "Direct messages",
@@ -24,7 +24,20 @@ define({
     MAIN_FRAME_TIP_SEARCH: "search text...",
     MAIN_FRAME_TIP_MSG_INPUT: "message...",
     MAIN_FRAME_BTN_SEND_MSG: "Send",
+    MAIN_FRAME_TIP_STAR: "Star Thing",
+    MAIN_FRAME_TIP_CHANNEL: "Channels",
+    MAIN_FRAME_TIP_DIRECT_MSG: "Direct Messages",
+    MAIN_FRAME_TIP_ACHIVED: "Achived Thing",
+    MAIN_FRAME_TIP_SEARCH: "Search",
+    MAIN_FRAME_TIP_CONFIGURE: "Configure",
+    MAIN_FRAME_TIP_USER_LIST: "User List",
+    MAIN_FRAME_TIP_ADD_CHANNEL: "Create Channel",
+    MAIN_FRAME_TIP_INVITE: "Invite User",
 
     // userPanel.html
     USER_PANEL_LBL_CUR_CHANNEL_USER: "Channel Users",
+
+    // inviteUserDlg.html
+    INVITE_DLG_LBL_TITLE: "Invite Users",
+    INVITE_DLG_BTN_INVITE: "Invite",
 });

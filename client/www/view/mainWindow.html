@@ -5,10 +5,10 @@
 			<img title="userName" src="/images/anzhihun.png" class="head_img"> 
         </div>
 		<ul class="toolbar">
-			<li data-id="star" title="marked"><i class="fa fa-star-o"></i></li>
-			<li data-id="channel" title="channels">#</li>
-			<li data-id="direct" title="direct message"><i class="fa fa-at"></i></li>
-			<li data-id="achived" title="achived"><i class="fa fa-database"></i></li>
+			<li data-id="star" title="{{strings.MAIN_FRAME_TIP_STAR}}"><i class="fa fa-star-o"></i></li>
+			<li data-id="channel" title="{{strings.MAIN_FRAME_TIP_CHANNEL}}">#</li>
+			<li data-id="direct" title="{{strings.MAIN_FRAME_TIP_DIRECT_MSG}}"><i class="fa fa-at"></i></li>
+			<li data-id="achived" title="{{strings.MAIN_FRAME_TIP_ACHIVED}}"><i class="fa fa-database"></i></li>
 		</ul>
 	</div>
 	
@@ -23,9 +23,9 @@
     <!-- right bar -->
     <div class="right">
         <ul class="buttons">
-            <li id="searchBtn"><i class="fa fa-search"></i></li>
-            <li id="configureBtn"><i class="fa fa-cog"></i></li>
-            <li id="showAllUser"><i class="fa fa-users"></i></li>
+            <li id="searchBtn" title="{{strings.MAIN_FRAME_TIP_SEARCH}}"><i class="fa fa-search"></i></li>
+            <li id="configureBtn" title="{{strings.MAIN_FRAME_TIP_CONFIGURE}}"><i class="fa fa-cog"></i></li>
+            <li id="showAllUser" title="{{strings.MAIN_FRAME_TIP_USER_LIST}}"><i class="fa fa-users"></i></li>
         </ul>
     </div>
 
@@ -38,7 +38,7 @@
     <div class="main">
 		<div class="message_board_toolbar">
 			<span></span>
-			<i id="inviteUserBtn" class="fa fa-user-plus icon-button align-right"></i>
+			<i id="inviteUserBtn" title="{{strings.MAIN_FRAME_TIP_INVITE}}" class="fa fa-user-plus icon-button align-right"></i>
 		</div>
 		<div class="msg_board_container"></div>
         <!-- here is message body -->

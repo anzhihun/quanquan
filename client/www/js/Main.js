@@ -49,6 +49,7 @@ define(function (require) {
     var loginView = new LoginView(function(){
         global.wsconn = createWebsocket(function(){
           global.mainframe.show();
+            $(document).foundation();
         });
     }); 
 	
